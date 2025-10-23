@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+Sistema Operativo: Windows
+Gestor de paquetes: npm
+Frameworks: astro v5.14.7 con tailwind

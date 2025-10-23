@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Clases personalizadas basadas en Design.json */
+.h-18 {
+  height: 4.5rem; /* 72px según Design.json nav.height */
+}
+
+/* Mejoras de accesibilidad y UX */
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: #0b5fff; /* Color primary del Design.json */
+}
+
+/* Transiciones suaves según Design.json */
+.transition-colors {
+  transition-duration: 200ms; /* theme.motion.duration.base */
+  transition-timing-function: cubic-bezier(
+    0,
+    0,
+    0.2,
+    1
+  ); /* theme.motion.easing.out */
+}
