@@ -1,0 +1,26 @@
+---
+export interface FilterOption {
+  value: string;
+  label: string;
+  count: number;
+}
+
+export interface Props {
+  id: string;
+  options: FilterOption[];
+  placeholder: string;
+  totalCount: number;
+}
+
+const { id, options, placeholder, totalCount } = Astro.props;
+---
+
+<select 
+  id={id}
+  class="px-4 py-3 bg-white border border-slate-300 rounded-full text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+>
+  <option value="">{placeholder} ({totalCount})</option>
+  {options.map(option => (
+    <option value={option.value}>{option.label} ({option.count})</option>
+  ))}
+</select>

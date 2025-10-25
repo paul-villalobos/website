@@ -1,0 +1,31 @@
+---
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import { getCollection } from 'astro:content';
+
+// Función para generar todas las rutas estáticas
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post: any) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post }: { post: any } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogLayout 
+    title={post.data.title}
+    description={post.data.description}
+    publishDate={new Date(post.data.pubDate).toLocaleDateString('es-ES', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })}
+    readingTime={`${Math.ceil(post.body.split(' ').length / 200)} min de lectura`}
+    author={post.data.authors?.[0] || "Paul Villalobos"}
+    showTOC={true}
+>
+    <Content />
+</BlogLayout>

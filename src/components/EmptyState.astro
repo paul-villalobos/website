@@ -1,0 +1,24 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonId: string;
+}
+
+const { title, description, buttonText, buttonId } = Astro.props;
+---
+
+<div id="empty-state" class="hidden text-center py-16">
+  <svg class="mx-auto h-12 w-12 text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.709M15 6.291A7.962 7.962 0 0012 5c-2.34 0-4.29 1.009-5.824 2.709"></path>
+  </svg>
+  <h3 class="text-lg font-medium text-slate-900 mb-2">{title}</h3>
+  <p class="text-slate-600 mb-6">{description}</p>
+  <button 
+    id={buttonId}
+    class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+  >
+    {buttonText}
+  </button>
+</div>

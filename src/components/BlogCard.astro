@@ -1,0 +1,102 @@
+---
+import type { ProcessedPost } from '../utils/blogUtils';
+
+export interface Props {
+  post: ProcessedPost;
+}
+
+const { post } = Astro.props;
+---
+
+<article 
+  class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden group"
+  data-category={post.processedData.filterData.category}
+  data-tags={post.processedData.filterData.tags}
+  data-title={post.processedData.filterData.title}
+  data-description={post.processedData.filterData.description}
+  itemscope 
+  itemtype="https://schema.org/BlogPosting"
+>
+  <!-- Imagen del post -->
+  {post.processedData.hasImage && (
+    <div class="aspect-video overflow-hidden">
+      <img 
+        src={post.processedData.image} 
+        alt={post.processedData.imageAlt}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 lazy-image"
+        loading="lazy"
+        data-src={post.processedData.image}
+        data-alt={post.processedData.imageAlt}
+      />
+    </div>
+  )}
+  
+  <!-- Contenido de la tarjeta -->
+  <div class="p-6">
+    <!-- Categoría -->
+    {post.processedData.hasCategory && (
+      <div class="mb-3">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          {post.data.category}
+        </span>
+      </div>
+    )}
+    
+    <!-- Título -->
+    <h2 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200" itemprop="headline">
+      <a href={`/posts/${post.slug}`} class="block" itemprop="url">
+        {post.data.title}
+      </a>
+    </h2>
+    
+    <!-- Descripción -->
+    <p class="text-slate-600 mb-4 line-clamp-3" itemprop="description">
+      {post.data.description}
+    </p>
+    
+    <!-- Tags -->
+    {post.processedData.hasTags && (
+      <div class="flex flex-wrap gap-2 mb-4">
+        {post.processedData.visibleTags.map((tag: string) => (
+          <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700">
+            {tag}
+          </span>
+        ))}
+        {post.processedData.remainingTagsCount > 0 && (
+          <span class="text-xs text-slate-500">+{post.processedData.remainingTagsCount} más</span>
+        )}
+      </div>
+    )}
+    
+    <!-- Metadatos -->
+    <div class="flex items-center justify-between text-sm text-slate-500">
+      <div class="flex items-center">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        <time itemprop="datePublished" datetime={post.data.pubDate}>{post.processedData.formattedDate}</time>
+      </div>
+      
+      <a 
+        href={`/posts/${post.slug}`} 
+        class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+      >
+        Leer más →
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Estilos específicos para BlogCard */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
+  }
+</style>

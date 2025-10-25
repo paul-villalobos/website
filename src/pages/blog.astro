@@ -1,172 +1,165 @@
 ---
-import BlogLayout from "src/layouts/BlogLayout.astro";
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import FilterDropdown from '../components/FilterDropdown.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { 
+  calculateCounts, 
+  processPostData, 
+  sortPostsByDate, 
+  generateBlogMeta, 
+  generateBlogStructuredData 
+} from '../utils/blogUtils';
 
+// Obtener todos los posts del blog
+const allPosts = await getCollection('blog');
 
+// Ordenar por fecha de publicación (más recientes primero)
+const sortedPosts = sortPostsByDate(allPosts);
+
+// Calcular contadores para filtros
+const { categoryCounts, tagCounts, allCategories, allTags } = calculateCounts(sortedPosts);
+
+// Procesar datos de posts para optimizar el template
+const processedPosts = sortedPosts.map(processPostData);
+
+// Generar metadatos SEO
+const blogMeta = generateBlogMeta(processedPosts);
+const blogStructuredData = generateBlogStructuredData(processedPosts);
 ---
 
-<BlogLayout 
-    title="Cómo Transformar tu Estrategia de Ventas con IA" 
-    description="Descubre las mejores prácticas para implementar inteligencia artificial en tu proceso comercial y aumentar tus conversiones."
-    publishDate="15 de Enero, 2024"
-    readingTime="8 min de lectura"
-    author="Paul Villalobos"
-    showTOC={true}
->
-    <p>En el mundo actual de las ventas B2B, la inteligencia artificial ya no es una opción, es una necesidad. Las empresas que adoptan estas tecnologías están viendo incrementos del 30-50% en sus tasas de conversión.</p>
-
-    <h2>¿Por qué la IA es crucial para las ventas modernas?</h2>
+<MainLayout>
+  <!-- SEO Script para metadatos dinámicos -->
+  <script is:inline>
+    // Actualizar metadatos específicos del blog
+    document.title = "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas";
     
-    <p>La inteligencia artificial está revolucionando la forma en que las empresas se acercan a sus clientes potenciales. No se trata solo de automatizar procesos, sino de crear experiencias más personalizadas y efectivas.</p>
-
-    <h3>Beneficios clave de implementar IA en ventas:</h3>
+    // Actualizar meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
+    }
     
-    <ul>
-        <li><strong>Predicción de leads calificados:</strong> Identifica automáticamente los prospectos con mayor probabilidad de conversión</li>
-        <li><strong>Personalización a escala:</strong> Crea mensajes únicos para cada cliente potencial</li>
-        <li><strong>Optimización de timing:</strong> Determina el mejor momento para contactar a cada prospecto</li>
-        <li><strong>Análisis predictivo:</strong> Anticipa las necesidades del cliente antes de que las expresen</li>
-    </ul>
-
-    <h2>Casos de uso prácticos</h2>
-
-    <p>Veamos algunos ejemplos concretos de cómo las empresas están utilizando IA en sus procesos de ventas:</p>
-
-    <h3>1. Scoring automático de leads</h3>
+    // Actualizar canonical URL
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', "https://paulvillalobos.com/blog");
+    }
     
-    <p>Una empresa de software implementó un sistema de scoring que analiza:</p>
+    // Actualizar Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
     
-    <ol>
-        <li>Comportamiento en el sitio web</li>
-        <li>Interacciones con emails</li>
-        <li>Datos demográficos y firmográficos</li>
-        <li>Actividad en redes sociales</li>
-    </ol>
-
-    <blockquote>
-        "Después de implementar el scoring automático, vimos un aumento del 40% en la calidad de nuestros leads y redujimos el tiempo de calificación en un 60%." - María González, VP de Ventas
-    </blockquote>
-
-    <h3>2. Chatbots inteligentes para calificación inicial</h3>
-
-    <p>Los chatbots modernos pueden:</p>
-
-    <ul>
-        <li>Hacer preguntas cualificadoras específicas</li>
-        <li>Programar reuniones automáticamente</li>
-        <li>Proporcionar información relevante en tiempo real</li>
-        <li>Escalar conversaciones complejas a humanos</li>
-    </ul>
-
-    <h2>Implementación paso a paso</h2>
-
-    <p>Si estás considerando implementar IA en tu estrategia de ventas, aquí tienes un roadmap práctico:</p>
-
-    <h3>Fase 1: Preparación (Semanas 1-2)</h3>
+    if (ogTitle) ogTitle.setAttribute('content', "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas");
+    if (ogDescription) ogDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
+    if (ogUrl) ogUrl.setAttribute('content', "https://paulvillalobos.com/blog");
     
-    <p>Antes de implementar cualquier herramienta de IA, es crucial:</p>
-
-    <ul>
-        <li>Auditar tus datos actuales</li>
-        <li>Definir objetivos claros y medibles</li>
-        <li>Capacitar a tu equipo</li>
-        <li>Establecer métricas de éxito</li>
-    </ul>
-
-    <h3>Fase 2: Implementación piloto (Semanas 3-6)</h3>
-
-    <p>Comienza con un proyecto pequeño y específico. Por ejemplo:</p>
-
-    <pre><code>{`// Ejemplo de configuración básica para scoring de leads
-const leadScoringConfig = {
-  emailEngagement: 0.3,
-  websiteBehavior: 0.4,
-  demographicFit: 0.2,
-  socialActivity: 0.1
-};
-
-function calculateLeadScore(lead) {
-  return Object.keys(leadScoringConfig).reduce((score, key) => {
-    return score + (lead[key] * leadScoringConfig[key]);
-  }, 0);
-}`}</code></pre>
-
-    <h3>Fase 3: Escalamiento (Semanas 7-12)</h3>
-
-    <p>Una vez que tengas resultados positivos del piloto:</p>
-
-    <ol>
-        <li>Expande a otros equipos de ventas</li>
-        <li>Integra con más fuentes de datos</li>
-        <li>Optimiza los algoritmos basándose en resultados</li>
-        <li>Capacita a más miembros del equipo</li>
-    </ol>
-
-    <h2>Herramientas recomendadas</h2>
-
-    <p>Existen varias plataformas que pueden ayudarte a implementar IA en ventas:</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Herramienta</th>
-                <th>Tipo</th>
-                <th>Mejor para</th>
-                <th>Precio</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>HubSpot</td>
-                <td>CRM + IA</td>
-                <td>Empresas medianas</td>
-                <td>$45/mes</td>
-            </tr>
-            <tr>
-                <td>Salesforce Einstein</td>
-                <td>CRM + IA</td>
-                <td>Empresas grandes</td>
-                <td>$150/mes</td>
-            </tr>
-            <tr>
-                <td>Outreach</td>
-                <td>Sales Engagement</td>
-                <td>Equipos de ventas</td>
-                <td>$100/mes</td>
-            </tr>
-            <tr>
-                <td>Conversica</td>
-                <td>IA Conversacional</td>
-                <td>Follow-up automático</td>
-                <td>$200/mes</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Métricas para medir el éxito</h2>
-
-    <p>Para evaluar el impacto de tu implementación de IA, enfócate en estas métricas clave:</p>
-
-    <ul>
-        <li><strong>Tasa de conversión:</strong> Porcentaje de leads que se convierten en clientes</li>
-        <li><strong>Tiempo de ciclo de ventas:</strong> Duración promedio desde el primer contacto hasta el cierre</li>
-        <li><strong>Valor promedio del deal:</strong> Ingresos promedio por transacción</li>
-        <li><strong>Eficiencia del equipo:</strong> Leads calificados por vendedor por mes</li>
-    </ul>
-
-    <h2>Conclusión</h2>
-
-    <p>La implementación de IA en ventas no es solo una tendencia, es una transformación fundamental en cómo las empresas se relacionan con sus clientes. Las empresas que adopten estas tecnologías ahora tendrán una ventaja competitiva significativa en los próximos años.</p>
-
-    <p>¿Estás listo para transformar tu estrategia de ventas con IA? <a href="/contacto">Hablemos sobre cómo podemos implementar estas soluciones en tu empresa</a>.</p>
-
-    <hr>
-
-    <h3>Artículos relacionados</h3>
+    // Actualizar Twitter
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    const twitterUrl = document.querySelector('meta[name="twitter:url"]');
     
-    <ul>
-        <li><a href="/blog/automatizacion-ventas">Automatización de Ventas: Guía Completa</a></li>
-        <li><a href="/blog/crm-moderno">Cómo Elegir el CRM Perfecto para tu Empresa</a></li>
-        <li><a href="/blog/lead-generation">Estrategias Avanzadas de Generación de Leads</a></li>
-    </ul>
+    if (twitterTitle) twitterTitle.setAttribute('content', "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas");
+    if (twitterDescription) twitterDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
+    if (twitterUrl) twitterUrl.setAttribute('content', "https://paulvillalobos.com/blog");
+    
+    // Agregar datos estructurados del blog
+    const blogStructuredDataScript = document.createElement('script');
+    blogStructuredDataScript.type = 'application/ld+json';
+    blogStructuredDataScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Blog de Paul Villalobos",
+      "description": "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
+      "url": "https://paulvillalobos.com/blog",
+      "author": {
+        "@type": "Person",
+        "name": "Paul Villalobos",
+        "jobTitle": "Especialista en Inteligencia Artificial Aplicada a Ventas",
+        "url": "https://paulvillalobos.com"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Paul Villalobos",
+        "url": "https://paulvillalobos.com"
+      },
+      "inLanguage": "es-ES"
+    });
+    document.head.appendChild(blogStructuredDataScript);
+  </script>
 
-</BlogLayout>
+  <main class="min-h-screen bg-white">
+    <!-- Hero Section del Blog -->
+    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24" itemscope itemtype="https://schema.org/Blog">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6" itemprop="name">
+            Blog
+          </h1>
+          <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8" itemprop="description">
+            Insights sobre inteligencia artificial aplicada a ventas B2B, automatización comercial y estrategias para maximizar resultados comerciales.
+          </p>
+          
+          <!-- Filtros básicos -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <!-- Filtro por categoría -->
+            <FilterDropdown 
+              id="category-filter"
+              options={allCategories.map(cat => ({
+                value: cat,
+                label: cat,
+                count: categoryCounts[cat]
+              }))}
+              placeholder="Todas las categorías"
+              totalCount={processedPosts.length}
+            />
+            
+            <!-- Filtro por tags -->
+            <FilterDropdown 
+              id="tags-filter"
+              options={allTags.map(tag => ({
+                value: tag,
+                label: tag,
+                count: tagCounts[tag]
+              }))}
+              placeholder="Todos los tags"
+              totalCount={processedPosts.length}
+            />
+          </div>
+          
+          <!-- Contador de resultados -->
+          <div class="mt-6">
+            <p id="results-count" class="text-slate-600">
+              Mostrando {processedPosts.length} artículo{processedPosts.length !== 1 ? 's' : ''}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <section class="py-16 lg:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Grid de Posts -->
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {processedPosts.map((post) => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+        
+        <!-- Estado vacío -->
+        <EmptyState 
+          title="No se encontraron artículos"
+          description="Intenta ajustar los filtros de categoría o tags."
+          buttonText="Limpiar filtros"
+          buttonId="clear-filters"
+        />
+      </div>
+    </section>
+  </main>
+
+  <!-- Script del cliente -->
+  <script src="/src/scripts/blog.ts"></script>
+</MainLayout>
