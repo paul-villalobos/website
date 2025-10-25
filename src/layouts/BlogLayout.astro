@@ -1,27 +1,47 @@
 ---
 import MainLayout from './MainLayout.astro';
+import BlogPostMeta from '../components/BlogPostMeta.astro';
+import type { ProcessedPost } from '../utils/blogUtils';
+import { 
+  processPostData, 
+  generatePostMeta, 
+  generatePostStructuredData,
+  extractTableOfContents 
+} from '../utils/blogUtils';
 
 // Props específicas del blog
 export interface Props {
-  title: string;
-  description?: string;
-  publishDate?: string;
-  readingTime?: string;
-  author?: string;
+  post: ProcessedPost;
   showTOC?: boolean;
+  includeBreadcrumbs?: boolean;
 }
 
 const {
-  title,
-  description,
-  publishDate,
-  readingTime,
-  author = "Paul Villalobos",
-  showTOC = false
+  post,
+  showTOC = false,
+  includeBreadcrumbs = true
 } = Astro.props;
+
+// Procesar datos del post si no están procesados
+const processedPost = post.processedData ? post : processPostData(post);
+
+// Generar metadatos SEO
+const postMeta = generatePostMeta(processedPost);
+const postStructuredData = generatePostStructuredData(processedPost);
+
+// Generar tabla de contenidos si se necesita
+const tableOfContents = showTOC ? extractTableOfContents(post.data.body || "") : [];
 ---
 
-<MainLayout>
+<MainLayout
+  title={postMeta.title}
+  description={postMeta.description}
+  keywords={postMeta.keywords}
+  canonical={postMeta.canonical}
+  ogImage={postMeta.ogImage}
+  ogType={postMeta.ogType}
+  structuredData={postStructuredData}
+>
 
   <!-- Contenido principal -->
   <main class="min-h-screen bg-white">
@@ -34,64 +54,23 @@ const {
           <!-- Header del artículo -->
           <header class="mb-8">
             <div class="max-w-3xl">
-              <!-- Breadcrumbs -->
-              <nav class="mb-4" aria-label="Breadcrumb">
-                <ol class="flex items-center space-x-2 text-sm text-gray-500">
-                  <li><a href="/" class="hover:text-gray-700">Inicio</a></li>
-                  <li class="flex items-center">
-                    <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <a href="/blog" class="hover:text-gray-700">Blog</a>
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-gray-900">{title}</span>
-                  </li>
-                </ol>
-              </nav>
+              <!-- Metadatos del post con breadcrumbs -->
+              <BlogPostMeta 
+                post={processedPost} 
+                includeBreadcrumbs={includeBreadcrumbs}
+              />
               
               <!-- Título del artículo -->
               <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-                {title}
+                {processedPost.data.title}
               </h1>
               
               <!-- Descripción -->
-              {description && (
+              {processedPost.data.description && (
                 <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                  {description}
+                  {processedPost.data.description}
                 </p>
               )}
-              
-              <!-- Metadatos -->
-              <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                {publishDate && (
-                  <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    {publishDate}
-                  </div>
-                )}
-                
-                {readingTime && (
-                  <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    {readingTime}
-                  </div>
-                )}
-                
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                  </svg>
-                  {author}
-                </div>
-              </div>
             </div>
           </header>
           
@@ -103,18 +82,26 @@ const {
         </article>
         
         <!-- Sidebar con TOC (solo en desktop y cuando se necesite) -->
-        {showTOC && (
-          <aside class="hidden lg:block w-64 flex-shrink-0">
+        {showTOC && tableOfContents.length > 0 && (
+          <aside class="hidden lg:block w-64 shrink-0">
             <div class="sticky top-24">
               <div class="bg-gray-50 rounded-lg p-6">
                 <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
                   Tabla de contenidos
                 </h3>
                 <nav class="space-y-2">
-                  <!-- TOC se generará dinámicamente -->
-                  <div class="text-sm text-gray-600">
-                    Los enlaces de la tabla de contenidos se generarán automáticamente basándose en los headings del artículo.
-                  </div>
+                  {tableOfContents.map(item => (
+                    <a 
+                      href={`#${item.id}`}
+                      class={`block text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 ${
+                        item.level === 1 ? 'font-medium' : 
+                        item.level === 2 ? 'ml-2' : 
+                        item.level === 3 ? 'ml-4' : 'ml-6'
+                      }`}
+                    >
+                      {item.text}
+                    </a>
+                  ))}
                 </nav>
               </div>
             </div>
