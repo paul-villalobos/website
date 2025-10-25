@@ -7,6 +7,13 @@ const siteTitle = "Paul Villalobos | Inteligencia Artificial Aplicada a Ventas";
 const siteDescription = "Paul Villalobos — Experto en IA aplicada a ventas B2B. Consultoría, automatización comercial y estrategias con inteligencia artificial para maximizar resultados comerciales.";
 const siteUrl = "https://paulvillalobos.com";
 
+// Datos de navegación centralizados
+const navLinks = [
+  { href: "/", label: "Inicio" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contacto", label: "Contacto" }
+];
+
 // Datos estructurados simplificados para SEO
 const structuredData = {
   "@context": "https://schema.org",
@@ -120,15 +127,14 @@ const structuredData = {
 				</div>
 
 				<div class="hidden md:flex items-center space-x-8">
-					<a href="/" class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-medium">
-						Inicio
-					</a>
-					<a href="/blog" class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-medium">
-						Blog
-					</a>
-					<a href="#contacto" class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-medium">
-						Contacto
-					</a>
+					{navLinks.map(link => (
+						<a 
+							href={link.href} 
+							class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-medium"
+						>
+							{link.label}
+						</a>
+					))}
 				</div>
 
 				<div class="hidden md:flex items-center">
@@ -173,24 +179,14 @@ const structuredData = {
 
 					<div class="flex-1 px-4 py-6 space-y-6">
 						<nav class="space-y-4">
-							<a 
-								href="/" 
-								class="block text-lg font-medium text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
-							>
-								Inicio
-							</a>
-							<a 
-								href="/blog" 
-								class="block text-lg font-medium text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
-							>
-								Blog
-							</a>
-							<a 
-								href="#contacto" 
-								class="block text-lg font-medium text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
-							>
-								Contacto
-							</a>
+							{navLinks.map(link => (
+								<a 
+									href={link.href} 
+									class="block text-lg font-medium text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
+								>
+									{link.label}
+								</a>
+							))}
 						</nav>
 
 						<div class="pt-6 border-t border-gray-200">
