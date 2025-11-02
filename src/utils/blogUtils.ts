@@ -163,6 +163,7 @@ export function sortPostsByDate(posts: any[]): any[] {
 export function generateBlogMeta(processedPosts: ProcessedPost[]) {
   const siteUrl = "https://paulvillalobos.com";
   const blogUrl = `${siteUrl}/blog`;
+  const defaultOgImage = `${siteUrl}/images/og-default.jpg`;
 
   return {
     title: "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
@@ -174,6 +175,7 @@ export function generateBlogMeta(processedPosts: ProcessedPost[]) {
     robots:
       "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     canonical: blogUrl,
+    ogImage: defaultOgImage,
     ogType: "website",
     ogLocale: "es_ES",
     twitterCard: "summary_large_image",
@@ -186,6 +188,10 @@ export function generateBlogMeta(processedPosts: ProcessedPost[]) {
 export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
   const siteUrl = "https://paulvillalobos.com";
   const blogUrl = `${siteUrl}/blog`;
+
+  // Limitar a los primeros 10 posts más recientes para optimizar el JSON-LD
+  // Los posts ya vienen ordenados por fecha (más recientes primero)
+  const recentPosts = processedPosts.slice(0, 10);
 
   return {
     "@context": "https://schema.org",
@@ -206,11 +212,11 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
       url: siteUrl,
     },
     inLanguage: "es-ES",
-    blogPost: processedPosts.map((post) => ({
+    blogPost: recentPosts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.data.title,
       description: post.data.description,
-      url: `${siteUrl}/posts/${post.slug}`,
+      url: post.data.canonical || `${siteUrl}/posts/${post.slug}`,
       datePublished: post.data.pubDate,
       dateModified: post.data.updatedDate || post.data.pubDate,
       author: {
@@ -239,7 +245,8 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
  */
 export function generatePostMeta(post: ProcessedPost): PostMeta {
   const siteUrl = "https://paulvillalobos.com";
-  const postUrl = `${siteUrl}/posts/${post.slug}`;
+  // Priorizar canonical del frontmatter si existe, sino usar URL generada
+  const canonicalUrl = post.data.canonical || `${siteUrl}/posts/${post.slug}`;
 
   // Título específico del post
   const title = `${post.data.title} | Paul Villalobos - Blog`;
@@ -270,7 +277,7 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
     title,
     description,
     keywords,
-    canonical: postUrl,
+    canonical: canonicalUrl,
     ogImage,
     ogType: "article",
     author: post.data.authors?.[0] || "Paul Villalobos",
@@ -284,7 +291,8 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
  */
 export function generatePostStructuredData(post: ProcessedPost): any {
   const siteUrl = "https://paulvillalobos.com";
-  const postUrl = `${siteUrl}/posts/${post.slug}`;
+  // Priorizar canonical del frontmatter si existe, sino usar URL generada
+  const postUrl = post.data.canonical || `${siteUrl}/posts/${post.slug}`;
 
   return {
     "@context": "https://schema.org",
@@ -326,7 +334,7 @@ export function generatePostStructuredData(post: ProcessedPost): any {
 }
 
 /**
- * Genera breadcrumbs para navegación SEO
+ * Genera breadcrumbs para navegación SEO de un post individual
  */
 export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
   const siteUrl = "https://paulvillalobos.com";
@@ -352,7 +360,25 @@ export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
       : []),
     {
       name: post.data.title,
-      url: `${siteUrl}/posts/${post.slug}`,
+      url: post.data.canonical || `${siteUrl}/posts/${post.slug}`,
+    },
+  ];
+}
+
+/**
+ * Genera breadcrumbs para la página del blog
+ */
+export function generateBlogBreadcrumbs(): BreadcrumbItem[] {
+  const siteUrl = "https://paulvillalobos.com";
+
+  return [
+    {
+      name: "Inicio",
+      url: siteUrl,
+    },
+    {
+      name: "Blog",
+      url: `${siteUrl}/blog`,
     },
   ];
 }

@@ -9,7 +9,9 @@ import {
   processPostData, 
   sortPostsByDate, 
   generateBlogMeta, 
-  generateBlogStructuredData 
+  generateBlogStructuredData,
+  generateBlogBreadcrumbs,
+  generateBreadcrumbStructuredData
 } from '../utils/blogUtils';
 
 // Obtener todos los posts del blog
@@ -27,78 +29,61 @@ const processedPosts = sortedPosts.map(processPostData);
 // Generar metadatos SEO
 const blogMeta = generateBlogMeta(processedPosts);
 const blogStructuredData = generateBlogStructuredData(processedPosts);
+
+// Generar breadcrumbs para el blog
+const blogBreadcrumbs = generateBlogBreadcrumbs();
+const blogBreadcrumbStructuredData = generateBreadcrumbStructuredData(blogBreadcrumbs);
+
+// Combinar datos estructurados del blog con breadcrumbs
+const combinedBlogStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    blogStructuredData,
+    blogBreadcrumbStructuredData
+  ]
+};
 ---
 
-<MainLayout>
-  <!-- SEO Script para metadatos dinámicos -->
-  <script is:inline>
-    // Actualizar metadatos específicos del blog
-    document.title = "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas";
-    
-    // Actualizar meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
-    }
-    
-    // Actualizar canonical URL
-    const canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (canonicalLink) {
-      canonicalLink.setAttribute('href', "https://paulvillalobos.com/blog");
-    }
-    
-    // Actualizar Open Graph
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    
-    if (ogTitle) ogTitle.setAttribute('content', "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas");
-    if (ogDescription) ogDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
-    if (ogUrl) ogUrl.setAttribute('content', "https://paulvillalobos.com/blog");
-    
-    // Actualizar Twitter
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    const twitterUrl = document.querySelector('meta[name="twitter:url"]');
-    
-    if (twitterTitle) twitterTitle.setAttribute('content', "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas");
-    if (twitterDescription) twitterDescription.setAttribute('content', "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.");
-    if (twitterUrl) twitterUrl.setAttribute('content', "https://paulvillalobos.com/blog");
-    
-    // Agregar datos estructurados del blog
-    const blogStructuredDataScript = document.createElement('script');
-    blogStructuredDataScript.type = 'application/ld+json';
-    blogStructuredDataScript.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Blog de Paul Villalobos",
-      "description": "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
-      "url": "https://paulvillalobos.com/blog",
-      "author": {
-        "@type": "Person",
-        "name": "Paul Villalobos",
-        "jobTitle": "Especialista en Inteligencia Artificial Aplicada a Ventas",
-        "url": "https://paulvillalobos.com"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Paul Villalobos",
-        "url": "https://paulvillalobos.com"
-      },
-      "inLanguage": "es-ES"
-    });
-    document.head.appendChild(blogStructuredDataScript);
-  </script>
-
+<MainLayout
+  title={blogMeta.title}
+  description={blogMeta.description}
+  keywords={blogMeta.keywords}
+  canonical={blogMeta.canonical}
+  ogImage={blogMeta.ogImage}
+  ogType={blogMeta.ogType}
+  structuredData={combinedBlogStructuredData}
+>
   <main class="min-h-screen bg-white">
     <!-- Hero Section del Blog -->
-    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24" itemscope itemtype="https://schema.org/Blog">
+    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <nav class="mb-6 flex justify-center" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2 text-sm text-slate-600">
+            {blogBreadcrumbs.map((item, index) => (
+              <li class="flex items-center">
+                {index > 0 && (
+                  <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                )}
+                {index === blogBreadcrumbs.length - 1 ? (
+                  <span class="text-slate-900 font-medium">{item.name}</span>
+                ) : (
+                  <a href={item.url} class="hover:text-blue-600 transition-colors duration-200">
+                    {item.name}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+        
         <div class="text-center max-w-3xl mx-auto">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6" itemprop="name">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
             Blog
           </h1>
-          <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8" itemprop="description">
+          <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8">
             Insights sobre inteligencia artificial aplicada a ventas B2B, automatización comercial y estrategias para maximizar resultados comerciales.
           </p>
           
