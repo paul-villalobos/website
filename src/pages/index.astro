@@ -1,8 +1,21 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import { generateHomeMeta, generateHomeStructuredData } from '../utils/blogUtils';
+
+// Generar metadatos SEO para la página de inicio
+const homeMeta = generateHomeMeta();
+const homeStructuredData = generateHomeStructuredData();
 ---
 
-<MainLayout>
+<MainLayout
+  title={homeMeta.title}
+  description={homeMeta.description}
+  keywords={homeMeta.keywords}
+  canonical={homeMeta.canonical}
+  ogImage={homeMeta.ogImage}
+  ogType={homeMeta.ogType}
+  structuredData={homeStructuredData}
+>
 	<!-- Hero Section -->
 	<section class="min-h-[560px] flex items-center bg-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5 py-16 lg:py-24">

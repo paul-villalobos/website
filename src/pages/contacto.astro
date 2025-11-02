@@ -1,10 +1,120 @@
 ---
-import MainLayout from "src/layouts/MainLayout.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import { generateContactMeta, generateContactStructuredData } from "../utils/blogUtils";
 
+// Generar metadatos SEO para la página de contacto
+const contactMeta = generateContactMeta();
+const contactStructuredData = generateContactStructuredData();
 
+// Generar breadcrumbs para contacto
+const contactBreadcrumbs = [
+  { name: "Inicio", url: "https://paulvillalobos.com" },
+  { name: "Contacto", url: "https://paulvillalobos.com/contacto" }
+];
 ---
 
+<MainLayout
+  title={contactMeta.title}
+  description={contactMeta.description}
+  keywords={contactMeta.keywords}
+  canonical={contactMeta.canonical}
+  ogImage={contactMeta.ogImage}
+  ogType={contactMeta.ogType}
+  structuredData={contactStructuredData}
+>
+  <main class="min-h-screen bg-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <nav class="mb-6 flex justify-center" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2 text-sm text-slate-600">
+            {contactBreadcrumbs.map((item, index) => (
+              <li class="flex items-center">
+                {index > 0 && (
+                  <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                )}
+                {index === contactBreadcrumbs.length - 1 ? (
+                  <span class="text-slate-900 font-medium">{item.name}</span>
+                ) : (
+                  <a href={item.url} class="hover:text-blue-600 transition-colors duration-200">
+                    {item.name}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-<MainLayout>
-    <h1>Contacto</h1>
+        <div class="text-center max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
+            Contacto
+          </h1>
+          <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8">
+            ¿Listo para transformar tu gestión comercial con inteligencia artificial? 
+            Hablemos sobre cómo puedo ayudarte a maximizar tus resultados comerciales.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 lg:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+          <div class="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">
+              Hablemos sobre tu proyecto
+            </h2>
+            <p class="text-slate-600 mb-8">
+              Agenda una consulta gratuita para descubrir cómo la inteligencia artificial 
+              puede revolucionar tu estrategia comercial y maximizar tus resultados.
+            </p>
+            
+            <div class="space-y-6">
+              <!-- Email -->
+              <div>
+                <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
+                  Email
+                </h3>
+                <a 
+                  href="mailto:hola@paulvillalobos.com"
+                  class="text-blue-600 hover:text-blue-700 text-lg font-medium transition-colors duration-200"
+                >
+                  hola@paulvillalobos.com
+                </a>
+              </div>
+
+              <!-- LinkedIn -->
+              <div>
+                <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
+                  LinkedIn
+                </h3>
+                <a 
+                  href="https://linkedin.com/in/paulvillalobos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:text-blue-700 text-lg font-medium transition-colors duration-200"
+                >
+                  linkedin.com/in/paulvillalobos
+                </a>
+              </div>
+
+              <!-- CTA Button -->
+              <div class="pt-6 border-t border-slate-200">
+                <a 
+                  href="mailto:hola@paulvillalobos.com"
+                  class="inline-flex items-center justify-center w-full px-8 py-4 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Enviar mensaje
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </MainLayout>
