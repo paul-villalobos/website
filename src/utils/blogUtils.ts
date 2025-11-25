@@ -1,3 +1,15 @@
+import {
+  SITE_URL,
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  DEFAULT_OG_IMAGE,
+  AUTHOR_NAME,
+  AUTHOR_EMAIL,
+  AUTHOR_LINKEDIN,
+  AUTHOR_TWITTER_URL,
+} from './constants';
+
 export interface ProcessedPost {
   slug: string;
   data: any;
@@ -36,11 +48,6 @@ export interface BreadcrumbItem {
   url: string;
 }
 
-export interface TOCItem {
-  id: string;
-  text: string;
-  level: number;
-}
 
 export interface CountsResult {
   categoryCounts: Record<string, number>;
@@ -53,28 +60,63 @@ export interface CountsResult {
  * Calcula contadores de categorías y tags para filtros
  */
 export function calculateCounts(posts: any[]): CountsResult {
-  const categoryCounts: Record<string, number> = {};
-  const tagCounts: Record<string, number> = {};
+  const result = posts.reduce(
+    (acc, post) => {
+      // Contar categorías
+      if (post.data.category) {
+        acc.categoryCounts[post.data.category] = (acc.categoryCounts[post.data.category] || 0) + 1;
+      }
 
-  posts.forEach((post: any) => {
-    // Contar categorías
-    const category = post.data.category;
-    if (category) {
-      categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+      // Contar tags
+      (post.data.tags || []).forEach((tag: string) => {
+        acc.tagCounts[tag] = (acc.tagCounts[tag] || 0) + 1;
+      });
+
+      return acc;
+    },
+    {
+      categoryCounts: {} as Record<string, number>,
+      tagCounts: {} as Record<string, number>,
     }
-
-    // Contar tags
-    const tags = post.data.tags || [];
-    tags.forEach((tag: string) => {
-      tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-    });
-  });
+  );
 
   return {
-    categoryCounts,
-    tagCounts,
-    allCategories: Object.keys(categoryCounts),
-    allTags: Object.keys(tagCounts),
+    ...result,
+    allCategories: Object.keys(result.categoryCounts),
+    allTags: Object.keys(result.tagCounts),
+  };
+}
+
+/**
+ * Normaliza la imagen de un post
+ */
+function normalizePostImage(post: any): { image: string | null; imageAlt: string } {
+  if (post.data.hero?.src) {
+    return {
+      image: String(post.data.hero.src),
+      imageAlt: post.data.hero.alt || post.data.title,
+    };
+  }
+  
+  if (post.data.heroImage) {
+    if (typeof post.data.heroImage === "object" && post.data.heroImage.src) {
+      return {
+        image: String(post.data.heroImage.src),
+        imageAlt: post.data.heroImage.alt || post.data.title,
+      };
+    }
+    
+    if (typeof post.data.heroImage === "string") {
+      return {
+        image: post.data.heroImage,
+        imageAlt: post.data.title,
+      };
+    }
+  }
+
+  return {
+    image: null,
+    imageAlt: post.data.title,
   };
 }
 
@@ -82,35 +124,7 @@ export function calculateCounts(posts: any[]): CountsResult {
  * Procesa los datos de un post para optimizar el template
  */
 export function processPostData(post: any): ProcessedPost {
-  // Normalizar imagen - manejar diferentes formatos
-  let image = null;
-  let imageAlt = post.data.title;
-
-  if (post.data.hero?.src) {
-    image = post.data.hero.src;
-    imageAlt = post.data.hero.alt || post.data.title;
-  } else if (post.data.heroImage) {
-    // Si heroImage es un objeto, extraer la URL
-    if (typeof post.data.heroImage === "object" && post.data.heroImage.src) {
-      image = post.data.heroImage.src;
-      imageAlt = post.data.heroImage.alt || post.data.title;
-    } else if (typeof post.data.heroImage === "string") {
-      image = post.data.heroImage;
-    }
-  }
-
-  // Validar que la imagen sea una string válida
-  if (image && typeof image !== "string") {
-    console.warn(
-      "Imagen inválida para post:",
-      post.data.title,
-      "Tipo:",
-      typeof image,
-      "Valor:",
-      image
-    );
-    image = null;
-  }
+  const { image, imageAlt } = normalizePostImage(post);
 
   // Formatear fecha
   const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
@@ -158,25 +172,87 @@ export function sortPostsByDate(posts: any[]): any[] {
 }
 
 /**
+ * Función base para generar metadatos comunes
+ */
+function generateBaseMeta(overrides: Partial<{
+  title: string;
+  description: string;
+  keywords: string;
+  canonical: string;
+  ogImage: string;
+  ogType: string;
+}>) {
+  return {
+    title: overrides.title || SITE_TITLE,
+    description: overrides.description || SITE_DESCRIPTION,
+    keywords: overrides.keywords || DEFAULT_KEYWORDS,
+    canonical: overrides.canonical || SITE_URL,
+    ogImage: overrides.ogImage || DEFAULT_OG_IMAGE,
+    ogType: overrides.ogType || "website",
+  };
+}
+
+/**
+ * Crea schema de autor para datos estructurados
+ */
+function createAuthorSchema(authorName?: string, includeJobTitle = false) {
+  return {
+    "@type": "Person",
+    name: authorName || AUTHOR_NAME,
+    ...(includeJobTitle && { jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas" }),
+    url: SITE_URL,
+  };
+}
+
+/**
+ * Crea schema de publisher para datos estructurados
+ */
+function createPublisherSchema() {
+  return {
+    "@type": "Person",
+    name: AUTHOR_NAME,
+    url: SITE_URL,
+  };
+}
+
+/**
+ * Crea schema de imagen para datos estructurados
+ */
+function createImageSchema(imageUrl: string, imageAlt: string, includeDimensions = false) {
+  return {
+    "@type": "ImageObject",
+    url: imageUrl,
+    caption: imageAlt,
+    ...(includeDimensions && { width: 1200, height: 630 }),
+  };
+}
+
+/**
+ * Combina múltiples datos estructurados en un @graph
+ */
+export function combineStructuredData(...schemas: any[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": schemas.filter(Boolean),
+  };
+}
+
+/**
  * Genera metadatos SEO para el blog
  */
 export function generateBlogMeta(processedPosts: ProcessedPost[]) {
-  const siteUrl = "https://paulvillalobos.com";
-  const blogUrl = `${siteUrl}/blog`;
-  const defaultOgImage = `${siteUrl}/images/og-default.jpg`;
-
   return {
-    title: "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
-    description:
-      "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
-    keywords:
-      "blog inteligencia artificial, IA ventas B2B, automatización comercial, estrategias ventas, Paul Villalobos blog, artículos IA, consultoría ventas",
-    author: "Paul Villalobos",
+    ...generateBaseMeta({
+      title: "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
+      description:
+        "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
+      keywords:
+        "blog inteligencia artificial, IA ventas B2B, automatización comercial, estrategias ventas, Paul Villalobos blog, artículos IA, consultoría ventas",
+      canonical: `${SITE_URL}/blog`,
+    }),
+    author: AUTHOR_NAME,
     robots:
       "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-    canonical: blogUrl,
-    ogImage: defaultOgImage,
-    ogType: "website",
     ogLocale: "es_ES",
     twitterCard: "summary_large_image",
   };
@@ -186,11 +262,7 @@ export function generateBlogMeta(processedPosts: ProcessedPost[]) {
  * Genera datos estructurados JSON-LD para el blog
  */
 export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
-  const siteUrl = "https://paulvillalobos.com";
-  const blogUrl = `${siteUrl}/blog`;
-
-  // Limitar a los primeros 10 posts más recientes para optimizar el JSON-LD
-  // Los posts ya vienen ordenados por fecha (más recientes primero)
+  const blogUrl = `${SITE_URL}/blog`;
   const recentPosts = processedPosts.slice(0, 10);
 
   return {
@@ -200,39 +272,20 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
     description:
       "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
     url: blogUrl,
-    author: {
-      "@type": "Person",
-      name: "Paul Villalobos",
-      jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
-      url: siteUrl,
-    },
-    publisher: {
-      "@type": "Person",
-      name: "Paul Villalobos",
-      url: siteUrl,
-    },
+    author: createAuthorSchema(AUTHOR_NAME, true),
+    publisher: createPublisherSchema(),
     inLanguage: "es-ES",
     blogPost: recentPosts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.data.title,
       description: post.data.description,
-      url: post.data.canonical || `${siteUrl}/posts/${post.slug}`,
+      url: post.data.canonical || `${SITE_URL}/posts/${post.slug}`,
       datePublished: post.data.pubDate,
       dateModified: post.data.updatedDate || post.data.pubDate,
-      author: {
-        "@type": "Person",
-        name: post.data.authors?.[0] || "Paul Villalobos",
-      },
-      publisher: {
-        "@type": "Person",
-        name: "Paul Villalobos",
-      },
+      author: createAuthorSchema(post.data.authors?.[0]),
+      publisher: createPublisherSchema(),
       image: post.processedData.image
-        ? {
-            "@type": "ImageObject",
-            url: post.processedData.image,
-            caption: post.processedData.imageAlt,
-          }
+        ? createImageSchema(post.processedData.image, post.processedData.imageAlt)
         : undefined,
       keywords: post.data.tags?.join(", ") || "",
       articleSection: post.data.category || "General",
@@ -244,45 +297,26 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
  * Genera metadatos SEO específicos para un post individual
  */
 export function generatePostMeta(post: ProcessedPost): PostMeta {
-  const siteUrl = "https://paulvillalobos.com";
-  // Priorizar canonical del frontmatter si existe, sino usar URL generada
-  const canonicalUrl = post.data.canonical || `${siteUrl}/posts/${post.slug}`;
-
-  // Título específico del post
-  const title = `${post.data.title} | Paul Villalobos - Blog`;
-
-  // Descripción específica del post
-  const description =
-    post.data.description ||
-    `Artículo sobre ${
-      post.data.category || "inteligencia artificial aplicada a ventas"
-    } por Paul Villalobos.`;
-
-  // Keywords específicas del post
+  const canonicalUrl = post.data.canonical || `${SITE_URL}/posts/${post.slug}`;
   const postKeywords = post.data.tags?.join(", ") || "";
-  const baseKeywords =
-    "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
-  const keywords = postKeywords
-    ? `${postKeywords}, ${baseKeywords}`
-    : baseKeywords;
-
-  // Imagen específica del post o fallback
-  const ogImage =
-    post.processedData.image || `${siteUrl}/images/blog-default.jpg`;
-
-  // Tiempo de lectura estimado
-  const readingTime = estimateReadingTime(post.data.body || "");
+  const baseKeywords = "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
 
   return {
-    title,
-    description,
-    keywords,
-    canonical: canonicalUrl,
-    ogImage,
-    ogType: "article",
-    author: post.data.authors?.[0] || "Paul Villalobos",
+    ...generateBaseMeta({
+      title: `${post.data.title} | Paul Villalobos - Blog`,
+      description:
+        post.data.description ||
+        `Artículo sobre ${
+          post.data.category || "inteligencia artificial aplicada a ventas"
+        } por ${AUTHOR_NAME}.`,
+      keywords: postKeywords ? `${postKeywords}, ${baseKeywords}` : baseKeywords,
+      canonical: canonicalUrl,
+      ogImage: post.processedData.image || `${SITE_URL}/images/blog-default.jpg`,
+      ogType: "article",
+    }),
+    author: post.data.authors?.[0] || AUTHOR_NAME,
     publishDate: post.processedData.formattedDate,
-    readingTime,
+    readingTime: estimateReadingTime(post.data.body || ""),
   };
 }
 
@@ -290,9 +324,7 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
  * Genera datos estructurados JSON-LD específicos para un post individual
  */
 export function generatePostStructuredData(post: ProcessedPost): any {
-  const siteUrl = "https://paulvillalobos.com";
-  // Priorizar canonical del frontmatter si existe, sino usar URL generada
-  const postUrl = post.data.canonical || `${siteUrl}/posts/${post.slug}`;
+  const postUrl = post.data.canonical || `${SITE_URL}/posts/${post.slug}`;
 
   return {
     "@context": "https://schema.org",
@@ -302,29 +334,14 @@ export function generatePostStructuredData(post: ProcessedPost): any {
     url: postUrl,
     datePublished: post.data.pubDate,
     dateModified: post.data.updatedDate || post.data.pubDate,
-    author: {
-      "@type": "Person",
-      name: post.data.authors?.[0] || "Paul Villalobos",
-      jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
-      url: siteUrl,
-    },
-    publisher: {
-      "@type": "Person",
-      name: "Paul Villalobos",
-      url: siteUrl,
-    },
+    author: createAuthorSchema(post.data.authors?.[0], true),
+    publisher: createPublisherSchema(),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": postUrl,
     },
     image: post.processedData.image
-      ? {
-          "@type": "ImageObject",
-          url: post.processedData.image,
-          caption: post.processedData.imageAlt,
-          width: 1200,
-          height: 630,
-        }
+      ? createImageSchema(post.processedData.image, post.processedData.imageAlt, true)
       : undefined,
     keywords: post.data.tags?.join(", ") || "",
     articleSection: post.data.category || "General",
@@ -334,34 +351,31 @@ export function generatePostStructuredData(post: ProcessedPost): any {
 }
 
 /**
+ * Crea un item de breadcrumb
+ */
+function createBreadcrumbItem(name: string, url: string): BreadcrumbItem {
+  return { name, url };
+}
+
+/**
  * Genera breadcrumbs para navegación SEO de un post individual
  */
 export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
-  const siteUrl = "https://paulvillalobos.com";
-
   return [
-    {
-      name: "Inicio",
-      url: siteUrl,
-    },
-    {
-      name: "Blog",
-      url: `${siteUrl}/blog`,
-    },
+    createBreadcrumbItem("Inicio", SITE_URL),
+    createBreadcrumbItem("Blog", `${SITE_URL}/blog`),
     ...(post.data.category
       ? [
-          {
-            name: post.data.category,
-            url: `${siteUrl}/blog?category=${encodeURIComponent(
-              post.data.category
-            )}`,
-          },
+          createBreadcrumbItem(
+            post.data.category,
+            `${SITE_URL}/blog?category=${encodeURIComponent(post.data.category)}`
+          ),
         ]
       : []),
-    {
-      name: post.data.title,
-      url: post.data.canonical || `${siteUrl}/posts/${post.slug}`,
-    },
+    createBreadcrumbItem(
+      post.data.title,
+      post.data.canonical || `${SITE_URL}/posts/${post.slug}`
+    ),
   ];
 }
 
@@ -369,17 +383,9 @@ export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
  * Genera breadcrumbs para la página del blog
  */
 export function generateBlogBreadcrumbs(): BreadcrumbItem[] {
-  const siteUrl = "https://paulvillalobos.com";
-
   return [
-    {
-      name: "Inicio",
-      url: siteUrl,
-    },
-    {
-      name: "Blog",
-      url: `${siteUrl}/blog`,
-    },
+    createBreadcrumbItem("Inicio", SITE_URL),
+    createBreadcrumbItem("Blog", `${SITE_URL}/blog`),
   ];
 }
 
@@ -396,35 +402,6 @@ export function estimateReadingTime(content: string): string {
   return `${minutes} min de lectura`;
 }
 
-/**
- * Extrae tabla de contenidos del contenido del post
- */
-export function extractTableOfContents(content: string): TOCItem[] {
-  if (!content) return [];
-
-  const toc: TOCItem[] = [];
-  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
-  let match;
-
-  while ((match = headingRegex.exec(content)) !== null) {
-    const level = match[1].length;
-    const text = match[2].trim();
-    const id = text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .trim();
-
-    toc.push({
-      id,
-      text,
-      level,
-    });
-  }
-
-  return toc;
-}
 
 /**
  * Genera datos estructurados para breadcrumbs
@@ -448,38 +425,27 @@ export function generateBreadcrumbStructuredData(
  * Genera metadatos SEO para la página de inicio
  */
 export function generateHomeMeta() {
-  const siteUrl = "https://paulvillalobos.com";
-
-  return {
-    title: "Paul Villalobos | Inteligencia Artificial Aplicada a Ventas",
-    description:
-      "Paul Villalobos — Experto en IA aplicada a ventas B2B. Consultoría, automatización comercial y estrategias con inteligencia artificial para maximizar resultados comerciales.",
-    keywords:
-      "inteligencia artificial ventas, IA ventas B2B, automatización comercial, CRM inteligente, consultoría IA ventas, estrategia comercial IA, Paul Villalobos",
-    canonical: siteUrl,
-    ogImage: `${siteUrl}/images/og-default.jpg`,
-    ogType: "website",
-  };
+  return generateBaseMeta({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    keywords: DEFAULT_KEYWORDS,
+    canonical: SITE_URL,
+  });
 }
 
 /**
  * Genera datos estructurados JSON-LD para la página de inicio
  */
 export function generateHomeStructuredData() {
-  const siteUrl = "https://paulvillalobos.com";
-
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Paul Villalobos",
+    name: AUTHOR_NAME,
     jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
     description:
       "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
-    url: siteUrl,
-    sameAs: [
-      "https://linkedin.com/in/paulvillalobos",
-      "https://twitter.com/paulvillalobos",
-    ],
+    url: SITE_URL,
+    sameAs: [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
     knowsAbout: [
       "Inteligencia Artificial",
       "Ventas B2B",
@@ -493,7 +459,7 @@ export function generateHomeStructuredData() {
       areaServed: "ES",
       availableChannel: {
         "@type": "ServiceChannel",
-        serviceUrl: siteUrl,
+        serviceUrl: SITE_URL,
       },
     },
   };
@@ -503,28 +469,22 @@ export function generateHomeStructuredData() {
  * Genera metadatos SEO para la página de contacto
  */
 export function generateContactMeta() {
-  const siteUrl = "https://paulvillalobos.com";
-  const contactUrl = `${siteUrl}/contacto`;
-
-  return {
+  return generateBaseMeta({
     title:
       "Contacto | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
     description:
       "Contáctame para consultoría en inteligencia artificial aplicada a ventas B2B, automatización comercial y estrategias con IA para maximizar resultados comerciales.",
     keywords:
       "contacto Paul Villalobos, consultoría IA ventas, consulta gratuita IA ventas, automatización comercial, Paul Villalobos contacto",
-    canonical: contactUrl,
-    ogImage: `${siteUrl}/images/og-default.jpg`,
-    ogType: "website",
-  };
+    canonical: `${SITE_URL}/contacto`,
+  });
 }
 
 /**
  * Genera datos estructurados JSON-LD para la página de contacto
  */
 export function generateContactStructuredData() {
-  const siteUrl = "https://paulvillalobos.com";
-  const contactUrl = `${siteUrl}/contacto`;
+  const contactUrl = `${SITE_URL}/contacto`;
 
   return {
     "@context": "https://schema.org",
@@ -535,14 +495,11 @@ export function generateContactStructuredData() {
         url: contactUrl,
         mainEntity: {
           "@type": "Person",
-          name: "Paul Villalobos",
+          name: AUTHOR_NAME,
           jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
-          email: "hola@paulvillalobos.com",
-          url: siteUrl,
-          sameAs: [
-            "https://linkedin.com/in/paulvillalobos",
-            "https://twitter.com/paulvillalobos",
-          ],
+          email: AUTHOR_EMAIL,
+          url: SITE_URL,
+          sameAs: [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
         },
       },
       {
@@ -552,7 +509,7 @@ export function generateContactStructuredData() {
             "@type": "ListItem",
             position: 1,
             name: "Inicio",
-            item: siteUrl,
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",

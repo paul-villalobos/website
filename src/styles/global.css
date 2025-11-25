@@ -109,3 +109,65 @@
     1
   ); /* theme.motion.easing.out */
 }
+
+/* Estilos para filtros del blog */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos para BlogCard */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Estilos para menú móvil */
+#mobile-menu-toggle {
+  display: none;
+}
+
+body:has(#mobile-menu-toggle:checked) .mobile-menu {
+  transform: translateY(0);
+}
+
+body:has(#mobile-menu-toggle:checked) label .menu-icon {
+  display: none;
+}
+
+body:has(#mobile-menu-toggle:checked) label .close-icon {
+  display: block;
+}
+
+body:has(#mobile-menu-toggle:checked) {
+  overflow: hidden;
+}
+
+.mobile-menu {
+  transform: translateY(-100%);
+}
+
+.menu-icon, .close-icon {
+  transition: opacity 0.2s ease;
+}

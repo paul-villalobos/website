@@ -1,0 +1,80 @@
+---
+import type { BreadcrumbItem } from '../utils/blogUtils';
+import Icon from './Icon.astro';
+
+export interface Props {
+  items: BreadcrumbItem[];
+  align?: 'left' | 'center';
+  variant?: 'default' | 'minimal';
+  includeSchema?: boolean;
+  class?: string;
+}
+
+const {
+  items,
+  align = 'center',
+  variant = 'default',
+  includeSchema = false,
+  class: className = '',
+} = Astro.props;
+
+const styles = {
+  default: {
+    text: 'text-slate-600',
+    hover: 'hover:text-blue-600',
+    current: 'text-slate-900 font-medium',
+  },
+  minimal: {
+    text: 'text-gray-500',
+    hover: 'hover:text-gray-700',
+    current: 'text-gray-900',
+  },
+}[variant];
+
+const navClasses = `${variant === 'minimal' ? 'mb-4' : 'mb-6'} flex ${align === 'left' ? 'justify-start' : 'justify-center'} ${className}`.trim();
+---
+
+{items.length > 0 && (
+  <nav 
+    class={navClasses}
+    aria-label="Breadcrumb"
+    {...(includeSchema && {
+      itemscope: true,
+      itemtype: "https://schema.org/BreadcrumbList"
+    })}
+  >
+    <ol class="flex items-center space-x-2 text-sm">
+      {items.map((item, index) => (
+        <li 
+          class="flex items-center"
+          {...(includeSchema && {
+            itemprop: "itemListElement",
+            itemscope: true,
+            itemtype: "https://schema.org/ListItem"
+          })}
+        >
+          {includeSchema && (
+            <meta itemprop="position" content={(index + 1).toString()} />
+          )}
+          {index > 0 && (
+            <Icon name="chevron" class="w-4 h-4 mx-2" />
+          )}
+          {index === items.length - 1 ? (
+            <span class={styles.current} {...(includeSchema && { itemprop: "name" })}>
+              {item.name}
+            </span>
+          ) : (
+            <a 
+              href={item.url} 
+              class={`${styles.text} ${styles.hover} transition-colors duration-200`}
+              {...(includeSchema && { itemprop: "item" })}
+            >
+              <span {...(includeSchema && { itemprop: "name" })}>{item.name}</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+

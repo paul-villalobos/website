@@ -1,6 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Button from "../components/Button.astro";
 import { generateContactMeta, generateContactStructuredData } from "../utils/blogUtils";
+import { SITE_URL, AUTHOR_EMAIL, AUTHOR_LINKEDIN } from "../utils/constants";
 
 // Generar metadatos SEO para la página de contacto
 const contactMeta = generateContactMeta();
@@ -8,9 +11,14 @@ const contactStructuredData = generateContactStructuredData();
 
 // Generar breadcrumbs para contacto
 const contactBreadcrumbs = [
-  { name: "Inicio", url: "https://paulvillalobos.com" },
-  { name: "Contacto", url: "https://paulvillalobos.com/contacto" }
+  { name: "Inicio", url: SITE_URL },
+  { name: "Contacto", url: `${SITE_URL}/contacto` }
 ];
+
+// Placeholder para WhatsApp - reemplazar con número real
+const WHATSAPP_LINK = "https://wa.me/XXXXXXXXXX";
+// Placeholder para Calendly - reemplazar con link real
+const CALENDLY_LINK = "#";
 ---
 
 <MainLayout
@@ -24,97 +32,262 @@ const contactBreadcrumbs = [
 >
   <main class="min-h-screen bg-white">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="bg-white py-20 lg:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumbs -->
-        <nav class="mb-6 flex justify-center" aria-label="Breadcrumb">
-          <ol class="flex items-center space-x-2 text-sm text-slate-600">
-            {contactBreadcrumbs.map((item, index) => (
-              <li class="flex items-center">
-                {index > 0 && (
-                  <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                  </svg>
-                )}
-                {index === contactBreadcrumbs.length - 1 ? (
-                  <span class="text-slate-900 font-medium">{item.name}</span>
-                ) : (
-                  <a href={item.url} class="hover:text-blue-600 transition-colors duration-200">
-                    {item.name}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ol>
-        </nav>
+        <Breadcrumb items={contactBreadcrumbs} align="center" />
 
-        <div class="text-center max-w-3xl mx-auto">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            Contacto
+        <div class="text-center max-w-3xl mx-auto mt-12">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6 tracking-tight">
+            Hablemos sobre cómo optimizar tu sistema comercial con IA
           </h1>
-          <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8">
-            ¿Listo para transformar tu gestión comercial con inteligencia artificial? 
-            Hablemos sobre cómo puedo ayudarte a maximizar tus resultados comerciales.
+          <p class="text-xl md:text-2xl text-slate-600 leading-relaxed font-light">
+            Consultoría práctica, clara y orientada a negocio. Sin hype, sin automatizaciones innecesarias.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="py-16 lg:py-24">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mx-auto">
-          <div class="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6">
-              Hablemos sobre tu proyecto
-            </h2>
-            <p class="text-slate-600 mb-8">
-              Agenda una consulta gratuita para descubrir cómo la inteligencia artificial 
-              puede revolucionar tu estrategia comercial y maximizar tus resultados.
-            </p>
+    <!-- ¿Quién debería contactarme? -->
+    <section class="py-16 lg:py-24 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg p-8 lg:p-12 border border-slate-200">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-8">
+            ¿Quién debería contactarme?
+          </h2>
+          
+          <ul class="space-y-6 mb-10">
+            <li class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--pv-primary-base)] flex items-center justify-center mt-1">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <p class="ml-4 text-lg text-slate-700 leading-relaxed">
+                Empresas B2B que quieren mejorar su proceso comercial usando IA
+              </p>
+            </li>
             
-            <div class="space-y-6">
-              <!-- Email -->
-              <div>
-                <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
-                  Email
-                </h3>
-                <a 
-                  href="mailto:hola@paulvillalobos.com"
-                  class="text-blue-600 hover:text-blue-700 text-lg font-medium transition-colors duration-200"
-                >
-                  hola@paulvillalobos.com
-                </a>
+            <li class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--pv-primary-base)] flex items-center justify-center mt-1">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
               </div>
-
-              <!-- LinkedIn -->
-              <div>
-                <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
-                  LinkedIn
-                </h3>
-                <a 
-                  href="https://linkedin.com/in/paulvillalobos"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-blue-600 hover:text-blue-700 text-lg font-medium transition-colors duration-200"
-                >
-                  linkedin.com/in/paulvillalobos
-                </a>
+              <p class="ml-4 text-lg text-slate-700 leading-relaxed">
+                Equipos que buscan claridad, estructura y velocidad comercial
+              </p>
+            </li>
+            
+            <li class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--pv-primary-base)] flex items-center justify-center mt-1">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
               </div>
+              <p class="ml-4 text-lg text-slate-700 leading-relaxed">
+                Negocios que necesitan automatización práctica, CRM inteligente o entrenamiento en IA aplicada
+              </p>
+            </li>
+          </ul>
 
-              <!-- CTA Button -->
-              <div class="pt-6 border-t border-slate-200">
-                <a 
-                  href="mailto:hola@paulvillalobos.com"
-                  class="inline-flex items-center justify-center w-full px-8 py-4 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
-                  Enviar mensaje
-                </a>
+          <div class="pt-8 border-t border-slate-200">
+            <p class="text-slate-600 italic leading-relaxed">
+              Si buscas un chatbot genérico o un desarrollo técnico profundo, probablemente no soy la opción ideal.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botones principales -->
+    <section class="py-16 lg:py-24 bg-white">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button 
+            href={CALENDLY_LINK}
+            variant="primary"
+            size="lg"
+            class="w-full sm:w-auto min-w-[240px]"
+          >
+            Agenda una llamada exploratoria
+          </Button>
+          
+          <Button 
+            href={WHATSAPP_LINK}
+            variant="ghost"
+            size="lg"
+            class="w-full sm:w-auto min-w-[240px]"
+          >
+            Escríbeme por WhatsApp
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario Tally -->
+    <section class="py-16 lg:py-24 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg p-8 lg:p-12 border border-slate-200">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">
+            Cuéntame sobre tu proyecto
+          </h2>
+          
+          <!-- Placeholder para iframe de Tally -->
+          <div class="mt-8">
+            <div class="tally-container">
+              <iframe
+                id="tally-iframe"
+                src=""
+                loading="lazy"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                title="Formulario de contacto"
+                class="tally-iframe"
+              ></iframe>
+              <!-- Placeholder visual mientras se carga Tally -->
+              <div class="tally-placeholder">
+                <p class="text-slate-400 text-sm">El formulario se cargará aquí</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- ¿Qué ocurre después de contactarme? -->
+    <section class="py-16 lg:py-24 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-12 text-center">
+          ¿Qué ocurre después de contactarme?
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-start mb-3">
+                <span class="text-3xl font-bold text-[var(--pv-primary-base)] mr-4">1</span>
+                <h3 class="text-xl font-semibold text-slate-900">Leo tu caso</h3>
+              </div>
+              <p class="text-slate-600 ml-12 leading-relaxed">
+                Reviso detenidamente la información que compartes para entender tu contexto y necesidades específicas.
+              </p>
+            </div>
+            
+            <div>
+              <div class="flex items-start mb-3">
+                <span class="text-3xl font-bold text-[var(--pv-primary-base)] mr-4">2</span>
+                <h3 class="text-xl font-semibold text-slate-900">Te respondo en menos de 24 horas</h3>
+              </div>
+              <p class="text-slate-600 ml-12 leading-relaxed">
+                Recibes una respuesta personalizada con mis primeras impresiones y recomendaciones iniciales.
+              </p>
+            </div>
+          </div>
+          
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-start mb-3">
+                <span class="text-3xl font-bold text-[var(--pv-primary-base)] mr-4">3</span>
+                <h3 class="text-xl font-semibold text-slate-900">Si aplica, coordinamos una llamada de 20 minutos</h3>
+              </div>
+              <p class="text-slate-600 ml-12 leading-relaxed">
+                Una conversación breve y enfocada para profundizar en tu situación y alinear expectativas.
+              </p>
+            </div>
+            
+            <div>
+              <div class="flex items-start mb-3">
+                <span class="text-3xl font-bold text-[var(--pv-primary-base)] mr-4">4</span>
+                <h3 class="text-xl font-semibold text-slate-900">Te entrego claridad inmediata sobre tu diagnóstico inicial</h3>
+              </div>
+              <p class="text-slate-600 ml-12 leading-relaxed">
+                Obtienes insights concretos y un roadmap claro sobre cómo la IA puede transformar tu proceso comercial.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-16 lg:py-24 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Logos placeholder -->
+        <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-12 mb-12 opacity-40">
+          <div class="text-slate-400 font-semibold text-sm uppercase tracking-wider">Cliente 1</div>
+          <div class="text-slate-400 font-semibold text-sm uppercase tracking-wider">Cliente 2</div>
+          <div class="text-slate-400 font-semibold text-sm uppercase tracking-wider">Cliente 3</div>
+        </div>
+        
+        <!-- Testimonial -->
+        <div class="max-w-2xl mx-auto text-center">
+          <blockquote class="text-xl md:text-2xl text-slate-700 font-light leading-relaxed italic mb-4">
+            "En 3 semanas teníamos más claridad comercial que en años."
+          </blockquote>
+          <p class="text-slate-500 text-sm">
+            — Cliente B2B
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 </MainLayout>
+
+<style>
+  /* Estilos para el iframe de Tally responsivo */
+  .tally-container {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .tally-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    min-height: 600px;
+    z-index: 1;
+  }
+  
+  /* Placeholder visual cuando el iframe está vacío */
+  .tally-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    text-align: center;
+  }
+  
+  /* Ocultar placeholder cuando el iframe tenga contenido */
+  .tally-iframe[src]:not([src=""]) ~ .tally-placeholder {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .tally-container {
+      min-height: 800px;
+    }
+    
+    .tally-iframe {
+      min-height: 800px;
+    }
+  }
+  
+  /* Cuando Tally esté cargado, ajustar altura automáticamente */
+  @media (min-width: 769px) {
+    .tally-container {
+      height: auto;
+      min-height: 600px;
+    }
+  }
+</style>

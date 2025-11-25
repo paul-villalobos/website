@@ -3,10 +3,11 @@ import MainLayout from './MainLayout.astro';
 import BlogPostMeta from '../components/BlogPostMeta.astro';
 import type { ProcessedPost } from '../utils/blogUtils';
 import { 
-  processPostData, 
   generatePostMeta, 
   generatePostStructuredData,
-  extractTableOfContents 
+  generateBreadcrumbs,
+  generateBreadcrumbStructuredData,
+  combineStructuredData
 } from '../utils/blogUtils';
 
 // Props específicas del blog
@@ -22,15 +23,17 @@ const {
   includeBreadcrumbs = true
 } = Astro.props;
 
-// Procesar datos del post si no están procesados
-const processedPost = post.processedData ? post : processPostData(post);
-
 // Generar metadatos SEO
-const postMeta = generatePostMeta(processedPost);
-const postStructuredData = generatePostStructuredData(processedPost);
+const postMeta = generatePostMeta(post);
+const postStructuredData = generatePostStructuredData(post);
+const breadcrumbs = includeBreadcrumbs ? generateBreadcrumbs(post) : [];
+const breadcrumbStructuredData = includeBreadcrumbs ? generateBreadcrumbStructuredData(breadcrumbs) : null;
 
-// Generar tabla de contenidos si se necesita
-const tableOfContents = showTOC ? extractTableOfContents(post.data.body || "") : [];
+// Combinar datos estructurados
+const combinedStructuredData = combineStructuredData(
+  postStructuredData,
+  breadcrumbStructuredData
+);
 ---
 
 <MainLayout
@@ -40,7 +43,7 @@ const tableOfContents = showTOC ? extractTableOfContents(post.data.body || "") :
   canonical={postMeta.canonical}
   ogImage={postMeta.ogImage}
   ogType={postMeta.ogType}
-  structuredData={postStructuredData}
+  structuredData={combinedStructuredData}
 >
 
   <!-- Contenido principal -->
@@ -56,19 +59,19 @@ const tableOfContents = showTOC ? extractTableOfContents(post.data.body || "") :
             <div class="max-w-3xl">
               <!-- Metadatos del post con breadcrumbs -->
               <BlogPostMeta 
-                post={processedPost} 
+                post={post} 
                 includeBreadcrumbs={includeBreadcrumbs}
               />
               
               <!-- Título del artículo -->
               <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-                {processedPost.data.title}
+                {post.data.title}
               </h1>
               
               <!-- Descripción -->
-              {processedPost.data.description && (
+              {post.data.description && (
                 <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                  {processedPost.data.description}
+                  {post.data.description}
                 </p>
               )}
             </div>
@@ -80,34 +83,6 @@ const tableOfContents = showTOC ? extractTableOfContents(post.data.body || "") :
           </div>
           
         </article>
-        
-        <!-- Sidebar con TOC (solo en desktop y cuando se necesite) -->
-        {showTOC && tableOfContents.length > 0 && (
-          <aside class="hidden lg:block w-64 shrink-0">
-            <div class="sticky top-24">
-              <div class="bg-gray-50 rounded-lg p-6">
-                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                  Tabla de contenidos
-                </h3>
-                <nav class="space-y-2">
-                  {tableOfContents.map(item => (
-                    <a 
-                      href={`#${item.id}`}
-                      class={`block text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 ${
-                        item.level === 1 ? 'font-medium' : 
-                        item.level === 2 ? 'ml-2' : 
-                        item.level === 3 ? 'ml-4' : 'ml-6'
-                      }`}
-                    >
-                      {item.text}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          </aside>
-        )}
-        
       </div>
     </div>
   </main>

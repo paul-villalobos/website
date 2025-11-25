@@ -1,5 +1,6 @@
 ---
 import type { ProcessedPost } from '../utils/blogUtils';
+import Icon from './Icon.astro';
 
 export interface Props {
   post: ProcessedPost;
@@ -23,10 +24,8 @@ const { post } = Astro.props;
         alt={post.processedData.imageAlt}
         width="640"
         height="360"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 lazy-image"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
-        data-src={post.processedData.image}
-        data-alt={post.processedData.imageAlt}
       />
     </div>
   )}
@@ -71,9 +70,7 @@ const { post } = Astro.props;
     <!-- Metadatos -->
     <div class="flex items-center justify-between text-sm text-slate-500">
       <div class="flex items-center">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-        </svg>
+        <Icon name="calendar" class="w-4 h-4 mr-2" />
         <time datetime={post.data.pubDate}>{post.processedData.formattedDate}</time>
       </div>
       
@@ -87,16 +84,3 @@ const { post } = Astro.props;
   </div>
 </article>
 
-<style>
-  /* Estilos específicos para BlogCard */
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .group:hover .group-hover\:scale-105 {
-    transform: scale(1.05);
-  }
-</style>

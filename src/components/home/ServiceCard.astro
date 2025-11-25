@@ -1,0 +1,71 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	resultado: string;
+	incluye: string;
+	impacta: string;
+	icon: string; // SVG path como string
+	colorVariant?: 'primary' | 'secondary' | 'accent';
+}
+
+const {
+	title,
+	description,
+	resultado,
+	incluye,
+	impacta,
+	icon,
+	colorVariant = 'primary',
+} = Astro.props;
+
+// Mapeo de colores según variante
+const colorMap = {
+	primary: {
+		bg: 'from-[var(--pv-primary-soft)]',
+		iconBg: 'bg-[var(--pv-primary-soft)]',
+		iconColor: 'text-primary',
+		impactaColor: 'text-primary',
+	},
+	secondary: {
+		bg: 'from-[var(--pv-secondary-soft)]',
+		iconBg: 'bg-[var(--pv-secondary-soft)]',
+		iconColor: 'text-[var(--pv-secondary-base)]',
+		impactaColor: 'text-[var(--pv-secondary-base)]',
+	},
+	accent: {
+		bg: 'from-[var(--pv-accent-soft)]',
+		iconBg: 'bg-[var(--pv-accent-soft)]',
+		iconColor: 'text-[var(--pv-accent-base)]',
+		impactaColor: 'text-[var(--pv-accent-base)]',
+	},
+};
+
+const colors = colorMap[colorVariant];
+---
+
+<div class={`bg-gradient-to-br ${colors.bg} to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300`}>
+	<div class="flex items-start space-x-6">
+		<div class={`w-12 h-12 ${colors.iconBg} rounded-xl flex items-center justify-center shrink-0`}>
+			<svg class={`w-6 h-6 ${colors.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icon}></path>
+			</svg>
+		</div>
+		<div class="flex-1">
+			<h3 class="text-xl font-semibold text-ink-base mb-3">{title}</h3>
+			<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+				<p>{description}</p>
+				<p>
+					<strong class="text-ink-base">Resultado:</strong> {resultado}
+				</p>
+				<p>
+					<strong class="text-ink-base">Incluye:</strong> {incluye}
+				</p>
+			</div>
+			<p class={`text-sm font-semibold ${colors.impactaColor}`}>
+				Impacta: {impacta}
+			</p>
+		</div>
+	</div>
+</div>
+

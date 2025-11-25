@@ -1,0 +1,52 @@
+---
+import Button from '../Button.astro';
+
+interface Props {
+	id?: string;
+	title: string;
+	description: string;
+	buttonText: string;
+	buttonHref: string;
+	buttonVariant?: 'primary' | 'secondary';
+	backgroundVariant?: 'soft' | 'white' | 'alt';
+	class?: string;
+}
+
+const {
+	id,
+	title,
+	description,
+	buttonText,
+	buttonHref,
+	buttonVariant = 'primary',
+	backgroundVariant = 'white',
+	class: className = '',
+} = Astro.props;
+
+const backgroundClasses = {
+	soft: 'bg-gradient-to-br from-[var(--pv-primary-soft)] to-white',
+	white: 'bg-white',
+	alt: 'bg-gradient-to-br from-[var(--pv-bg-alt)] to-white',
+};
+---
+
+<section id={id} class={`py-section ${backgroundClasses[backgroundVariant]} ${className}`}>
+	<div class="max-w-7xl mx-auto px-4 sm:px-5">
+		<div class="max-w-3xl mx-auto">
+			<div class="bg-white rounded-2xl shadow-lg p-8 lg:p-10 border border-[var(--pv-border-mid)] text-center">
+				<h3 class="text-2xl sm:text-3xl font-bold text-ink-base mb-4">
+					{title}
+				</h3>
+				<div class="text-lg text-ink-muted leading-relaxed mb-6">
+					<slot name="description">
+						<p>{description}</p>
+					</slot>
+				</div>
+				<Button href={buttonHref} variant={buttonVariant} size="md">
+					{buttonText}
+				</Button>
+			</div>
+		</div>
+	</div>
+</section>
+
