@@ -1,13 +1,102 @@
 @import "tailwindcss";
 
+/* Variables CSS del sistema de diseño (Design.json) */
+:root {
+  /* Colores - Palette */
+  --pv-bg-base: #ffffff;
+  --pv-bg-alt: #f7f9fc;
+  --pv-ink-base: #0e1222;
+  --pv-ink-muted: #3f4756;
+  --pv-ink-subtle: #6b7280;
+  --pv-primary-base: #0b5fff;
+  --pv-primary-hover: #084bcc;
+  --pv-primary-soft: rgba(11, 95, 255, 0.1);
+  --pv-secondary-base: #0fa3b1;
+  --pv-secondary-hover: #0c7f8a;
+  --pv-secondary-soft: rgba(15, 163, 177, 0.12);
+  --pv-accent-base: #f59e0b;
+  --pv-accent-hover: #c47d08;
+  --pv-accent-soft: rgba(245, 158, 11, 0.12);
+  --pv-success: #16a34a;
+  --pv-warning: #f59e0b;
+  --pv-danger: #dc2626;
+  --pv-border-light: #e5e7eb;
+  --pv-border-mid: #d1d5db;
+  --pv-border-dark: #9ca3af;
+
+  /* Espaciado - Scale (Design.json spacing.scale) */
+  --pv-spacing-xs: 4px;
+  --pv-spacing-sm: 8px;
+  --pv-spacing-md: 12px;
+  --pv-spacing-lg: 16px;
+  --pv-spacing-xl: 24px;
+  --pv-spacing-2xl: 32px;
+  --pv-spacing-3xl: 48px;
+  --pv-spacing-4xl: 64px;
+  --pv-spacing-5xl: 96px;
+
+  /* Radios - Design.json radii */
+  --pv-radius-sm: 6px;
+  --pv-radius-md: 10px;
+  --pv-radius-lg: 14px;
+  --pv-radius-xl: 20px;
+  --pv-radius-pill: 999px;
+}
+
 /* Clases personalizadas basadas en Design.json */
 .h-18 {
   height: 4.5rem; /* 72px según Design.json nav.height */
 }
 
+/* Tipografía Display según Design.json */
+.text-display {
+  font-size: clamp(2.25rem, 3vw + 1rem, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* Espaciado según Design.json spacing.scale */
+.py-section {
+  padding-top: var(--pv-spacing-4xl);
+  padding-bottom: var(--pv-spacing-4xl);
+}
+
+@media (min-width: 1024px) {
+  .py-section {
+    padding-top: var(--pv-spacing-5xl);
+    padding-bottom: var(--pv-spacing-5xl);
+  }
+}
+
+/* Colores primarios según Design.json */
+.bg-primary {
+  background-color: var(--pv-primary-base);
+}
+
+.bg-primary:hover {
+  background-color: var(--pv-primary-hover);
+}
+
+.text-primary {
+  color: var(--pv-primary-base);
+}
+
+.text-ink-base {
+  color: var(--pv-ink-base);
+}
+
+.text-ink-muted {
+  color: var(--pv-ink-muted);
+}
+
+.text-ink-subtle {
+  color: var(--pv-ink-subtle);
+}
+
 /* Mejoras de accesibilidad y UX */
 .focus\:ring-blue-500:focus {
-  --tw-ring-color: #0b5fff; /* Color primary del Design.json */
+  --tw-ring-color: var(--pv-primary-base);
 }
 
 /* Transiciones suaves según Design.json */

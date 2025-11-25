@@ -6,6 +6,64 @@ import { generateHomeMeta, generateHomeStructuredData } from '../utils/blogUtils
 // Generar metadatos SEO para la página de inicio
 const homeMeta = generateHomeMeta();
 const homeStructuredData = generateHomeStructuredData();
+
+// Schema.org microdatos para la página
+const pageStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	"serviceType": "Consultoría en Inteligencia Artificial Aplicada a Ventas",
+	"provider": {
+		"@type": "Person",
+		"name": "Paul Villalobos",
+		"jobTitle": "Consultor en estrategia comercial e inteligencia artificial aplicada a ventas",
+		"description": "10 años trabajando en ventas B2B, canales, pricing, CRM, data analytics y automatización comercial."
+	},
+	"areaServed": {
+		"@type": "Place",
+		"name": "Latinoamérica"
+	},
+	"hasOfferCatalog": {
+		"@type": "OfferCatalog",
+		"name": "Servicios AI Sales Engine",
+		"itemListElement": [
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Chatbot de Ventas Inteligente"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Automatización de Procesos Comerciales"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "CRM con IA para Equipos Comerciales"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Cursos y Entrenamientos en IA Aplicada a Empresa"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Implementación del AI Sales Engine"
+				}
+			}
+		]
+	}
+};
 ---
 
 <MainLayout
@@ -15,249 +73,257 @@ const homeStructuredData = generateHomeStructuredData();
   canonical={homeMeta.canonical}
   ogImage={homeMeta.ogImage}
   ogType={homeMeta.ogType}
-  structuredData={homeStructuredData}
+  structuredData={pageStructuredData}
 >
-	<HeroSection />
+	<!-- Schema.org microdatos adicionales -->
+	<script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)}></script>
 
-	<!-- Sección: Problema/Solución -->
-	<section id="problema-solucion" class="py-20 lg:py-28 bg-gradient-to-b from-slate-50 to-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto text-center space-y-6">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
-					¿Tu equipo comercial pierde tiempo en tareas repetitivas? La inteligencia artificial aplicada a ventas es la solución
-				</h2>
-				<p class="text-lg text-slate-600 leading-relaxed">
-					Muchos gerentes de ventas enfrentan el mismo desafío: equipos sobrecargados con trabajo administrativo, leads que no se cualifican a tiempo, y métricas que no reflejan el verdadero potencial comercial. La <strong>inteligencia artificial aplicada a ventas</strong> es la solución que transforma estos problemas en ventajas competitivas.
+	<!-- SEO Keywords: inteligencia artificial en ventas, IA comercial, AI Sales Engine, consultoría IA ventas -->
+	<!-- 🔹 1. HERO — Posicionamiento Directo y Premium -->
+	<section id="hero" class="min-h-[560px] flex items-center bg-gradient-to-br from-white via-[var(--pv-primary-soft)] to-white">
+		<div class="max-w-7xl mx-auto px-4 sm:px-5 py-section w-full">
+			<div class="max-w-[820px] mx-auto text-center space-y-8">
+				<h1 class="text-display text-ink-base">
+					IA Comercial para Equipos de Ventas
+				</h1>
+				<p class="text-lg sm:text-xl text-ink-muted leading-relaxed max-w-3xl mx-auto">
+					Un sistema comercial claro y aplicable para integrar IA en ventas sin proyectos gigantes ni complejidad técnica.
 				</p>
-				<p class="text-lg text-slate-600 leading-relaxed">
-					Mi enfoque combina <strong>consultoría estratégica en IA</strong> con implementación práctica. No se trata de agregar tecnología por agregar, sino de crear sistemas que liberen tiempo de tu equipo para lo que realmente importa: cerrar ventas y construir relaciones con clientes.
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- Sección: Consultoría en IA para Empresas -->
-	<section id="servicios" class="py-16 lg:py-24 bg-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="text-center mb-16">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-					Consultoría en Inteligencia Artificial para Empresas
-				</h2>
-				<!-- <p class="text-lg text-slate-600 max-w-3xl mx-auto">
-					Como <strong>consultor IA</strong> y especialista en <strong>inteligencia artificial para empresas</strong>, trabajo con organizaciones que buscan transformar sus procesos comerciales. Ofrecemos servicios de <strong>consultoría de inteligencia artificial</strong> y somos una <strong>empresa de inteligencia artificial</strong> enfocada en resultados medibles.
-				</p> -->
-				<p class="text-lg text-slate-600 max-w-3xl mx-auto">
-					Como <strong>consultor IA</strong> y especialista en <strong>inteligencia artificial para empresas</strong>, trabajo con organizaciones que buscan transformar sus procesos comerciales. 
-				</p>
-			</div>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Service 1 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-4">
-						Consultor IA Estratégico
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con análisis de IA que identifica leads de alto valor y optimiza tu pipeline comercial.
-					</p>
-					<p class="text-sm text-slate-500">
-						<strong>Consultoría de inteligencia artificial</strong> estratégica adaptada a tu industria y objetivos comerciales.
-					</p>
-				</div>
-				
-				<!-- Service 2 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-4">
-						Agencia de Inteligencia Artificial
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con implementación completa de soluciones de IA que automatizan procesos y liberan tiempo de tu equipo.
-					</p>
-					<p class="text-sm text-slate-500">
-						Servicios de <strong>agencia IA</strong> y <strong>agencia de inteligencia artificial</strong> de extremo a extremo.
-					</p>
-				</div>
-				
-				<!-- Service 3 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-3">
-						Escala tu operación comercial sin aumentar costos
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con soluciones escalables y sostenibles que crecen contigo y se adaptan a tu organización.
-					</p>
-					<p class="text-sm text-slate-500">
-						Como <strong>empresa de inteligencia artificial</strong>, ofrecemos soluciones para organizaciones de todos los tamaños.
-					</p>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+					<a 
+						href="#contacto" 
+						class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-medium rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary-base)] focus:ring-offset-2"
+					>
+						Agenda tu Diagnóstico IA Comercial
+					</a>
+					<a 
+						href="#" 
+						class="inline-flex items-center justify-center px-8 py-4 bg-transparent text-ink-base font-medium border border-[var(--pv-border-mid)] rounded-full hover:bg-[var(--pv-primary-soft)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary-base)] focus:ring-offset-2"
+					>
+						Descargar AI Sales Engine Canvas (gratis)
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Sección: IA aplicada a tus ventas -->
-	<section id="ia-ventas" class="py-20 lg:py-28 bg-gradient-to-b from-white via-slate-50/50 to-slate-50">
+	<!-- SEO Keywords: problemas comerciales empresas, CRM sin uso, seguimiento comercial, IA para solucionar ventas -->
+	<!-- 🔹 2. El problema que viven hoy los equipos comerciales -->
+	<section id="problema" class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="text-center mb-16">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-					IA para Ventas y Automatización Comercial
-				</h2>
-				<p class="text-lg text-slate-600 max-w-3xl mx-auto">
-					Transforma tu proceso comercial con <strong>inteligencia artificial aplicada a las ventas</strong>. Implementamos soluciones de <strong>IA para ventas</strong> que optimizan cada etapa de tu pipeline comercial.
-				</p>
-			</div>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Solución 1 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-						</svg>
-					</div>
-					<p class="text-xl font-semibold text-slate-900 mb-3">
-						Maximiza el rendimiento de tu equipo comercial
-					</p>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con análisis de IA que identifica oportunidades de mejora y optimiza la asignación de recursos para aumentar conversiones.
-					</p>
-					<h3 class="text-sm text-slate-500">
-						Optimización de fuerza de ventas
-					</h3>
+			<div class="max-w-4xl mx-auto space-y-8">
+				<div class="text-center space-y-6 mb-12">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						El problema que viven hoy los equipos comerciales
+					</h2>
 				</div>
-				
-				<!-- Solución 2 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-						</svg>
-					</div>
-					<p class="text-xl font-semibold text-slate-900 mb-3">
-						Captura y cualifica leads 24/7 sin aumentar costos
+				<div class="space-y-6 text-lg text-ink-muted leading-relaxed">
+					<p>
+						Las empresas ya saben que necesitan IA…
 					</p>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con chatbots inteligentes que responden consultas, agendan reuniones y guían prospectos a través del embudo de ventas automáticamente.
+					<p>
+						Pero no saben por dónde empezar, qué herramientas usar o cómo encajarlas en su proceso comercial actual.
 					</p>
-					<h3 class="text-sm text-slate-500">
-						Chatbots de ventas					
-					</h3>
-				</div>
-				
-				<!-- Solución 3 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-						</svg>
-					</div>
-					<p class="text-xl font-semibold text-slate-900 mb-3">
-						Libera tiempo de tu equipo para cerrar más ventas
+					<p class="font-semibold text-ink-base mt-8 mb-4">
+						Los síntomas más comunes:
 					</p>
-					<p class="text-slate-600 leading-relaxed mb-3">
-						Con automatización inteligente de tareas repetitivas: seguimiento de leads, envío de propuestas, actualización de CRM y generación de reportes.
+					<ul class="space-y-4 list-none">
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>CRM sin uso o con información incompleta</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Seguimiento lento y poco predecible</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Tareas repetitivas que consumen horas</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Leads sin atender o mal calificados</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Propuestas demoradas</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Falta de data para tomar decisiones</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Cierres que dependen "solo del vendedor"</span>
+						</li>
+						<li class="flex items-start space-x-3">
+							<span class="text-primary mt-1">•</span>
+							<span>Postventa sin estructura</span>
+						</li>
+					</ul>
+					<p class="mt-8">
+						La mayoría de equipos comerciales ya sienten el desgaste: procesos desordenados, tareas manuales, poca visibilidad del pipeline y vendedores que no están usando su tiempo de forma estratégica. Y la IA no va a resolver nada por sí sola si el proceso base no está ordenado.
 					</p>
-					<h3 class="text-sm text-slate-500">
-						Automatización de procesos comerciales
-					</h3>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Sección: Chatbots entrenados para vender -->
-	<section id="chatbots" class="py-20 lg:py-28 bg-white">
+	<!-- SEO Keywords: AI Sales Engine, sistema comercial con IA, metodología IA ventas, funnel con IA -->
+	<!-- 🔹 3. AI Sales Engine — Tu nuevo sistema comercial impulsado por IA -->
+	<section id="ai-sales-engine" class="py-section bg-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-				<!-- Content -->
+			<div class="max-w-4xl mx-auto space-y-12">
+				<div class="text-center space-y-6">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						AI Sales Engine — Sistema comercial impulsado por IA
+					</h2>
+					<p class="text-lg text-ink-muted leading-relaxed">
+						Un sistema comercial práctico, diseñado para equipos que necesitan integrar IA en sus procesos sin fricción.
+					</p>
+				</div>
+				<div class="space-y-6">
+					<p class="text-xl font-semibold text-ink-base">
+						Las 8 fases del AI Sales Engine:
+					</p>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">IA DemandGen</h3>
+							<p class="text-ink-muted text-sm">Generación inteligente de demanda</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">IA Engagement & Prospección</h3>
+							<p class="text-ink-muted text-sm">Captura y calificación automática</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">IA Discovery Profundo</h3>
+							<p class="text-ink-muted text-sm">Entendimiento real del cliente con IA</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">AI Proposal Engine</h3>
+							<p class="text-ink-muted text-sm">Propuestas rápidas y personalizadas</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">AI Closing & Negotiation</h3>
+							<p class="text-ink-muted text-sm">Aceleración del cierre comercial</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">AI Delivery & Customer Success</h3>
+							<p class="text-ink-muted text-sm">Onboarding + postventa</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">AI Expansion & Monetización</h3>
+							<p class="text-ink-muted text-sm">Upsell, cross-sell y retención</p>
+						</div>
+						<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white border border-[var(--pv-border-mid)] rounded-xl p-6">
+							<h3 class="font-semibold text-ink-base mb-2">AI Data Loop</h3>
+							<p class="text-ink-muted text-sm">Inteligencia comercial y mejora continua</p>
+						</div>
+					</div>
+					<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-12 border border-[var(--pv-border-mid)] mt-8">
+						<p class="text-xl font-semibold text-ink-base mb-4 text-center">Promesa del sistema:</p>
+						<div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+							<div>
+								<p class="text-lg font-bold text-primary">Más velocidad.</p>
+							</div>
+							<div>
+								<p class="text-lg font-bold" style="color: var(--pv-secondary-base);">Menos fricción.</p>
+							</div>
+							<div>
+								<p class="text-lg font-bold" style="color: var(--pv-accent-base);">Más precisión.</p>
+							</div>
+							<div>
+								<p class="text-lg font-bold text-primary">Mejor ejecución.</p>
+							</div>
+						</div>
+						<p class="text-center text-ink-muted mt-6">
+							Sin proyectos gigantes y sin humo.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Mini sección sobre Paul Villalobos -->
+	<section id="sobre-paul" class="py-section bg-white">
+		<div class="max-w-7xl mx-auto px-4 sm:px-5">
+			<div class="max-w-3xl mx-auto">
+				<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-10 border border-[var(--pv-border-mid)]">
+					<h3 class="text-2xl font-bold text-ink-base mb-4">Sobre Paul Villalobos</h3>
+					<div class="space-y-4 text-ink-muted leading-relaxed">
+						<p>
+							Consultor en estrategia comercial e inteligencia artificial aplicada a ventas.
+						</p>
+						<p>
+							10 años trabajando en ventas B2B, canales, pricing, CRM, data analytics y automatización comercial.
+						</p>
+						<p>
+							Ayudo a empresas a ordenar su proceso comercial e implementar IA de forma práctica, simple y medible. Mi enfoque combina lo técnico (data, sistemas, automatización) con lo comercial (ventas, ejecución, gestión), para que los equipos vendan más con menos fricción.
+						</p>
+						<p>
+							Creo que los equipos comerciales merecen una forma moderna, clara y alcanzable de usar IA — sin proyectos complejos, sin consultoría inentendible y sin depender de tecnología que nunca se adopta. Mi trabajo es convertir la IA en herramientas reales que mejoran la ejecución comercial desde el primer mes.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- SEO Keywords: implementación IA comercial, diagnóstico comercial IA, quick wins IA, automatización ventas -->
+	<!-- 🔹 4. Cómo trabajamos — De diagnóstico a impacto real -->
+	<section id="como-trabajamos" class="py-section bg-gradient-to-b from-white to-[var(--pv-bg-alt)]">
+		<div class="max-w-7xl mx-auto px-4 sm:px-5">
+			<div class="max-w-4xl mx-auto space-y-12">
+				<div class="text-center space-y-6">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						Cómo trabajamos — De diagnóstico a impacto real
+					</h2>
+				</div>
 				<div class="space-y-8">
-					<h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
-						Chatbots de Ventas y Bots Inteligentes
-					</h2>
-					<p class="text-lg text-slate-600 leading-relaxed">
-						Los <strong>chatbots de ventas</strong> y <strong>bots inteligentes</strong> se convierten en tu primera línea de contacto, trabajando 24/7 para capturar y cualificar oportunidades. Implementamos <strong>chatbots entrenados para vender</strong> que no solo responden consultas, sino que cualifican leads estratégicamente, agendan reuniones automáticamente y guían a los clientes potenciales hacia el cierre, aumentando tu tasa de conversión sin aumentar costos operativos.
-					</p>
-					
-					<!-- Use Cases -->
-					<div class="space-y-6">
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Cualificación Automática de Leads</h3>
-								<p class="text-slate-600">Los chatbots realizan preguntas estratégicas para identificar leads calificados y priorizar oportunidades de alto valor.</p>
-							</div>
+					<div class="flex items-start space-x-6">
+						<div class="w-12 h-12 bg-[var(--pv-primary-soft)] rounded-xl flex items-center justify-center shrink-0">
+							<span class="text-xl font-bold text-primary">1</span>
 						</div>
-						
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Agendamiento Inteligente</h3>
-								<p class="text-slate-600">Integración con calendarios para agendar reuniones automáticamente, reduciendo el tiempo de respuesta y aumentando la tasa de conversión.</p>
-							</div>
-						</div>
-						
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Soporte 24/7</h3>
-								<p class="text-slate-600">Atención inmediata a cualquier hora del día, capturando oportunidades que de otra forma se perderían fuera del horario comercial.</p>
-							</div>
+						<div class="flex-1">
+							<h3 class="text-xl font-semibold text-ink-base mb-2">Diagnóstico IA Comercial</h3>
+							<p class="text-ink-muted leading-relaxed">Mapeamos tus 8 fases actuales y detectamos cuellos de botella.</p>
 						</div>
 					</div>
-				</div>
-				
-				<!-- Visual - Mockup Style -->
-				<div class="relative">
-					<div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
-						<div class="space-y-4">
-							<div class="flex items-center space-x-3 pb-4 border-b border-slate-200">
-								<div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-									<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-									</svg>
-								</div>
-								<div>
-									<div class="font-semibold text-slate-900">Chatbot de Ventas</div>
-									<div class="text-xs text-slate-500">En línea</div>
-								</div>
-							</div>
-							<div class="space-y-3">
-								<div class="bg-blue-50 rounded-lg p-4">
-									<p class="text-sm text-slate-700">¡Hola! ¿En qué puedo ayudarte hoy?</p>
-								</div>
-								<div class="bg-slate-50 rounded-lg p-4 ml-8">
-									<p class="text-sm text-slate-700">Estoy interesado en conocer más sobre tus servicios</p>
-								</div>
-								<div class="bg-blue-50 rounded-lg p-4">
-									<p class="text-sm text-slate-700">Perfecto. ¿Podrías contarme sobre tu empresa y tus objetivos comerciales?</p>
-								</div>
-							</div>
+					<div class="flex items-start space-x-6">
+						<div class="w-12 h-12 bg-[var(--pv-secondary-soft)] rounded-xl flex items-center justify-center shrink-0">
+							<span class="text-xl font-bold" style="color: var(--pv-secondary-base);">2</span>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-xl font-semibold text-ink-base mb-2">Quick Wins</h3>
+							<p class="text-ink-muted leading-relaxed">Implementamos mejoras rápidas que mueven la aguja desde el primer mes.</p>
+						</div>
+					</div>
+					<div class="flex items-start space-x-6">
+						<div class="w-12 h-12 bg-[var(--pv-accent-soft)] rounded-xl flex items-center justify-center shrink-0">
+							<span class="text-xl font-bold" style="color: var(--pv-accent-base);">3</span>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-xl font-semibold text-ink-base mb-2">Integración IA en procesos reales</h3>
+							<p class="text-ink-muted leading-relaxed">Automatizamos, estructuramos y potenciamos lo que ya tienes.</p>
+						</div>
+					</div>
+					<div class="flex items-start space-x-6">
+						<div class="w-12 h-12 bg-[var(--pv-primary-soft)] rounded-xl flex items-center justify-center shrink-0">
+							<span class="text-xl font-bold text-primary">4</span>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-xl font-semibold text-ink-base mb-2">Habilitación del equipo</h3>
+							<p class="text-ink-muted leading-relaxed">Formamos a tu equipo para que realmente use la IA día a día.</p>
+						</div>
+					</div>
+					<div class="flex items-start space-x-6">
+						<div class="w-12 h-12 bg-[var(--pv-secondary-soft)] rounded-xl flex items-center justify-center shrink-0">
+							<span class="text-xl font-bold" style="color: var(--pv-secondary-base);">5</span>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-xl font-semibold text-ink-base mb-2">Medición y escalamiento</h3>
+							<p class="text-ink-muted leading-relaxed">Optimizamos continuamente con data, no con intuición.</p>
 						</div>
 					</div>
 				</div>
@@ -265,99 +331,166 @@ const homeStructuredData = generateHomeStructuredData();
 		</div>
 	</section>
 
-	<!-- Sección: IA + CRM -->
-	<section id="ia-crm" class="py-20 lg:py-28 bg-gradient-to-b from-slate-50 via-white to-slate-50">
+	<!-- CTA Intermedio -->
+	<section id="cta-intermedio" class="py-section bg-gradient-to-br from-[var(--pv-primary-soft)] to-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-				<!-- Visual -->
-				<div class="relative order-2 lg:order-1">
-					<div class="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
-						<div class="space-y-6">
-							<div class="flex items-center justify-between pb-4 border-b border-slate-200">
-								<span class="text-sm font-medium text-slate-600">Integración CRM + IA</span>
-								<span class="text-xs px-3 py-1 bg-green-100 text-green-600 rounded-full font-semibold">Activo</span>
+			<div class="max-w-3xl mx-auto">
+				<div class="bg-white rounded-2xl shadow-lg p-8 lg:p-10 border border-[var(--pv-border-mid)] text-center">
+					<h3 class="text-2xl sm:text-3xl font-bold text-ink-base mb-4">
+						Diagnóstico IA Comercial — 30 minutos (gratuito)
+					</h3>
+					<p class="text-lg text-ink-muted leading-relaxed mb-6">
+						Identificamos tus quick wins, los cuellos de botella de tu proceso comercial y las primeras oportunidades para aplicar IA sin reinventar nada.
+					</p>
+					<a 
+						href="#contacto" 
+						class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-medium rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary-base)] focus:ring-offset-2"
+					>
+						Quiero mi diagnóstico
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- SEO Keywords: servicios IA para ventas, chatbot de ventas, automatización comercial, CRM con IA, entrenamiento IA empresarial -->
+	<!-- 🔹 5. Servicios alineados al AI Sales Engine -->
+	<section id="servicios" class="py-section bg-white">
+		<div class="max-w-7xl mx-auto px-4 sm:px-5">
+			<div class="max-w-4xl mx-auto space-y-12">
+				<div class="text-center space-y-6">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						Servicios alineados al AI Sales Engine
+					</h2>
+				</div>
+				<div class="space-y-8">
+					<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+						<div class="flex items-start space-x-6">
+							<div class="w-12 h-12 bg-[var(--pv-primary-soft)] rounded-xl flex items-center justify-center shrink-0">
+								<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+								</svg>
 							</div>
-							<div class="space-y-4">
-								<div class="flex items-center space-x-3">
-									<div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-										<svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-										</svg>
-									</div>
-									<div class="flex-1">
-										<div class="text-sm font-semibold text-slate-900">Sincronización automática</div>
-										<div class="text-xs text-slate-500">Leads actualizados en tiempo real</div>
-									</div>
+							<div class="flex-1">
+								<h3 class="text-xl font-semibold text-ink-base mb-3">1. Chatbot de Ventas Inteligente</h3>
+								<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+									<p>
+										El asistente que responde, califica y agenda por tu equipo.
+									</p>
+									<p>
+										<strong class="text-ink-base">Resultado:</strong> mayor velocidad de respuesta, menos mensajes perdidos y leads mejor priorizados.
+									</p>
+									<p>
+										<strong class="text-ink-base">Incluye:</strong> diseño del flujo conversacional, prompts optimizados, calificación automática, handoff a vendedor e integración básica con CRM o correo.
+									</p>
 								</div>
-								<div class="flex items-center space-x-3">
-									<div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center">
-										<svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-										</svg>
-									</div>
-									<div class="flex-1">
-										<div class="text-sm font-semibold text-slate-900">Análisis predictivo</div>
-										<div class="text-xs text-slate-500">Predicción de cierre y scoring de leads</div>
-									</div>
-								</div>
-								<div class="flex items-center space-x-3">
-									<div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-										<svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-										</svg>
-									</div>
-									<div class="flex-1">
-										<div class="text-sm font-semibold text-slate-900">Automatización de tareas</div>
-										<div class="text-xs text-slate-500">Actualización automática de registros</div>
-									</div>
-								</div>
+								<p class="text-sm font-semibold text-primary">
+									Impacta: Fase 2 y Fase 3.
+								</p>
 							</div>
 						</div>
 					</div>
-				</div>
-				
-				<!-- Content -->
-				<div class="space-y-8 order-1 lg:order-2">
-					<h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
-						CRM con Inteligencia Artificial para Equipos Comerciales
-					</h2>
-					<p class="text-lg text-slate-600 leading-relaxed">
-						La integración de <strong>IA con CRM</strong> y sistemas ERP transforma tu pipeline comercial en un motor de crecimiento predictivo. Conectamos herramientas de inteligencia artificial con tus sistemas existentes (Salesforce, HubSpot, Pipedrive, entre otros) para crear un flujo comercial optimizado que identifica oportunidades de alto valor, predice cierres y automatiza tareas administrativas, permitiendo que tu equipo se enfoque en relaciones estratégicas.
-					</p>
-					
-					<!-- Beneficios -->
-					<div class="space-y-4">
-						<div class="flex items-start space-x-4">
-							<div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
-								<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Integración con Sistemas Existentes</h3>
-								<p class="text-sm text-slate-600">Conectamos IA con tu CRM, ERP y software comercial actual, sin necesidad de cambiar de plataforma. Implementación sin interrupciones en tu operación.</p>
-							</div>
-						</div>
-						<div class="flex items-start space-x-4">
-							<div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
-								<svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Análisis Predictivo de Ventas</h3>
-								<p class="text-sm text-slate-600">IA que analiza patrones históricos para predecir qué leads tienen mayor probabilidad de cerrar y cuándo, permitiendo priorizar esfuerzos comerciales estratégicamente.</p>
-							</div>
-						</div>
-						<div class="flex items-start space-x-4">
-							<div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
-								<svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+						<div class="flex items-start space-x-6">
+							<div class="w-12 h-12 bg-[var(--pv-secondary-soft)] rounded-xl flex items-center justify-center shrink-0">
+								<svg class="w-6 h-6" style="color: var(--pv-secondary-base);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
 								</svg>
 							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">Automatización de Datos</h3>
-								<p class="text-sm text-slate-600">Actualización automática de registros, creación de tareas y seguimiento inteligente de oportunidades, eliminando trabajo manual y errores humanos.</p>
+							<div class="flex-1">
+								<h3 class="text-xl font-semibold text-ink-base mb-3">2. Automatización de Procesos Comerciales</h3>
+								<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+									<p>
+										Elimina tareas manuales y estandariza la ejecución del equipo.
+									</p>
+									<p>
+										<strong class="text-ink-base">Resultado:</strong> más tiempo para vender, menos errores operativos y procesos consistentes.
+									</p>
+									<p>
+										<strong class="text-ink-base">Incluye:</strong> mapeo de procesos, automatización de seguimientos, secuencias, alertas, workflows y tableros de control simples.
+									</p>
+								</div>
+								<p class="text-sm font-semibold" style="color: var(--pv-secondary-base);">
+									Impacta: Fase 3, Fase 5 y Fase 6.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+						<div class="flex items-start space-x-6">
+							<div class="w-12 h-12 bg-[var(--pv-accent-soft)] rounded-xl flex items-center justify-center shrink-0">
+								<svg class="w-6 h-6" style="color: var(--pv-accent-base);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+								</svg>
+							</div>
+							<div class="flex-1">
+								<h3 class="text-xl font-semibold text-ink-base mb-3">3. CRM con IA para Equipos Comerciales</h3>
+								<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+									<p>
+										Ordena tu proceso comercial y dale al equipo un CRM que realmente usarán.
+									</p>
+									<p>
+										<strong class="text-ink-base">Resultado:</strong> pipeline más limpio, visibilidad real y decisiones basadas en datos.
+									</p>
+									<p>
+										<strong class="text-ink-base">Incluye:</strong> estructura del CRM, campos clave, etapas del funnel, vistas optimizadas e IA para priorización y seguimiento inteligente.
+									</p>
+								</div>
+								<p class="text-sm font-semibold" style="color: var(--pv-accent-base);">
+									Impacta: Fase 2, 3, 4 y 8.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+						<div class="flex items-start space-x-6">
+							<div class="w-12 h-12 bg-[var(--pv-primary-soft)] rounded-xl flex items-center justify-center shrink-0">
+								<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+								</svg>
+							</div>
+							<div class="flex-1">
+								<h3 class="text-xl font-semibold text-ink-base mb-3">4. Cursos y Entrenamientos en IA Aplicada a Ventas</h3>
+								<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+									<p>
+										Entrenamientos prácticos para que tu equipo adopte la IA sin frustración técnica.
+									</p>
+									<p>
+										<strong class="text-ink-base">Resultado:</strong> vendedores capaces de usar IA en prospección, seguimiento, negociación y cierre.
+									</p>
+									<p>
+										<strong class="text-ink-base">Incluye:</strong> talleres en vivo, guías, plantillas, ejercicios reales y acompañamiento en implementación.
+									</p>
+								</div>
+								<p class="text-sm font-semibold text-primary">
+									Impacta: Todas las fases.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+						<div class="flex items-start space-x-6">
+							<div class="w-12 h-12 bg-[var(--pv-secondary-soft)] rounded-xl flex items-center justify-center shrink-0">
+								<svg class="w-6 h-6" style="color: var(--pv-secondary-base);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+								</svg>
+							</div>
+							<div class="flex-1">
+								<h3 class="text-xl font-semibold text-ink-base mb-3">5. Implementación del AI Sales Engine (Consultoría Completa)</h3>
+								<div class="space-y-3 text-ink-muted leading-relaxed mb-4">
+									<p>
+										La metodología completa para integrar IA en todas las fases del proceso comercial.
+									</p>
+									<p>
+										<strong class="text-ink-base">Resultado:</strong> un sistema comercial ordenado, medible y asistido por IA, listo para escalar.
+									</p>
+									<p>
+										<strong class="text-ink-base">Incluye:</strong> diagnóstico, diseño del sistema, mapa de automatizaciones, CRM inteligente, entrenamientos y acompañamiento 1:1.
+									</p>
+								</div>
+								<p class="text-sm font-semibold" style="color: var(--pv-secondary-base);">
+									Impacta: Absolutamente todas las fases.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -366,409 +499,220 @@ const homeStructuredData = generateHomeStructuredData();
 		</div>
 	</section>
 
-	<!-- Sección: Formación / Cursos -->
-	<section id="formacion" class="py-20 lg:py-28 bg-white">
+	<!-- SEO Keywords: casos de éxito IA en ventas, aumento de conversión, testimonios IA comercial -->
+	<!-- 🔹 6. Casos de éxito — Resultados reales -->
+	<section id="casos-exito" class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="text-center mb-16">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-					Cursos y Entrenamientos en IA Aplicada a la Empresa
-				</h2>
-				<p class="text-lg text-slate-600 max-w-3xl mx-auto">
-					Capacitación especializada para equipos comerciales y líderes empresariales que buscan dominar las herramientas de <strong>inteligencia artificial aplicada a la empresa</strong>. Ofrecemos <strong>cursos de IA</strong>, <strong>workshops</strong> y <strong>entrenamientos</strong> prácticos que garantizan la adopción exitosa de estas tecnologías.
-				</p>
-			</div>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Curso 1 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-4">
-						Curso de IA para Ventas
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-4">
-						Formación práctica sobre cómo implementar y utilizar herramientas de IA en procesos comerciales, desde cualificación de leads hasta cierre de ventas.
-					</p>
-					<ul class="text-sm text-slate-600 space-y-2">
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Fundamentos de IA aplicada a ventas</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Herramientas y plataformas principales</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Casos de uso prácticos</span>
-						</li>
-					</ul>
-				</div>
-				
-				<!-- Curso 2 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-4">
-						Workshop de Automatización Comercial
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-4">
-						Sesiones intensivas para equipos comerciales sobre cómo automatizar procesos repetitivos y optimizar el tiempo del equipo de ventas.
-					</p>
-					<ul class="text-sm text-slate-600 space-y-2">
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Identificación de procesos automatizables</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Configuración de flujos automatizados</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Medición de resultados</span>
-						</li>
-					</ul>
-				</div>
-				
-				<!-- Curso 3 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-					<div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-6">
-						<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-						</svg>
-					</div>
-					<h3 class="text-xl font-semibold text-slate-900 mb-4">
-						Entrenamiento Ejecutivo en IA
-					</h3>
-					<p class="text-slate-600 leading-relaxed mb-4">
-						Programa dirigido a líderes y directivos sobre estrategia de IA empresarial, ROI, y cómo liderar la transformación digital comercial.
-					</p>
-					<ul class="text-sm text-slate-600 space-y-2">
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Estrategia de IA para empresas</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>ROI y métricas de éxito</span>
-						</li>
-						<li class="flex items-start">
-							<span class="text-green-600 mr-2">✓</span>
-							<span>Gestión del cambio organizacional</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Outcomes Section -->
-	<section id="outcomes" class="py-20 lg:py-28 bg-gradient-to-br from-slate-50 via-blue-50/20 to-slate-50">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-				<!-- Content -->
-				<div class="space-y-8">
-					<h2 class="text-3xl sm:text-4xl font-bold text-slate-900">
-						Resultados medibles: +40% conversión en promedio
+			<div class="max-w-4xl mx-auto space-y-12">
+				<div class="text-center space-y-6 mb-8">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						Ejemplo ilustrativo de impacto con el AI Sales Engine
 					</h2>
-					<p class="text-lg text-slate-600 leading-relaxed">
-						Mi metodología ha ayudado a empresas de diferentes industrias a transformar sus procesos comerciales y alcanzar objetivos que parecían imposibles.
+					<p class="text-sm text-ink-subtle italic">
+						(Este ejemplo muestra cómo suelen verse los resultados cuando se implementa la metodología. No representa un caso real ni un cliente específico.)
 					</p>
-					
-					<!-- Outcomes List -->
-					<div class="space-y-6">
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">+40% en conversión</h3>
-								<p class="text-slate-600">Mejora promedio en la tasa de conversión de leads a clientes</p>
-							</div>
-						</div>
-						
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">-60% tiempo de gestión</h3>
-								<p class="text-slate-600">Reducción significativa en tareas administrativas repetitivas</p>
-							</div>
-						</div>
-						
-						<div class="flex items-start space-x-4">
-							<div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-1">
-								<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-								</svg>
-							</div>
-							<div>
-								<h3 class="font-semibold text-slate-900 mb-1">+85% satisfacción del equipo</h3>
-								<p class="text-slate-600">Mejora en la experiencia y productividad de los equipos comerciales</p>
-							</div>
-						</div>
-					</div>
 				</div>
-				
-				<!-- Visual -->
-				<div class="relative">
-					<div class="bg-white rounded-2xl shadow-lg p-8">
-						<div class="space-y-6">
-							<div class="flex items-center justify-between">
-								<span class="text-sm font-medium text-slate-600">Conversión de Leads</span>
-								<span class="text-lg font-bold text-green-600">+40%</span>
-							</div>
-							<div class="w-full bg-slate-200 rounded-full h-3">
-								<div class="bg-green-500 h-3 rounded-full" style="width: 70%"></div>
-							</div>
-							
-							<div class="flex items-center justify-between">
-								<span class="text-sm font-medium text-slate-600">Tiempo de Gestión</span>
-								<span class="text-lg font-bold text-blue-600">-60%</span>
-							</div>
-							<div class="w-full bg-slate-200 rounded-full h-3">
-								<div class="bg-blue-500 h-3 rounded-full" style="width: 40%"></div>
-							</div>
-							
-							<div class="flex items-center justify-between">
-								<span class="text-sm font-medium text-slate-600">Satisfacción del Equipo</span>
-								<span class="text-lg font-bold text-teal-600">+85%</span>
-							</div>
-							<div class="w-full bg-slate-200 rounded-full h-3">
-								<div class="bg-teal-500 h-3 rounded-full" style="width: 85%"></div>
-							</div>
-						</div>
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					<div class="bg-white border border-[var(--pv-border-mid)] rounded-2xl p-8">
+						<h3 class="text-xl font-semibold text-ink-base mb-6">Implementación típica incluye:</h3>
+						<ul class="space-y-4 text-ink-muted">
+							<li class="flex items-start space-x-3">
+								<span class="text-primary mt-1">✓</span>
+								<span>Chatbot de calificación</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-primary mt-1">✓</span>
+								<span>Secuencias automatizadas</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-primary mt-1">✓</span>
+								<span>CRM con IA para priorización</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-primary mt-1">✓</span>
+								<span>Automatización de tareas</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-primary mt-1">✓</span>
+								<span>Seguimiento inteligente del pipeline</span>
+							</li>
+						</ul>
+					</div>
+					<div class="bg-white border border-[var(--pv-border-mid)] rounded-2xl p-8">
+						<h3 class="text-xl font-semibold text-ink-base mb-6">Resultados esperados:</h3>
+						<ul class="space-y-4 text-ink-muted">
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Menos tareas manuales</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Más velocidad de respuesta</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Pipeline más limpio</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Mayor visibilidad</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Mejor seguimiento</span>
+							</li>
+							<li class="flex items-start space-x-3">
+								<span class="text-[var(--pv-success)] mt-1">•</span>
+								<span>Equipos usando IA sin complejidad</span>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Testimonials Section -->
-	<section id="testimonials" class="py-20 lg:py-28 bg-white">
+	<!-- Lead Magnet: Canvas AI Sales Engine -->
+	<section id="lead-magnet" class="py-section bg-gradient-to-br from-[var(--pv-bg-alt)] to-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="text-center mb-16">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-					Cómo empresas como la tuya han transformado sus ventas
-				</h2>
-				<p class="text-lg text-slate-600 max-w-2xl mx-auto">
-					Testimonios reales de líderes que han transformado sus equipos comerciales con inteligencia artificial
-				</p>
-			</div>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Testimonial 1 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300">
-					<div class="mb-6">
-						<svg class="w-8 h-8 text-blue-600 mb-4" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
-						</svg>
-					</div>
-					<div class="mb-4">
-						<span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
-							Empresa de Tecnología B2B
-						</span>
-					</div>
-					<blockquote class="text-slate-600 leading-relaxed mb-6">
-						"En 6 meses, transformamos completamente nuestra estrategia comercial con la implementación de chatbots y automatización de Paul. El impacto fue inmediato: nuestro equipo pudo enfocarse en cerrar ventas en lugar de tareas administrativas."
-					</blockquote>
-					<div class="flex items-center">
-						<div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mr-4">
-							<span class="text-slate-600 font-semibold">MR</span>
-						</div>
-						<div>
-							<div class="font-semibold text-slate-900">María Rodríguez</div>
-							<div class="text-sm text-slate-600">CEO, TechSolutions</div>
-						</div>
-					</div>
-				</div>
-				
-				<!-- Testimonial 2 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300">
-					<div class="mb-6">
-						<svg class="w-8 h-8 text-blue-600 mb-4" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
-						</svg>
-					</div>
-					<div class="mb-4">
-						<span class="inline-flex items-center px-3 py-1 bg-teal-100 text-teal-600 text-xs font-semibold rounded-full">
-							Servicios Profesionales
-						</span>
-					</div>
-					<blockquote class="text-slate-600 leading-relaxed mb-6">
-						"La metodología de Paul es excepcional. No solo implementamos tecnología, sino que cambiamos nuestra cultura comercial para ser más eficientes y efectivos. El proceso de integración con nuestro CRM fue impecable."
-					</blockquote>
-					<div class="flex items-center">
-						<div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mr-4">
-							<span class="text-slate-600 font-semibold">CL</span>
-						</div>
-						<div>
-							<div class="font-semibold text-slate-900">Carlos López</div>
-							<div class="text-sm text-slate-600">Director Comercial, InnovateCorp</div>
-						</div>
-					</div>
-				</div>
-				
-				<!-- Testimonial 3 -->
-				<div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300">
-					<div class="mb-6">
-						<svg class="w-8 h-8 text-blue-600 mb-4" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
-						</svg>
-					</div>
-					<div class="mb-4">
-						<span class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-600 text-xs font-semibold rounded-full">
-							Sector Financiero
-						</span>
-					</div>
-					<blockquote class="text-slate-600 leading-relaxed mb-6">
-						"El ROI de trabajar con Paul ha sido extraordinario. En menos de un año recuperamos la inversión y seguimos viendo mejoras constantes. La integración de IA con nuestro sistema comercial fue clave para escalar nuestras operaciones."
-					</blockquote>
-					<div class="flex items-center">
-						<div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mr-4">
-							<span class="text-slate-600 font-semibold">AG</span>
-						</div>
-						<div>
-							<div class="font-semibold text-slate-900">Ana García</div>
-							<div class="text-sm text-slate-600">VP Ventas, DataFlow</div>
-						</div>
-					</div>
+			<div class="max-w-3xl mx-auto">
+				<div class="bg-white rounded-2xl shadow-lg p-8 lg:p-10 border border-[var(--pv-border-mid)] text-center">
+					<h3 class="text-2xl sm:text-3xl font-bold text-ink-base mb-4">
+						Descarga el AI Sales Engine Canvas
+					</h3>
+					<p class="text-lg text-ink-muted leading-relaxed mb-6">
+						Una plantilla en PDF con las 8 fases del sistema comercial con IA.
+					</p>
+					<p class="text-ink-muted leading-relaxed mb-6">
+						Úsalo para mapear tu proceso comercial, identificar brechas y planificar mejoras con IA.
+					</p>
+					<a 
+						href="#" 
+						class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-medium rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary-base)] focus:ring-offset-2"
+					>
+						Descargar Canvas
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Insights Section - Blog -->
-	<section id="insights" class="py-20 lg:py-28 bg-gradient-to-b from-slate-50 to-white">
+	<!-- SEO Keywords: IA aplicada a ventas artículos, recursos IA ventas, guía IA empresas, blog IA comercial -->
+	<!-- 🔹 7. Recursos y artículos sobre IA Aplicada a Ventas -->
+	<section id="recursos" class="py-section bg-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="text-center mb-16">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-					Artículos y Recursos sobre IA Aplicada
-				</h2>
-				<p class="text-lg text-slate-600 max-w-3xl mx-auto">
-					Descubre <strong>ejemplos de inteligencia artificial en empresas</strong>, guías prácticas sobre <strong>inteligencia artificial en ventas</strong>, y análisis profundos sobre <strong>inteligencia artificial en negocios</strong>. Encuentra recursos descargables, casos de estudio y estrategias probadas.
-				</p>
-			</div>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Blog Card 1 -->
-				<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group">
-					<div class="aspect-video bg-linear-to-br from-blue-50 to-blue-100"></div>
-					<div class="p-6">
-						<div class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full mb-4">
-							IA Aplicada
+			<div class="max-w-4xl mx-auto space-y-12">
+				<div class="text-center space-y-6">
+					<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base">
+						Recursos y artículos sobre IA Aplicada a Ventas
+					</h2>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group border border-[var(--pv-border-mid)]">
+						<div class="aspect-video bg-gradient-to-br from-[var(--pv-primary-soft)] to-white"></div>
+						<div class="p-6">
+							<div class="inline-flex items-center px-3 py-1 bg-[var(--pv-primary-soft)] text-primary text-xs font-semibold rounded-full mb-4">
+								IA Aplicada
+							</div>
+							<h3 class="text-xl font-semibold text-ink-base mb-3">
+								<a href="/blog/entrena-tu-cerebro-para-trabajar-creativamente-con-la-ia-generativa" class="hover:text-primary transition-colors duration-200">
+									Entrena tu cerebro para trabajar creativamente con la IA generativa
+								</a>
+							</h3>
+							<p class="text-ink-muted text-sm mb-4">
+								Descubre cómo desarrollar habilidades cognitivas que te permitan aprovechar al máximo las herramientas de IA generativa en tu trabajo diario.
+							</p>
+							<div class="flex items-center justify-between text-sm text-ink-subtle">
+								<span>5 min lectura</span>
+								<span>Dic 2024</span>
+							</div>
 						</div>
-						<h3 class="text-xl font-semibold text-slate-900 mb-3">
-							<a href="/blog/entrena-tu-cerebro-para-trabajar-creativamente-con-la-ia-generativa" class="hover:text-blue-600 transition-colors duration-200">
-								Entrena tu cerebro para trabajar creativamente con la IA generativa
-							</a>
-						</h3>
-						<p class="text-slate-600 text-sm mb-4">
-							Descubre cómo desarrollar habilidades cognitivas que te permitan aprovechar al máximo las herramientas de IA generativa en tu trabajo diario.
-						</p>
-						<div class="flex items-center justify-between text-sm text-slate-500">
-							<span>5 min lectura</span>
-							<span>Dic 2024</span>
+					</article>
+					<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group border border-[var(--pv-border-mid)]">
+						<div class="aspect-video bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white"></div>
+						<div class="p-6">
+							<div class="inline-flex items-center px-3 py-1 bg-[var(--pv-secondary-soft)] text-xs font-semibold rounded-full mb-4" style="color: var(--pv-secondary-base);">
+								Estrategia B2B
+							</div>
+							<h3 class="text-xl font-semibold text-ink-base mb-3">
+								<a href="/blog/el-rol-del-ceo-en-las-ventas-b2b" class="hover:text-primary transition-colors duration-200">
+									El rol del CEO en las ventas B2B
+								</a>
+							</h3>
+							<p class="text-ink-muted text-sm mb-4">
+								Análisis profundo sobre cómo los líderes ejecutivos pueden influir directamente en el éxito de sus equipos comerciales.
+							</p>
+							<div class="flex items-center justify-between text-sm text-ink-subtle">
+								<span>7 min lectura</span>
+								<span>Dic 2024</span>
+							</div>
 						</div>
-					</div>
-				</article>
-				
-				<!-- Blog Card 2 -->
-				<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group">
-					<div class="aspect-video bg-linear-to-br from-teal-50 to-teal-100"></div>
-					<div class="p-6">
-						<div class="inline-flex items-center px-3 py-1 bg-teal-100 text-teal-600 text-xs font-semibold rounded-full mb-4">
-							Estrategia B2B
+					</article>
+					<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group border border-[var(--pv-border-mid)]">
+						<div class="aspect-video bg-gradient-to-br from-[var(--pv-accent-soft)] to-white"></div>
+						<div class="p-6">
+							<div class="inline-flex items-center px-3 py-1 bg-[var(--pv-accent-soft)] text-xs font-semibold rounded-full mb-4" style="color: var(--pv-accent-base);">
+								Data-Driven
+							</div>
+							<h3 class="text-xl font-semibold text-ink-base mb-3">
+								<a href="/blog/como-tomar-decisiones-basadas-en-datos" class="hover:text-primary transition-colors duration-200">
+									Cómo tomar decisiones basadas en datos
+								</a>
+							</h3>
+							<p class="text-ink-muted text-sm mb-4">
+								Guía práctica para implementar una cultura de toma de decisiones basada en datos en tu organización comercial.
+							</p>
+							<div class="flex items-center justify-between text-sm text-ink-subtle">
+								<span>6 min lectura</span>
+								<span>Dic 2024</span>
+							</div>
 						</div>
-						<h3 class="text-xl font-semibold text-slate-900 mb-3">
-							<a href="/blog/el-rol-del-ceo-en-las-ventas-b2b" class="hover:text-blue-600 transition-colors duration-200">
-								El rol del CEO en las ventas B2B
-							</a>
-						</h3>
-						<p class="text-slate-600 text-sm mb-4">
-							Análisis profundo sobre cómo los líderes ejecutivos pueden influir directamente en el éxito de sus equipos comerciales.
-						</p>
-						<div class="flex items-center justify-between text-sm text-slate-500">
-							<span>7 min lectura</span>
-							<span>Dic 2024</span>
+					</article>
+					<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group border border-[var(--pv-border-mid)]">
+						<div class="aspect-video bg-gradient-to-br from-[var(--pv-primary-soft)] to-white"></div>
+						<div class="p-6">
+							<div class="inline-flex items-center px-3 py-1 bg-[var(--pv-primary-soft)] text-primary text-xs font-semibold rounded-full mb-4">
+								IA Comercial
+							</div>
+							<h3 class="text-xl font-semibold text-ink-base mb-3">
+								<a href="/blog" class="hover:text-primary transition-colors duration-200">
+									Ver todos los artículos
+								</a>
+							</h3>
+							<p class="text-ink-muted text-sm mb-4">
+								Explora más recursos sobre inteligencia artificial aplicada a ventas y transformación comercial.
+							</p>
+							<div class="flex items-center justify-between text-sm text-ink-subtle">
+								<span>Blog completo</span>
+								<span>→</span>
+							</div>
 						</div>
-					</div>
-				</article>
-				
-				<!-- Blog Card 3 -->
-				<article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden group">
-					<div class="aspect-video bg-linear-to-br from-amber-50 to-amber-100"></div>
-					<div class="p-6">
-						<div class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-600 text-xs font-semibold rounded-full mb-4">
-							Data-Driven
-						</div>
-						<h3 class="text-xl font-semibold text-slate-900 mb-3">
-							<a href="/blog/como-tomar-decisiones-basadas-en-datos" class="hover:text-blue-600 transition-colors duration-200">
-								Cómo tomar decisiones basadas en datos
-							</a>
-						</h3>
-						<p class="text-slate-600 text-sm mb-4">
-							Guía práctica para implementar una cultura de toma de decisiones basada en datos en tu organización comercial.
-						</p>
-						<div class="flex items-center justify-between text-sm text-slate-500">
-							<span>6 min lectura</span>
-							<span>Dic 2024</span>
-						</div>
-					</div>
-				</article>
-			</div>
-			
-			<div class="text-center mt-12">
-				<a 
-					href="/blog" 
-					class="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-				>
-					Ver todos los artículos
-				</a>
+					</article>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- CTA Section -->
-	<section id="contacto" class="py-20 lg:py-28 bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50/50">
+	<!-- SEO Keywords: consultoría IA comercial, diagnóstico IA ventas, transformación comercial IA -->
+	<!-- 🔹 8. CTA Final -->
+	<section id="contacto" class="py-section bg-gradient-to-br from-[var(--pv-primary-soft)] via-[var(--pv-bg-alt)] to-[var(--pv-primary-soft)]">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 text-center border border-slate-200/50">
-				<h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+			<div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 text-center border border-[var(--pv-border-mid)] max-w-4xl mx-auto">
+				<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base mb-6">
 					¿Listo para transformar tu gestión comercial con IA?
 				</h2>
-				<p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-					Agenda una consulta gratuita y descubre cómo la inteligencia artificial puede revolucionar tus resultados comerciales. Como <strong>consultor IA</strong> especializado en <strong>ventas con inteligencia artificial</strong>, te ayudo a implementar soluciones que generen impacto real.
+				<p class="text-lg text-ink-muted mb-8 max-w-2xl mx-auto">
+					Agenda una sesión gratuita de diagnóstico para mapear oportunidades reales en tu proceso comercial.
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
 					<a 
 						href="mailto:hola@paulvillalobos.com" 
-						class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+						class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-medium rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary-base)] focus:ring-offset-2"
 					>
-						Agendar llamada gratuita
-					</a>
-					<a 
-						href="#servicios" 
-						class="inline-flex items-center justify-center px-8 py-4 bg-transparent text-slate-900 font-medium border border-slate-300 rounded-full hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-					>
-						Ver servicios
+						Agenda tu Diagnóstico IA Comercial
 					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 </MainLayout>
-
-
-
