@@ -1,0 +1,487 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/home/SectionHeader.astro';
+import { SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL } from '../utils/constants';
+
+// Metadatos SEO para la página Sobre Mí
+const pageMeta = {
+  title: `Sobre Mí | ${AUTHOR_NAME} — Experto en IA Aplicada a Ventas`,
+  description: "Paul Villalobos — Ingeniero industrial con +10 años en gestión comercial B2B. Consultor especializado en IA aplicada a ventas, creador del AI Sales Engine y líder en transformación comercial en Latinoamérica.",
+  keywords: "Paul Villalobos, consultor IA ventas, AI Sales Engine, transformación comercial, consultoría B2B, automatización comercial, CRM inteligente",
+  canonical: `${SITE_URL}/sobre-mi`,
+  ogImage: `${SITE_URL}/images/og-sobre-mi.jpg`,
+  ogType: "profile"
+};
+
+// Datos estructurados para SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": AUTHOR_NAME,
+  "jobTitle": "Consultor en Inteligencia Artificial Aplicada a Ventas",
+  "description": "Ingeniero industrial con más de 10 años de experiencia en gestión comercial end-to-end. Especialista en data analytics, tecnología aplicada a procesos comerciales y creador del AI Sales Engine.",
+  "url": `${SITE_URL}/sobre-mi`,
+  "email": AUTHOR_EMAIL,
+  "knowsAbout": [
+    "Inteligencia Artificial Aplicada a Ventas",
+    "Automatización Comercial",
+    "CRM Inteligente",
+    "Data Analytics",
+    "Transformación Comercial B2B"
+  ],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Consultor en Estrategia Comercial e IA",
+    "occupationLocation": {
+      "@type": "Place",
+      "name": "Latinoamérica"
+    }
+  }
+};
+
+// Breadcrumbs
+const breadcrumbs = [
+  { name: "Inicio", url: SITE_URL },
+  { name: "Sobre Mí", url: `${SITE_URL}/sobre-mi` }
+];
+---
+
+<MainLayout
+  title={pageMeta.title}
+  description={pageMeta.description}
+  keywords={pageMeta.keywords}
+  canonical={pageMeta.canonical}
+  ogImage={pageMeta.ogImage}
+  ogType={pageMeta.ogType}
+  structuredData={structuredData}
+>
+  <main class="min-h-screen bg-white">
+    <!-- HERO / PRESENTACIÓN BREVE -->
+    <section class="bg-gradient-to-br from-white via-[var(--pv-primary-soft)] to-white py-20 lg:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={breadcrumbs} align="center" />
+        
+        <div class="text-center max-w-3xl mx-auto mt-12 space-y-6">
+          <h1 class="text-display text-ink-base">
+            {AUTHOR_NAME}
+          </h1>
+          <p class="text-xl md:text-2xl text-ink-muted font-medium">
+            IA aplicada a ventas y transformación comercial
+          </p>
+          <p class="text-lg text-ink-muted leading-relaxed max-w-2xl mx-auto mt-8">
+            Consultor especializado en integrar inteligencia artificial en procesos comerciales B2B. 
+            Ayudo a empresas a ordenar su sistema comercial e implementar IA de forma práctica, simple y medible. 
+            Mi enfoque combina experiencia comercial con tecnología aplicada para resultados reales.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 1 — Quién soy -->
+    <section class="py-section bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Quién soy"
+          align="left"
+        />
+        <div class="mt-8 space-y-6 text-lg text-ink-muted leading-relaxed">
+          <p>
+            Soy <strong class="text-ink-base">ingeniero industrial</strong> con más de <strong class="text-ink-base">10 años de experiencia</strong> en gestión comercial end-to-end.
+          </p>
+          <p>
+            Mi perfil combina tres áreas que rara vez se encuentran juntas: <strong class="text-ink-base">ventas B2B</strong>, <strong class="text-ink-base">data analytics</strong> y <strong class="text-ink-base">tecnología aplicada</strong> a procesos comerciales.
+          </p>
+          <p>
+            He trabajado en canales, pricing, CRM, automatización comercial y análisis de datos. 
+            Esta experiencia práctica me permite entender tanto el lado comercial como el técnico, 
+            traduciendo tecnología en resultados de ventas reales.
+          </p>
+          <p>
+            Hoy me dedico a <strong class="text-ink-base">consultoría de IA en ventas para empresas B2B</strong>, 
+            ayudando a equipos comerciales a integrar inteligencia artificial sin proyectos gigantes ni complejidad innecesaria.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 2 — Mi historia -->
+    <section class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Mi historia"
+          align="left"
+        />
+        <div class="mt-8 space-y-6 text-lg text-ink-muted leading-relaxed">
+          <p>
+            Mi carrera comenzó en el mundo de las ventas B2B, donde aprendí de primera mano cómo funcionan los procesos comerciales reales. 
+            No desde la teoría, sino desde la ejecución: gestionando equipos, cerrando negocios y enfrentando los problemas diarios que viven los vendedores.
+          </p>
+          <p>
+            Con el tiempo, me di cuenta de que había un patrón constante: los equipos comerciales estaban llenos de talento, pero sus procesos estaban desordenados. 
+            CRMs sin usar, seguimientos manuales, propuestas que tardaban semanas, y decisiones basadas en intuición en lugar de datos.
+          </p>
+          <p>
+            Mi formación como ingeniero industrial me llevó a buscar soluciones sistemáticas. 
+            Empecé a trabajar con data analytics, automatizaciones y tecnología aplicada a procesos comerciales. 
+            No para reemplazar a los vendedores, sino para liberarlos de tareas repetitivas y darles herramientas que realmente funcionaran.
+          </p>
+          <p>
+            Cuando la IA generativa llegó, vi una oportunidad clara: aquí estaba la tecnología que podía transformar la ejecución comercial, 
+            pero solo si se aplicaba de forma práctica y orientada al negocio. No como un proyecto técnico complejo, sino como herramientas 
+            que mejoraran el día a día del equipo comercial.
+          </p>
+          <p>
+            Así nació el <strong class="text-ink-base">AI Sales Engine</strong>: un sistema comercial que integra IA en cada fase del funnel, 
+            desde la generación de demanda hasta la postventa. No es teoría. Es un marco práctico que he usado para ayudar a empresas a ordenar 
+            su proceso comercial e implementar IA de forma medible y escalable.
+          </p>
+          <p>
+            Mi filosofía es simple: <strong class="text-ink-base">IA simple, aplicada, comercial y medible</strong>. 
+            Sin hype, sin promesas irreales, sin proyectos gigantes. Solo claridad, estructura y resultados que se pueden medir.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 3 — Mi propuesta de valor -->
+    <section class="py-section bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Mi propuesta de valor"
+          subtitle="Por qué mi enfoque es diferente"
+          align="left"
+        />
+        <div class="mt-8 space-y-8">
+          <div class="space-y-6 text-lg text-ink-muted leading-relaxed">
+            <p>
+              La mayoría de consultorías de IA se enfocan en la tecnología. Yo me enfoco en <strong class="text-ink-base">traducir tecnología en ventas reales</strong>.
+            </p>
+            <p>
+              Mi diferenciador es mi <strong class="text-ink-base">perfil híbrido</strong>:
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-6 mt-8">
+            <div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+              <h3 class="font-semibold text-ink-base mb-3">Experiencia Comercial</h3>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                +10 años gestionando equipos, cerrando negocios y entendiendo los problemas reales de ventas B2B.
+              </p>
+            </div>
+            <div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+              <h3 class="font-semibold text-ink-base mb-3">Data & Analytics</h3>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Capacidad de analizar datos comerciales, identificar patrones y tomar decisiones basadas en evidencia.
+              </p>
+            </div>
+            <div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
+              <h3 class="font-semibold text-ink-base mb-3">Tecnología Aplicada</h3>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Experiencia implementando sistemas comerciales, automatizaciones y CRMs que realmente se usan.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 border border-[var(--pv-border-mid)] mt-8">
+            <h3 class="text-xl font-semibold text-ink-base mb-4">Mi filosofía de trabajo</h3>
+            <p class="text-lg text-ink-muted leading-relaxed mb-4">
+              <strong class="text-ink-base">IA simple, aplicada, comercial y medible.</strong>
+            </p>
+            <ul class="space-y-3 text-ink-muted">
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>No integraciones gigantes. Solo lo necesario para mover la aguja.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Quick wins primero. Escalabilidad después.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Todo se mide antes y después. Sin métricas, no hay mejora real.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Claridad sobre complejidad. Estructura sobre improvisación.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 4 — Mi metodología: AI Sales Engine -->
+    <section class="py-section bg-gradient-to-b from-white to-[var(--pv-bg-alt)]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Mi metodología: AI Sales Engine"
+          subtitle="Un sistema comercial que integra IA en cada fase del funnel"
+        />
+        
+        <div class="mt-8 space-y-8">
+          <div class="space-y-6 text-lg text-ink-muted leading-relaxed">
+            <p>
+              El <strong class="text-ink-base">AI Sales Engine</strong> es un sistema comercial práctico diseñado para equipos que necesitan integrar IA en sus procesos sin fricción.
+            </p>
+            <p>
+              No es una fórmula mágica ni una promesa de multiplicar ventas. Es un <strong class="text-ink-base">marco estructurado</strong> que optimiza cada fase del funnel comercial usando IA de forma estratégica y medible.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 border border-[var(--pv-border-mid)]">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">¿Para quién es?</h3>
+            <ul class="space-y-4 text-ink-muted">
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Empresas B2B que quieren mejorar su proceso comercial usando IA</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Equipos comerciales que buscan claridad, estructura y velocidad</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span>Negocios que necesitan automatización práctica sin proyectos gigantes</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 border border-[var(--pv-border-mid)]">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">¿Qué problemas resuelve?</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+              <ul class="space-y-3 text-ink-muted">
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>CRM sin uso o con información incompleta</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Seguimiento lento y poco predecible</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Tareas repetitivas que consumen horas</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Leads sin atender o mal calificados</span>
+                </li>
+              </ul>
+              <ul class="space-y-3 text-ink-muted">
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Propuestas demoradas</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Falta de data para tomar decisiones</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Cierres que dependen solo del vendedor</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-primary mt-1">•</span>
+                  <span>Postventa sin estructura</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white rounded-2xl p-8 border border-[var(--pv-border-light)]">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">Las 8 fases del AI Sales Engine</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">1. IA DemandGen</h4>
+                <p class="text-sm text-ink-muted">Generación inteligente de demanda</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">2. IA Engagement & Prospección</h4>
+                <p class="text-sm text-ink-muted">Captura y calificación automática</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">3. IA Discovery Profundo</h4>
+                <p class="text-sm text-ink-muted">Entendimiento real del cliente con IA</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">4. AI Proposal Engine</h4>
+                <p class="text-sm text-ink-muted">Propuestas rápidas y personalizadas</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">5. AI Closing & Negotiation</h4>
+                <p class="text-sm text-ink-muted">Aceleración del cierre comercial</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">6. AI Delivery & Customer Success</h4>
+                <p class="text-sm text-ink-muted">Onboarding + postventa</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">7. AI Expansion & Monetización</h4>
+                <p class="text-sm text-ink-muted">Upsell, cross-sell y retención</p>
+              </div>
+              <div class="bg-white rounded-lg p-4 border border-[var(--pv-border-light)]">
+                <h4 class="font-semibold text-ink-base mb-2">8. AI Data Loop</h4>
+                <p class="text-sm text-ink-muted">Inteligencia comercial y mejora continua</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 border border-[var(--pv-border-mid)]">
+            <h3 class="text-xl font-semibold text-ink-base mb-4">¿Por qué es diferente a otras consultorías de IA?</h3>
+            <ul class="space-y-4 text-ink-muted">
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-ink-base">Enfoque comercial, no técnico:</strong> Traduzco IA al lenguaje de ventas, no al revés.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-ink-base">Sin proyectos gigantes:</strong> Priorizo quick wins e iteraciones constantes sobre transformaciones masivas.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-ink-base">Todo se mide:</strong> Cada implementación tiene métricas claras antes y después.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-ink-base">Experiencia real:</strong> He implementado sistemas comerciales, no solo los diseño.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-ink-base">Anti hype:</strong> Promesas realistas basadas en resultados medibles, no en tecnología avanzada por sí sola.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 5 — Cómo puedo ayudar a tu empresa -->
+    <section class="py-section bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Cómo puedo ayudar a tu empresa"
+          subtitle="Servicios alineados al AI Sales Engine"
+        />
+        
+        <div class="mt-8 space-y-6">
+          <div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+            <h3 class="text-lg font-semibold text-ink-base mb-3">1. Chatbot de Ventas</h3>
+            <p class="text-ink-muted leading-relaxed">
+              Sistema de conversación comercial con IA que responde, califica y agenda por tu equipo. 
+              Impacta las fases de Engagement, Prospección y Discovery del AI Sales Engine.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+            <h3 class="text-lg font-semibold text-ink-base mb-3">2. Automatización Comercial</h3>
+            <p class="text-ink-muted leading-relaxed">
+              Elimina tareas manuales y estandariza la ejecución del equipo. Automatización de seguimientos, 
+              secuencias, alertas y workflows. Impacta las fases de Nutrición, Cierre y Postventa.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+            <h3 class="text-lg font-semibold text-ink-base mb-3">3. CRM Inteligente</h3>
+            <p class="text-ink-muted leading-relaxed">
+              Ordena tu proceso comercial y dale al equipo un CRM que realmente usarán. Con IA para priorización, 
+              seguimiento inteligente y visibilidad del pipeline. Impacta todas las fases del sistema comercial.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+            <h3 class="text-lg font-semibold text-ink-base mb-3">4. Entrenamientos de IA Aplicada a Empresa</h3>
+            <p class="text-ink-muted leading-relaxed">
+              Talleres prácticos para que tu equipo adopte la IA sin frustración técnica. Vendedores capaces de usar IA 
+              en prospección, seguimiento, negociación y cierre. Habilitador transversal de todas las fases.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-xl p-6 border border-[var(--pv-border-mid)]">
+            <h3 class="text-lg font-semibold text-ink-base mb-3">5. Implementación del AI Sales Engine</h3>
+            <p class="text-ink-muted leading-relaxed">
+              Consultoría completa para integrar IA en todas las fases del proceso comercial. Incluye diagnóstico, 
+              diseño del sistema, mapa de automatizaciones, CRM inteligente, entrenamientos y acompañamiento 1:1. 
+              Impacta absolutamente todas las fases.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 6 — Filosofía de trabajo -->
+    <section class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader 
+          title="Filosofía de trabajo"
+          align="left"
+        />
+        
+        <div class="mt-8 space-y-8">
+          <div class="bg-white rounded-2xl p-8 border border-[var(--pv-border-mid)]">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">Anti hype. Pro claridad.</h3>
+            <p class="text-lg text-ink-muted leading-relaxed mb-4">
+              No creo en promesas irreales ni en tecnología por tecnología. Creo en <strong class="text-ink-base">resultados medibles</strong> y en <strong class="text-ink-base">procesos que realmente funcionan</strong>.
+            </p>
+            <p class="text-ink-muted leading-relaxed">
+              La IA no va a multiplicar tus ventas por sí sola. Pero sí puede hacer que tu equipo comercial sea más eficiente, 
+              que tus procesos sean más predecibles y que tus decisiones estén basadas en datos, no en intuición.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+              <h4 class="font-semibold text-ink-base mb-3">Estructura y resultados medibles</h4>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Cada implementación tiene métricas claras. Medimos antes y después. Sin datos, no hay mejora real.
+              </p>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+              <h4 class="font-semibold text-ink-base mb-3">No integraciones gigantes</h4>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Priorizo interoperabilidad sobre integración total. Solo lo necesario para mover la aguja comercial.
+              </p>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+              <h4 class="font-semibold text-ink-base mb-3">Quick wins + escalabilidad</h4>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Empezamos con mejoras rápidas que generan impacto inmediato. Luego escalamos lo que funciona.
+              </p>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-[var(--pv-border-light)]">
+              <h4 class="font-semibold text-ink-base mb-3">Iteración constante</h4>
+              <p class="text-ink-muted text-sm leading-relaxed">
+                Pequeñas mejoras continuas superan a grandes transformaciones. Medimos, optimizamos y repetimos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOQUE 7 — CTA Final -->
+    <section class="py-section bg-gradient-to-br from-[var(--pv-primary-soft)] via-[var(--pv-bg-alt)] to-[var(--pv-primary-soft)]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 text-center border border-[var(--pv-border-mid)]">
+          <h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base mb-6">
+            Hablemos de tu sistema comercial
+          </h2>
+          <p class="text-lg text-ink-muted mb-8 max-w-2xl mx-auto leading-relaxed">
+            Agenda una sesión gratuita de diagnóstico para mapear oportunidades reales en tu proceso comercial 
+            y descubrir cómo la IA puede mejorar tu ejecución sin proyectos gigantes.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button href="/contacto" variant="primary" size="lg">
+              Agendar diagnóstico
+            </Button>
+            <Button href="mailto:{AUTHOR_EMAIL}" variant="ghost" size="lg">
+              Escríbeme por email
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
