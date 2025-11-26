@@ -1,6 +1,8 @@
 ---
 import MainLayout from './MainLayout.astro';
+import Design from '../../Design.json';
 import BlogPostMeta from '../components/BlogPostMeta.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 import type { ProcessedPost } from '../utils/blogUtils';
 import { 
   generatePostMeta, 
@@ -13,12 +15,14 @@ import {
 // Props específicas del blog
 export interface Props {
   post: ProcessedPost;
+  originalPost?: any; // Post original de Astro para acceso a body
   showTOC?: boolean;
   includeBreadcrumbs?: boolean;
 }
 
 const {
   post,
+  originalPost,
   showTOC = false,
   includeBreadcrumbs = true
 } = Astro.props;
@@ -48,41 +52,69 @@ const combinedStructuredData = combineStructuredData(
 
   <!-- Contenido principal -->
   <main class="min-h-screen bg-white">
-    <div class="max-w-7xl mx-auto px-5 py-8">
+    <div class="max-w-[1200px] mx-auto px-5 py-section">
       <div class="flex flex-col lg:flex-row gap-8">
         
         <!-- Contenido del artículo -->
-        <article class="flex-1 max-w-4xl mx-auto lg:mx-0">
+        <article class="flex-1 max-w-[800px] mx-auto lg:mx-0">
           
           <!-- Header del artículo -->
-          <header class="mb-8">
-            <div class="max-w-3xl">
-              <!-- Metadatos del post con breadcrumbs -->
-              <BlogPostMeta 
-                post={post} 
-                includeBreadcrumbs={includeBreadcrumbs}
-              />
-              
-              <!-- Título del artículo -->
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-                {post.data.title}
-              </h1>
-              
-              <!-- Descripción -->
-              {post.data.description && (
-                <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                  {post.data.description}
-                </p>
-              )}
-            </div>
+          <header class="mb-12">
+            <!-- Metadatos del post con breadcrumbs -->
+            <BlogPostMeta 
+              post={post} 
+              includeBreadcrumbs={includeBreadcrumbs}
+            />
+            
+            <!-- Título del artículo -->
+            <h1 class="text-display font-bold text-ink-base leading-[1.1] tracking-[-0.01em] mb-6">
+              {post.data.title}
+            </h1>
+            
+            <!-- Descripción -->
+            {post.data.description && (
+              <p class="text-[1.125rem] text-ink-muted leading-[1.6] mb-8">
+                {post.data.description}
+              </p>
+            )}
           </header>
           
           <!-- Contenido del artículo -->
-          <div class="prose prose-lg max-w-none">
+          <div class="prose prose-lg max-w-none font-serif" id="article-content">
             <slot />
           </div>
           
+          <!-- Script para agregar IDs a los headings -->
+          <script>
+            // Agregar IDs a los headings para navegación del TOC
+            document.addEventListener('DOMContentLoaded', () => {
+              const articleContent = document.getElementById('article-content');
+              if (!articleContent) return;
+              
+              const headings = articleContent.querySelectorAll('h2, h3');
+              headings.forEach((heading) => {
+                if (!heading.id) {
+                  const text = heading.textContent || '';
+                  const id = text
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                  heading.id = id;
+                }
+              });
+            });
+          </script>
+          
         </article>
+        
+        <!-- Sidebar para TOC -->
+        {showTOC && originalPost && (
+          <aside class="hidden lg:block w-64 flex-shrink-0">
+            <TableOfContents post={originalPost} minHeadings={3} />
+          </aside>
+        )}
       </div>
     </div>
   </main>
@@ -90,120 +122,164 @@ const combinedStructuredData = combineStructuredData(
 
 </MainLayout>
 
-<style>
-  /* Estilos específicos para el blog */
+<style define:vars={{
+  inkBase: Design.theme.color.palette.ink.base,
+  inkMuted: Design.theme.color.palette.ink.muted,
+  primaryBase: Design.theme.color.palette.primary.base,
+  primaryHover: Design.theme.color.palette.primary.hover,
+  bgAlt: Design.theme.color.palette.bg.alt,
+  borderLight: Design.theme.color.palette.border.light,
+  
+  spacingSm: `${Design.theme.spacing.scale.sm}px`,
+  spacingLg: `${Design.theme.spacing.scale.lg}px`,
+  spacingXl: `${Design.theme.spacing.scale.xl}px`,
+  spacing2xl: `${Design.theme.spacing.scale["2xl"]}px`,
+  spacing3xl: `${Design.theme.spacing.scale["3xl"]}px`,
+  
+  radiusSm: `${Design.theme.radii.sm}px`,
+  radiusMd: `${Design.theme.radii.md}px`,
+  radiusLg: `${Design.theme.radii.lg}px`,
+
+  fontSans: Design.theme.typography.families.sans,
+  fontSerif: Design.theme.typography.families.serif,
+  fontMono: Design.theme.typography.families.mono,
+
+  h1Size: Design.theme.typography.scale.h1.size,
+  h1Line: Design.theme.typography.scale.h1.line,
+  h1Tracking: `${Design.theme.typography.scale.h1.tracking}em`,
+  
+  h2Size: Design.theme.typography.scale.h2.size,
+  h2Line: Design.theme.typography.scale.h2.line,
+  h2Weight: Design.theme.typography.scale.h2.weight,
+
+  h3Size: Design.theme.typography.scale.h3.size,
+  h3Line: Design.theme.typography.scale.h3.line,
+  h3Weight: Design.theme.typography.scale.h3.weight,
+
+  bodySize: Design.theme.typography.scale.body.size,
+  bodyLine: Design.theme.typography.scale.body.line,
+  
+  smallSize: Design.theme.typography.scale.small.size,
+
+  shadowCard: Design.theme.color.elevation.card,
+}}>
+  /* Estilos específicos para el blog según Design.json */
   .prose {
-    color: #0E1222;
-    line-height: 1.65;
+    color: var(--inkBase);
+    line-height: var(--bodyLine);
+    font-family: var(--fontSerif);
   }
   
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose h6 {
-    color: #0E1222;
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4),
+  .prose :global(h5),
+  .prose :global(h6) {
+    color: var(--inkBase);
     font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-top: var(--spacing2xl);
+    margin-bottom: var(--spacingLg);
   }
   
-  .prose h1 {
-    font-size: 2.25rem;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+  .prose :global(h1) {
+    font-size: var(--h1Size);
+    line-height: var(--h1Line);
+    letter-spacing: var(--h1Tracking);
   }
   
-  .prose h2 {
-    font-size: 1.75rem;
-    line-height: 1.25;
+  .prose :global(h2) {
+    font-size: var(--h2Size);
+    line-height: var(--h2Line);
+    font-weight: var(--h2Weight);
   }
   
-  .prose h3 {
-    font-size: 1.375rem;
-    line-height: 1.3;
-    font-weight: 600;
+  .prose :global(h3) {
+    font-size: var(--h3Size);
+    line-height: var(--h3Line);
+    font-weight: var(--h3Weight);
   }
   
-  .prose p {
-    margin-bottom: 1.5rem;
-    color: #3F4756;
+  .prose :global(p) {
+    margin-bottom: var(--spacing2xl);
+    color: var(--inkMuted);
+    font-size: var(--bodySize);
+    line-height: var(--bodyLine);
   }
   
-  .prose a {
-    color: #0B5FFF;
+  .prose :global(a) {
+    color: var(--primaryBase);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1);
   }
   
-  .prose a:hover {
-    color: #084BCC;
+  .prose :global(a:hover) {
+    color: var(--primaryHover);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   
-  .prose blockquote {
-    border-left: 4px solid #0B5FFF;
-    padding-left: 1.5rem;
-    margin: 2rem 0;
+  .prose :global(blockquote) {
+    border-left: 4px solid var(--primaryBase);
+    padding-left: var(--spacing3xl);
+    margin: var(--spacing2xl) 0;
     font-style: italic;
-    color: #3F4756;
+    color: var(--inkMuted);
   }
   
-  .prose code {
-    background-color: #F7F9FC;
+  .prose :global(code) {
+    background-color: var(--bgAlt);
     padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
+    border-radius: var(--radiusSm);
+    font-family: var(--fontMono);
     font-size: 0.875rem;
   }
   
-  .prose pre {
-    background-color: #F7F9FC;
-    padding: 1.5rem;
-    border-radius: 10px;
+  .prose :global(pre) {
+    background-color: var(--bgAlt);
+    padding: var(--spacing3xl);
+    border-radius: var(--radiusMd);
     overflow-x: auto;
-    margin: 2rem 0;
+    margin: var(--spacing2xl) 0;
   }
   
-  .prose pre code {
+  .prose :global(pre code) {
     background: none;
     padding: 0;
   }
   
-  .prose ul,
-  .prose ol {
-    margin: 1.5rem 0;
-    padding-left: 2rem;
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: var(--spacing2xl) 0;
+    padding-left: var(--spacing2xl);
   }
   
-  .prose li {
-    margin-bottom: 0.5rem;
-    color: #3F4756;
+  .prose :global(li) {
+    margin-bottom: var(--spacingSm);
+    color: var(--inkMuted);
   }
   
-  .prose img {
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(3,7,18,0.06);
-    margin: 2rem 0;
+  .prose :global(img) {
+    border-radius: var(--radiusLg);
+    box-shadow: var(--shadowCard);
+    margin: var(--spacing2xl) 0;
   }
   
-  .prose table {
+  .prose :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
+    margin: var(--spacing2xl) 0;
   }
   
-  .prose th,
-  .prose td {
-    border: 1px solid #E5E7EB;
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--borderLight);
     padding: 0.75rem;
     text-align: left;
   }
   
-  .prose th {
-    background-color: #F7F9FC;
+  .prose :global(th) {
+    background-color: var(--bgAlt);
     font-weight: 600;
   }
 </style>

@@ -1,0 +1,150 @@
+---
+import type { ProcessedPost } from '../utils/blogUtils';
+
+export interface Props {
+  post: ProcessedPost | any; // Acepta ProcessedPost o post original de Astro
+  minHeadings?: number;
+}
+
+const { post, minHeadings = 3 } = Astro.props;
+
+// Función para extraer headings del contenido MDX
+function extractHeadings(content: string): Array<{ level: number; text: string; id: string }> {
+  if (!content) return [];
+  
+  const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+  const headings: Array<{ level: number; text: string; id: string }> = [];
+  let match;
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    const level = match[1].length; // Número de #
+    const text = match[2].trim();
+    // Generar ID slug desde el texto
+    const id = text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+      .replace(/[^a-z0-9]+/g, '-') // Reemplazar caracteres especiales con guiones
+      .replace(/^-+|-+$/g, ''); // Eliminar guiones al inicio y final
+
+    headings.push({ level, text, id });
+  }
+
+  return headings;
+}
+
+// Extraer headings del contenido raw del post
+// Intentar acceder al body desde diferentes ubicaciones posibles
+const contentBody = (post as any).body || (post as any).data?.body || '';
+const headings = extractHeadings(contentBody);
+
+// Solo mostrar si hay suficientes headings
+const shouldShow = headings.length >= minHeadings;
+---
+
+{shouldShow && (
+  <nav 
+    class="toc-container"
+    aria-label="Tabla de contenidos"
+  >
+    <h2 class="toc-title">Contenido</h2>
+    <ol class="toc-list">
+      {headings.map((heading) => (
+        <li 
+          class={`toc-item toc-level-${heading.level}`}
+        >
+          <a 
+            href={`#${heading.id}`}
+            class="toc-link"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .toc-container {
+    position: sticky;
+    top: calc(72px + var(--pv-spacing-xl)); /* Nav height + padding */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: var(--pv-spacing-xl);
+    background-color: var(--pv-bg-base);
+    border: 1px solid var(--pv-border-light);
+    border-radius: var(--pv-radius-lg);
+  }
+
+  .toc-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pv-ink-muted);
+    margin-bottom: var(--pv-spacing-lg);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pv-spacing-sm);
+  }
+
+  .toc-item {
+    margin: 0;
+  }
+
+  .toc-level-2 {
+    padding-left: 0;
+  }
+
+  .toc-level-3 {
+    padding-left: var(--pv-spacing-lg);
+  }
+
+  .toc-link {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--pv-ink-muted);
+    text-decoration: none;
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1);
+    padding: var(--pv-spacing-xs) 0;
+  }
+
+  .toc-link:hover {
+    color: var(--pv-primary-base);
+  }
+
+  .toc-link:focus {
+    outline: 2px solid var(--pv-primary-base);
+    outline-offset: 2px;
+    border-radius: var(--pv-radius-sm);
+  }
+
+  /* Scrollbar styling */
+  .toc-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .toc-container::-webkit-scrollbar-track {
+    background: var(--pv-bg-alt);
+    border-radius: var(--pv-radius-sm);
+  }
+
+  .toc-container::-webkit-scrollbar-thumb {
+    background: var(--pv-border-mid);
+    border-radius: var(--pv-radius-sm);
+  }
+
+  .toc-container::-webkit-scrollbar-thumb:hover {
+    background: var(--pv-border-dark);
+  }
+</style>
+
