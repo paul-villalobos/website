@@ -1,6 +1,6 @@
 ---
 import MainLayout from './MainLayout.astro';
-import Design from '../../Design.json';
+
 import BlogPostMeta from '../components/BlogPostMeta.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import type { ProcessedPost } from '../utils/blogUtils';
@@ -122,52 +122,12 @@ const combinedStructuredData = combineStructuredData(
 
 </MainLayout>
 
-<style define:vars={{
-  inkBase: Design.theme.color.palette.ink.base,
-  inkMuted: Design.theme.color.palette.ink.muted,
-  primaryBase: Design.theme.color.palette.primary.base,
-  primaryHover: Design.theme.color.palette.primary.hover,
-  bgAlt: Design.theme.color.palette.bg.alt,
-  borderLight: Design.theme.color.palette.border.light,
-  
-  spacingSm: `${Design.theme.spacing.scale.sm}px`,
-  spacingLg: `${Design.theme.spacing.scale.lg}px`,
-  spacingXl: `${Design.theme.spacing.scale.xl}px`,
-  spacing2xl: `${Design.theme.spacing.scale["2xl"]}px`,
-  spacing3xl: `${Design.theme.spacing.scale["3xl"]}px`,
-  
-  radiusSm: `${Design.theme.radii.sm}px`,
-  radiusMd: `${Design.theme.radii.md}px`,
-  radiusLg: `${Design.theme.radii.lg}px`,
-
-  fontSans: Design.theme.typography.families.sans,
-  fontSerif: Design.theme.typography.families.serif,
-  fontMono: Design.theme.typography.families.mono,
-
-  h1Size: Design.theme.typography.scale.h1.size,
-  h1Line: Design.theme.typography.scale.h1.line,
-  h1Tracking: `${Design.theme.typography.scale.h1.tracking}em`,
-  
-  h2Size: Design.theme.typography.scale.h2.size,
-  h2Line: Design.theme.typography.scale.h2.line,
-  h2Weight: Design.theme.typography.scale.h2.weight,
-
-  h3Size: Design.theme.typography.scale.h3.size,
-  h3Line: Design.theme.typography.scale.h3.line,
-  h3Weight: Design.theme.typography.scale.h3.weight,
-
-  bodySize: Design.theme.typography.scale.body.size,
-  bodyLine: Design.theme.typography.scale.body.line,
-  
-  smallSize: Design.theme.typography.scale.small.size,
-
-  shadowCard: Design.theme.color.elevation.card,
-}}>
-  /* Estilos específicos para el blog según Design.json */
+<style>
+  /* Estilos específicos para el blog usando variables de global.css */
   .prose {
-    color: var(--inkBase);
-    line-height: var(--bodyLine);
-    font-family: var(--fontSerif);
+    color: var(--pv-ink-base);
+    line-height: var(--pv-text-body-line);
+    font-family: var(--pv-font-serif);
   }
   
   .prose :global(h1),
@@ -176,71 +136,71 @@ const combinedStructuredData = combineStructuredData(
   .prose :global(h4),
   .prose :global(h5),
   .prose :global(h6) {
-    color: var(--inkBase);
+    color: var(--pv-ink-base);
     font-weight: 700;
-    margin-top: var(--spacing2xl);
-    margin-bottom: var(--spacingLg);
+    margin-top: var(--pv-spacing-2xl);
+    margin-bottom: var(--pv-spacing-lg);
   }
   
   .prose :global(h1) {
-    font-size: var(--h1Size);
-    line-height: var(--h1Line);
-    letter-spacing: var(--h1Tracking);
+    font-size: var(--pv-text-h1-size);
+    line-height: var(--pv-text-h1-line);
+    letter-spacing: var(--pv-text-h1-tracking);
   }
   
   .prose :global(h2) {
-    font-size: var(--h2Size);
-    line-height: var(--h2Line);
-    font-weight: var(--h2Weight);
+    font-size: var(--pv-text-h2-size);
+    line-height: var(--pv-text-h2-line);
+    font-weight: var(--pv-text-h2-weight);
   }
   
   .prose :global(h3) {
-    font-size: var(--h3Size);
-    line-height: var(--h3Line);
-    font-weight: var(--h3Weight);
+    font-size: var(--pv-text-h3-size);
+    line-height: var(--pv-text-h3-line);
+    font-weight: var(--pv-text-h3-weight);
   }
   
   .prose :global(p) {
-    margin-bottom: var(--spacing2xl);
-    color: var(--inkMuted);
-    font-size: var(--bodySize);
-    line-height: var(--bodyLine);
+    margin-bottom: var(--pv-spacing-2xl);
+    color: var(--pv-ink-muted);
+    font-size: var(--pv-text-body-size);
+    line-height: var(--pv-text-body-line);
   }
   
   .prose :global(a) {
-    color: var(--primaryBase);
+    color: var(--pv-primary-base);
     text-decoration: none;
     transition: color 200ms cubic-bezier(0, 0, 0.2, 1);
   }
   
   .prose :global(a:hover) {
-    color: var(--primaryHover);
+    color: var(--pv-primary-hover);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   
   .prose :global(blockquote) {
-    border-left: 4px solid var(--primaryBase);
-    padding-left: var(--spacing3xl);
-    margin: var(--spacing2xl) 0;
+    border-left: 4px solid var(--pv-primary-base);
+    padding-left: var(--pv-spacing-3xl);
+    margin: var(--pv-spacing-2xl) 0;
     font-style: italic;
-    color: var(--inkMuted);
+    color: var(--pv-ink-muted);
   }
   
   .prose :global(code) {
-    background-color: var(--bgAlt);
+    background-color: var(--pv-bg-alt);
     padding: 0.25rem 0.5rem;
-    border-radius: var(--radiusSm);
-    font-family: var(--fontMono);
+    border-radius: var(--pv-radius-sm);
+    font-family: var(--pv-font-mono);
     font-size: 0.875rem;
   }
   
   .prose :global(pre) {
-    background-color: var(--bgAlt);
-    padding: var(--spacing3xl);
-    border-radius: var(--radiusMd);
+    background-color: var(--pv-bg-alt);
+    padding: var(--pv-spacing-3xl);
+    border-radius: var(--pv-radius-md);
     overflow-x: auto;
-    margin: var(--spacing2xl) 0;
+    margin: var(--pv-spacing-2xl) 0;
   }
   
   .prose :global(pre code) {
@@ -250,36 +210,36 @@ const combinedStructuredData = combineStructuredData(
   
   .prose :global(ul),
   .prose :global(ol) {
-    margin: var(--spacing2xl) 0;
-    padding-left: var(--spacing2xl);
+    margin: var(--pv-spacing-2xl) 0;
+    padding-left: var(--pv-spacing-2xl);
   }
   
   .prose :global(li) {
-    margin-bottom: var(--spacingSm);
-    color: var(--inkMuted);
+    margin-bottom: var(--pv-spacing-sm);
+    color: var(--pv-ink-muted);
   }
   
   .prose :global(img) {
-    border-radius: var(--radiusLg);
-    box-shadow: var(--shadowCard);
-    margin: var(--spacing2xl) 0;
+    border-radius: var(--pv-radius-lg);
+    box-shadow: var(--pv-shadow-card);
+    margin: var(--pv-spacing-2xl) 0;
   }
   
   .prose :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: var(--spacing2xl) 0;
+    margin: var(--pv-spacing-2xl) 0;
   }
   
   .prose :global(th),
   .prose :global(td) {
-    border: 1px solid var(--borderLight);
+    border: 1px solid var(--pv-border-light);
     padding: 0.75rem;
     text-align: left;
   }
   
   .prose :global(th) {
-    background-color: var(--bgAlt);
+    background-color: var(--pv-bg-alt);
     font-weight: 600;
   }
 </style>

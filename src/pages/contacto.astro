@@ -2,12 +2,52 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import Button from "../components/Button.astro";
-import { generateContactMeta, generateContactStructuredData } from "../utils/blogUtils";
-import { SITE_URL, AUTHOR_EMAIL, AUTHOR_LINKEDIN } from "../utils/constants";
-
+import { SITE_URL, AUTHOR_EMAIL, AUTHOR_LINKEDIN, AUTHOR_NAME } from "../utils/constants";
 // Generar metadatos SEO para la página de contacto
-const contactMeta = generateContactMeta();
-const contactStructuredData = generateContactStructuredData();
+const contactMeta = {
+  title: "Contacto | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
+  description: "Contáctame para consultoría en inteligencia artificial aplicada a ventas B2B, automatización comercial y estrategias con IA para maximizar resultados comerciales.",
+  keywords: "contacto Paul Villalobos, consultoría IA ventas, consulta gratuita IA ventas, automatización comercial, Paul Villalobos contacto",
+  canonical: `${SITE_URL}/contacto`,
+  ogImage: "https://paulvillalobos.com/images/og-default.jpg", // Placeholder
+  ogType: "website",
+};
+
+const contactStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      name: "Contacto | Paul Villalobos",
+      url: `${SITE_URL}/contacto`,
+      mainEntity: {
+        "@type": "Person",
+        name: AUTHOR_NAME,
+        jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
+        email: AUTHOR_EMAIL,
+        url: SITE_URL,
+        sameAs: [AUTHOR_LINKEDIN], // Removed TWITTER as it was not imported
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Inicio",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Contacto",
+          item: `${SITE_URL}/contacto`,
+        },
+      ],
+    },
+  ],
+};
 
 // Generar breadcrumbs para contacto
 const contactBreadcrumbs = [

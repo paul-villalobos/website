@@ -3,18 +3,17 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import BlogCard from '../components/BlogCard.astro';
 import FilterDropdown from '../components/FilterDropdown.astro';
-import EmptyState from '../components/EmptyState.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import { 
   calculateCounts, 
   processPostData, 
   sortPostsByDate, 
-  generateBlogMeta, 
   generateBlogStructuredData,
   generateBlogBreadcrumbs,
   generateBreadcrumbStructuredData,
   combineStructuredData
 } from '../utils/blogUtils';
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE } from '../utils/constants';
 
 // Obtener todos los posts del blog
 const allPosts = await getCollection('blog');
@@ -29,7 +28,15 @@ const { categoryCounts, tagCounts, allCategories, allTags } = calculateCounts(so
 const processedPosts = sortedPosts.map(processPostData);
 
 // Generar metadatos SEO
-const blogMeta = generateBlogMeta(processedPosts);
+const blogMeta = {
+  title: "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
+  description: "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
+  keywords: "blog inteligencia artificial, IA ventas B2B, automatización comercial, estrategias ventas, Paul Villalobos blog, artículos IA, consultoría ventas",
+  canonical: `${SITE_URL}/blog`,
+  ogImage: DEFAULT_OG_IMAGE,
+  ogType: "website",
+};
+
 const blogStructuredData = generateBlogStructuredData(processedPosts);
 
 // Generar breadcrumbs para el blog
@@ -115,12 +122,19 @@ const combinedBlogStructuredData = combineStructuredData(
         </div>
         
         <!-- Estado vacío -->
-        <EmptyState 
-          title="No se encontraron artículos"
-          description="Intenta ajustar los filtros de categoría o tags."
-          buttonText="Limpiar filtros"
-          buttonId="clear-filters"
-        />
+        <div id="empty-state" class="hidden text-center py-16">
+          <svg class="mx-auto h-12 w-12 text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.709M15 6.291A7.962 7.962 0 0012 5c-2.34 0-4.29 1.009-5.824 2.709"></path>
+          </svg>
+          <h3 class="text-lg font-medium text-slate-900 mb-2">No se encontraron artículos</h3>
+          <p class="text-slate-600 mb-6">Intenta ajustar los filtros de categoría o tags.</p>
+          <button 
+            id="clear-filters"
+            class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Limpiar filtros
+          </button>
+        </div>
       </div>
     </section>
   </main>

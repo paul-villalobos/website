@@ -237,26 +237,7 @@ export function combineStructuredData(...schemas: any[]) {
   };
 }
 
-/**
- * Genera metadatos SEO para el blog
- */
-export function generateBlogMeta(processedPosts: ProcessedPost[]) {
-  return {
-    ...generateBaseMeta({
-      title: "Blog | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
-      description:
-        "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
-      keywords:
-        "blog inteligencia artificial, IA ventas B2B, automatización comercial, estrategias ventas, Paul Villalobos blog, artículos IA, consultoría ventas",
-      canonical: `${SITE_URL}/blog`,
-    }),
-    author: AUTHOR_NAME,
-    robots:
-      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-    ogLocale: "es_ES",
-    twitterCard: "summary_large_image",
-  };
-}
+
 
 /**
  * Genera datos estructurados JSON-LD para el blog
@@ -421,104 +402,6 @@ export function generateBreadcrumbStructuredData(
   };
 }
 
-/**
- * Genera metadatos SEO para la página de inicio
- */
-export function generateHomeMeta() {
-  return generateBaseMeta({
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-    keywords: DEFAULT_KEYWORDS,
-    canonical: SITE_URL,
-  });
-}
 
-/**
- * Genera datos estructurados JSON-LD para la página de inicio
- */
-export function generateHomeStructuredData() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: AUTHOR_NAME,
-    jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
-    description:
-      "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
-    url: SITE_URL,
-    sameAs: [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
-    knowsAbout: [
-      "Inteligencia Artificial",
-      "Ventas B2B",
-      "Automatización Comercial",
-      "CRM",
-      "Estrategias de Ventas",
-    ],
-    offers: {
-      "@type": "Service",
-      serviceType: "Consultoría en Inteligencia Artificial Aplicada a Ventas",
-      areaServed: "ES",
-      availableChannel: {
-        "@type": "ServiceChannel",
-        serviceUrl: SITE_URL,
-      },
-    },
-  };
-}
 
-/**
- * Genera metadatos SEO para la página de contacto
- */
-export function generateContactMeta() {
-  return generateBaseMeta({
-    title:
-      "Contacto | Paul Villalobos - Inteligencia Artificial Aplicada a Ventas",
-    description:
-      "Contáctame para consultoría en inteligencia artificial aplicada a ventas B2B, automatización comercial y estrategias con IA para maximizar resultados comerciales.",
-    keywords:
-      "contacto Paul Villalobos, consultoría IA ventas, consulta gratuita IA ventas, automatización comercial, Paul Villalobos contacto",
-    canonical: `${SITE_URL}/contacto`,
-  });
-}
 
-/**
- * Genera datos estructurados JSON-LD para la página de contacto
- */
-export function generateContactStructuredData() {
-  const contactUrl = `${SITE_URL}/contacto`;
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ContactPage",
-        name: "Contacto | Paul Villalobos",
-        url: contactUrl,
-        mainEntity: {
-          "@type": "Person",
-          name: AUTHOR_NAME,
-          jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
-          email: AUTHOR_EMAIL,
-          url: SITE_URL,
-          sameAs: [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
-        },
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Inicio",
-            item: SITE_URL,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Contacto",
-            item: contactUrl,
-          },
-        ],
-      },
-    ],
-  };
-}

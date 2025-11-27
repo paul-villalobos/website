@@ -3,58 +3,106 @@ import type { ProcessedPost } from '../utils/blogUtils';
 import Icon from './Icon.astro';
 
 export interface Props {
-  post: ProcessedPost;
+  post?: ProcessedPost;
+  title?: string;
+  href?: string;
+  excerpt?: string;
+  category?: string;
+  readingTime?: string;
+  date?: string;
+  colorVariant?: 'primary' | 'secondary' | 'accent';
+  imageUrl?: string;
 }
 
-const { post } = Astro.props;
+const { 
+  post,
+  title: propTitle,
+  href: propHref,
+  excerpt: propExcerpt,
+  category: propCategory,
+  readingTime: propReadingTime,
+  date: propDate,
+  colorVariant = 'primary',
+  imageUrl: propImageUrl
+} = Astro.props;
+
+// Determinar datos a usar (prioridad a props manuales, fallback a post)
+const title = propTitle || post?.data.title;
+const href = propHref || (post ? `/posts/${post.slug}` : '#');
+const excerpt = propExcerpt || post?.data.description;
+const category = propCategory || post?.data.category;
+const readingTime = propReadingTime; // Simplification: readingTime is not readily available in processedData.filterData without extra work.
+const date = propDate || (post ? post.processedData.formattedDate : undefined);
+const imageUrl = propImageUrl || (post ? post.processedData.image : undefined);
+const imageAlt = post ? post.processedData.imageAlt : title;
+
+// Mapeo de colores para variantes (usado en home)
+const colorMap = {
+  primary: {
+    bg: 'from-[var(--pv-primary-soft)]',
+    badgeBg: 'bg-[var(--pv-primary-soft)]',
+    badgeText: 'text-primary',
+  },
+  secondary: {
+    bg: 'from-[var(--pv-secondary-soft)]',
+    badgeBg: 'bg-[var(--pv-secondary-soft)]',
+    badgeText: 'text-[var(--pv-secondary-base)]',
+  },
+  accent: {
+    bg: 'from-[var(--pv-accent-soft)]',
+    badgeBg: 'bg-[var(--pv-accent-soft)]',
+    badgeText: 'text-[var(--pv-accent-base)]',
+  },
+};
+
+const colors = colorMap[colorVariant];
+const isHomeVariant = !post; // Si no hay post, asumimos que es la variante home (manual)
 ---
 
 <article 
-  class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden group"
-  data-category={post.processedData.filterData.category}
-  data-tags={post.processedData.filterData.tags}
-  data-title={post.processedData.filterData.title}
-  data-description={post.processedData.filterData.description}
+  class={`bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden group ${isHomeVariant ? 'rounded-2xl hover:shadow-xl hover:-translate-y-2 border-[var(--pv-border-mid)]' : ''}`}
 >
   <!-- Imagen del post -->
-  {post.processedData.hasImage && (
-    <div class="aspect-video overflow-hidden">
+  {imageUrl ? (
+    <div class={`aspect-video overflow-hidden ${isHomeVariant ? `bg-gradient-to-br ${colors.bg} to-white` : ''}`}>
       <img 
-        src={post.processedData.image} 
-        alt={post.processedData.imageAlt}
+        src={imageUrl} 
+        alt={imageAlt}
         width="640"
         height="360"
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
       />
     </div>
-  )}
+  ) : isHomeVariant ? (
+     <div class={`aspect-video bg-gradient-to-br ${colors.bg} to-white`}></div>
+  ) : null}
   
   <!-- Contenido de la tarjeta -->
   <div class="p-6">
     <!-- Categoría -->
-    {post.processedData.hasCategory && (
+    {category && (
       <div class="mb-3">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-          {post.data.category}
+        <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${isHomeVariant ? `${colors.badgeBg} ${colors.badgeText} font-semibold` : 'bg-blue-100 text-blue-800'}`}>
+          {category}
         </span>
       </div>
     )}
     
     <!-- Título -->
-    <h2 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
-      <a href={`/posts/${post.slug}`} class="block">
-        {post.data.title}
+    <h2 class={`font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200 ${isHomeVariant ? 'text-xl font-semibold text-ink-base hover:text-primary' : 'text-xl'}`}>
+      <a href={href} class="block">
+        {title}
       </a>
     </h2>
     
     <!-- Descripción -->
-    <p class="text-slate-600 mb-4 line-clamp-3">
-      {post.data.description}
+    <p class={`text-slate-600 mb-4 ${isHomeVariant ? 'text-ink-muted text-sm' : 'line-clamp-3'}`}>
+      {excerpt}
     </p>
     
-    <!-- Tags -->
-    {post.processedData.hasTags && (
+    <!-- Tags (Solo para variante post) -->
+    {post && post.processedData.hasTags && (
       <div class="flex flex-wrap gap-2 mb-4">
         {post.processedData.visibleTags.map((tag: string) => (
           <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700">
@@ -68,18 +116,29 @@ const { post } = Astro.props;
     )}
     
     <!-- Metadatos -->
-    <div class="flex items-center justify-between text-sm text-slate-500">
-      <div class="flex items-center">
-        <Icon name="calendar" class="w-4 h-4 mr-2" />
-        <time datetime={post.data.pubDate}>{post.processedData.formattedDate}</time>
-      </div>
+    <div class={`flex items-center justify-between text-sm ${isHomeVariant ? 'text-ink-subtle' : 'text-slate-500'}`}>
+      {(date || readingTime) && (
+        <div class="flex items-center gap-4">
+          {date && (
+            <div class="flex items-center">
+               {!isHomeVariant && <Icon name="calendar" class="w-4 h-4 mr-2" />}
+               <time>{date}</time>
+            </div>
+          )}
+          {readingTime && (
+             <span>{readingTime}</span>
+          )}
+        </div>
+      )}
       
-      <a 
-        href={`/posts/${post.slug}`} 
-        class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
-      >
-        Leer más →
-      </a>
+      {!isHomeVariant && (
+        <a 
+          href={href} 
+          class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+        >
+          Leer más →
+        </a>
+      )}
     </div>
   </div>
 </article>
