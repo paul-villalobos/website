@@ -46,7 +46,7 @@ const hasTags = post.data.tags && post.data.tags.length > 0;
     <!-- Categoría -->
     {category && (
       <div class="mb-3">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
           {category}
         </span>
       </div>
@@ -68,7 +68,7 @@ const hasTags = post.data.tags && post.data.tags.length > 0;
     {hasTags && (
       <div class="flex flex-wrap gap-2 mb-4">
         {visibleTags.map((tag: string) => (
-          <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700">
+          <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700">
             {tag}
           </span>
         ))}
@@ -89,7 +89,7 @@ const hasTags = post.data.tags && post.data.tags.length > 0;
       
       <a 
         href={href} 
-        class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+        class="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
       >
         Leer más →
       </a>

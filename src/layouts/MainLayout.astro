@@ -1,5 +1,11 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+
+// Importar fuentes locales desde @fontsource
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
 import '../styles/global.css';
 import {
   SITE_TITLE,
@@ -98,16 +104,6 @@ const defaultStructuredData = {
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Fonts with display=swap for better performance -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
 
     <!-- Google Analytics -->
     <Analytics />
@@ -140,7 +136,7 @@ const defaultStructuredData = {
 					{navLinks.map(link => (
 						<a 
 							href={link.href} 
-							class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-medium"
+							class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-semibold"
 						>
 							{link.label}
 						</a>
@@ -150,7 +146,7 @@ const defaultStructuredData = {
 				<!-- <div class="hidden md:flex items-center">
 					<a 
 						href="#contacto" 
-						class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+						class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 					>
 						Hablemos
 					</a>
@@ -190,7 +186,7 @@ const defaultStructuredData = {
 							{navLinks.map(link => (
 								<a 
 									href={link.href} 
-									class="block text-lg font-medium text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
+									class="block text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
 								>
 									{link.label}
 								</a>
@@ -200,7 +196,7 @@ const defaultStructuredData = {
 						<div class="pt-6 border-t border-gray-200">
 							<a 
 								href="#contacto" 
-								class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-medium hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+								class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 							>
 								Hablemos
 							</a>
@@ -249,7 +245,7 @@ const defaultStructuredData = {
 							/>
 							<button 
 								type="submit" 
-								class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 font-medium"
+								class="w-full bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 font-semibold"
 							>
 								Suscribirse
 							</button>
