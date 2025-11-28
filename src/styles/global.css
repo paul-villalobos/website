@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Variables CSS del sistema de diseño (Design.json) */
 :root {

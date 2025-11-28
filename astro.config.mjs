@@ -4,7 +4,6 @@ import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -30,24 +29,12 @@ export default defineConfig({
   },
   integrations: [
     mdx({
-      rehypePlugins: [
-        rehypeSlug,
-        // rehypeAutolinkHeadings eliminado para evitar links en encabezados
-      ],
+      rehypePlugins: [rehypeSlug],
     }),
     sitemap({
       changefreq: "weekly",
       priority: 0.7,
       lastmod: new Date(),
-      // Filtrar posts que no sean draft
-      filter: (page) => {
-        // Excluir páginas de posts que sean draft
-        if (page.includes("/posts/")) {
-          // El filtrado se hace automáticamente por Astro content collections
-          return true;
-        }
-        return true;
-      },
     }),
     partytown({
       config: {
