@@ -10,6 +10,7 @@ import {
   AUTHOR_NAME,
   AUTHOR_TWITTER,
 } from '../utils/constants';
+import Analytics from '../components/Analytics.astro';
 
 // Props dinámicos para SEO
 export interface Props {
@@ -107,6 +108,9 @@ const defaultStructuredData = {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Google Analytics -->
+    <Analytics />
     
     <!-- Structured Data -->
     {structuredData && (

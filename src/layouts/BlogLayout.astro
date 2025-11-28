@@ -16,6 +16,7 @@ import {
 export interface Props {
   post: ProcessedPost;
   originalPost?: any; // Post original de Astro para acceso a body
+  headings?: any[];
   showTOC?: boolean;
   includeBreadcrumbs?: boolean;
 }
@@ -23,6 +24,7 @@ export interface Props {
 const {
   post,
   originalPost,
+  headings = [],
   showTOC = false,
   includeBreadcrumbs = true
 } = Astro.props;
@@ -86,35 +88,12 @@ const combinedStructuredData = combineStructuredData(
             <slot />
           </div>
           
-          <!-- Script para agregar IDs a los headings -->
-          <script>
-            // Agregar IDs a los headings para navegación del TOC
-            document.addEventListener('DOMContentLoaded', () => {
-              const articleContent = document.getElementById('article-content');
-              if (!articleContent) return;
-              
-              const headings = articleContent.querySelectorAll('h2, h3');
-              headings.forEach((heading) => {
-                if (!heading.id) {
-                  const text = heading.textContent || '';
-                  const id = text
-                    .toLowerCase()
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
-                  heading.id = id;
-                }
-              });
-            });
-          </script>
-          
         </article>
         
         <!-- Sidebar para TOC -->
-        {showTOC && originalPost && (
+        {showTOC && (headings.length > 0 || originalPost) && (
           <aside class="hidden lg:block w-64 flex-shrink-0">
-            <TableOfContents post={originalPost} minHeadings={3} />
+            <TableOfContents headings={headings} post={originalPost} minHeadings={3} />
           </aside>
         )}
       </div>

@@ -3,8 +3,12 @@ import { defineConfig } from "astro/config";
 
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import tailwindcss from "@tailwindcss/vite";
+
+import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,7 +29,12 @@ export default defineConfig({
     "/tipos-de-vendedores": "/blog/tipos-de-vendedores",
   },
   integrations: [
-    mdx(),
+    mdx({
+      rehypePlugins: [
+        rehypeSlug,
+        // rehypeAutolinkHeadings eliminado para evitar links en encabezados
+      ],
+    }),
     sitemap({
       changefreq: "weekly",
       priority: 0.7,
@@ -38,6 +47,11 @@ export default defineConfig({
           return true;
         }
         return true;
+      },
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
       },
     }),
   ],

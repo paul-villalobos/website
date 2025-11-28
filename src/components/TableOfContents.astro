@@ -1,72 +1,18 @@
 ---
-import type { ProcessedPost } from '../utils/blogUtils';
+import type { MarkdownHeading } from 'astro';
 
 export interface Props {
-  post: ProcessedPost | any; // Acepta ProcessedPost o post original de Astro
+  headings?: MarkdownHeading[];
+  post?: any; // Deprecated, kept for prop compatibility but unused
   minHeadings?: number;
 }
 
-const { post, minHeadings = 3 } = Astro.props;
+const { headings = [], minHeadings = 3 } = Astro.props;
 
-// Función para limpiar markdown inline del texto
-function cleanMarkdown(text: string): string {
-  let cleaned = text;
-  let previousLength = 0;
-  
-  // Aplicar limpieza iterativamente hasta que no haya más cambios
-  // Esto maneja casos anidados como **texto con *cursiva* dentro**
-  while (cleaned.length !== previousLength) {
-    previousLength = cleaned.length;
-    
-    // Eliminar negritas con asteriscos dobles: **texto** → texto
-    cleaned = cleaned.replace(/\*\*(.+?)\*\*/g, '$1');
-    // Eliminar negritas con guiones bajos dobles: __texto__ → texto
-    cleaned = cleaned.replace(/__(.+?)__/g, '$1');
-    // Eliminar cursiva con asterisco: *texto* → texto (en cualquier posición)
-    // Solo si no es parte de **texto** (ya procesado arriba)
-    cleaned = cleaned.replace(/\*([^*\n]+?)\*/g, '$1');
-    // Eliminar cursiva con guión bajo: _texto_ → texto (en cualquier posición)
-    // Solo si no es parte de __texto__ (ya procesado arriba)
-    cleaned = cleaned.replace(/(?<!_)_([^_\n]+?)_(?!_)/g, '$1');
-  }
-  
-  return cleaned.trim();
-}
-
-// Función para extraer headings del contenido MDX
-function extractHeadings(content: string): Array<{ level: number; text: string; id: string }> {
-  if (!content) return [];
-  
-  const headingRegex = /^(#{2,3})\s+(.+)$/gm;
-  const headings: Array<{ level: number; text: string; id: string }> = [];
-  let match;
-
-  while ((match = headingRegex.exec(content)) !== null) {
-    const level = match[1].length; // Número de #
-    let text = match[2].trim();
-    // Limpiar markdown inline del texto
-    text = cleanMarkdown(text);
-    // Generar ID slug desde el texto limpio
-    const id = text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
-      .replace(/[^a-z0-9]+/g, '-') // Reemplazar caracteres especiales con guiones
-      .replace(/^-+|-+$/g, ''); // Eliminar guiones al inicio y final
-
-    headings.push({ level, text, id });
-  }
-
-  return headings;
-}
-
-// Extraer headings del contenido raw del post
-// Intentar acceder al body desde diferentes ubicaciones posibles
-const contentBody = (post as any).body || (post as any).data?.body || '';
-const headings = extractHeadings(contentBody);
-
-// Solo mostrar si hay suficientes headings
-const shouldShow = headings.length >= minHeadings;
+// Filter headings to only include h2 and h3 (depth 2 and 3)
+// and check if we have enough headings to show the TOC
+const filteredHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 3);
+const shouldShow = filteredHeadings.length >= minHeadings;
 ---
 
 {shouldShow && (
@@ -76,12 +22,12 @@ const shouldShow = headings.length >= minHeadings;
   >
     <p class="toc-title">Contenido</p>
     <ol class="toc-list">
-      {headings.map((heading) => (
+      {filteredHeadings.map((heading) => (
         <li 
-          class={`toc-item toc-level-${heading.level}`}
+          class={`toc-item toc-level-${heading.depth}`}
         >
           <a 
-            href={`#${heading.id}`}
+            href={`#${heading.slug}`}
             class="toc-link"
           >
             {heading.text}
@@ -174,4 +120,3 @@ const shouldShow = headings.length >= minHeadings;
     background: var(--pv-border-dark);
   }
 </style>
-

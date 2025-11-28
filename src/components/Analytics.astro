@@ -1,0 +1,27 @@
+---
+export interface Props {
+  measurementId?: string;
+}
+
+const { measurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID } = Astro.props;
+---
+
+<!-- Google Analytics 4 (GA4) -->
+{
+  measurementId && (
+    <>
+      <script
+        type="text/partytown"
+        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+      />
+      <script type="text/partytown" define:vars={{ measurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', measurementId);
+      </script>
+    </>
+  )
+}
