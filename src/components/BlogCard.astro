@@ -28,9 +28,9 @@ const {
 
 // Determinar datos a usar (prioridad a props manuales, fallback a post)
 const title = propTitle || post?.data.title;
-const href = propHref || (post ? `/posts/${post.slug}` : '#');
+const href = propHref || (post ? `/blog/${post.slug}` : '#');
 const excerpt = propExcerpt || post?.data.description;
-const category = propCategory || post?.data.category;
+const category = propCategory || (post?.processedData?.categoryName || post?.data.category);
 const readingTime = propReadingTime; // Simplification: readingTime is not readily available in processedData.filterData without extra work.
 const date = propDate || (post ? post.processedData.formattedDate : undefined);
 const imageUrl = propImageUrl || (post ? post.processedData.image : undefined);
@@ -60,6 +60,8 @@ const isHomeVariant = !post; // Si no hay post, asumimos que es la variante home
 ---
 
 <article 
+  data-category={post?.data.category}
+  data-tags={post?.data.tags?.join(',')}
   class={`bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden group ${isHomeVariant ? 'rounded-2xl hover:shadow-xl hover:-translate-y-2 border-[var(--pv-border-mid)]' : ''}`}
 >
   <!-- Imagen del post -->

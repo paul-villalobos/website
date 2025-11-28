@@ -13,7 +13,7 @@ import {
   generateBreadcrumbStructuredData,
   combineStructuredData
 } from '../utils/blogUtils';
-import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE } from '../utils/constants';
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE, BLOG_CATEGORIES } from '../utils/constants';
 
 // Obtener todos los posts del blog
 const allPosts = await getCollection('blog');
@@ -81,7 +81,7 @@ const combinedBlogStructuredData = combineStructuredData(
               id="category-filter"
               options={allCategories.map(cat => ({
                 value: cat,
-                label: cat,
+                label: BLOG_CATEGORIES[cat] || cat,
                 count: categoryCounts[cat]
               }))}
               placeholder="Todas las categorías"

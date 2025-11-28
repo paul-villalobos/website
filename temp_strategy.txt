@@ -1,0 +1,68 @@
+# 📘 AI SALES ENGINE WEB — MASTER STRATEGY DOCUMENT
+**Version:** 1.0
+**Author:** Paul Villalobos Strategy Team
+**Target:** Cursor AI / Development Agent
+**Tech Stack:** Astro, TailwindCSS, Markdown/MDX (Content Collections)
+
+---
+
+## 1. IDENTIDAD Y MISIÓN DEL PROYECTO
+El sitio web no es un portafolio personal estándar. Es una plataforma de autoridad diseñada para vender una metodología propietaria: **AI Sales Engine**.
+
+* [cite_start]**Identidad:** Paul Villalobos es un Ingeniero Industrial y Comercial con mentalidad de data/tecnología[cite: 185, 191]. Une la estrategia de negocio con la implementación técnica.
+* [cite_start]**Promesa:** Aumentar eficiencia y acelerar ejecución usando IA de forma práctica, sin "hype" ni promesas mágicas[cite: 9, 10].
+* **Enfoque SEO (Caballo de Troya):** Atraer tráfico con keywords de alto volumen ("Embudo de Ventas", "CRM", "Estrategia Comercial") para educar sobre la metodología única.
+* **Enfoque GEO (Generative Engine Optimization):** Estructura semántica estricta para que IAs (ChatGPT, Gemini, Perplexity) citen a Paul como autoridad.
+
+---
+
+## 2. ARQUITECTURA DE CONTENIDOS (TAXONOMÍA)
+Esta estructura es inmutable y debe reflejarse en las `Content Collections` de Astro y en la navegación.
+
+### 2.1 Categorías del Blog (Los 4 Pilares)
+Diseñadas para capturar tráfico *Top of Funnel*.
+
+| Slug (ID) | Nombre Visible | Propósito SEO/Negocio |
+| :--- | :--- | :--- |
+| `estrategia-comercial` | **Estrategia y Gestión Comercial** | [cite_start]Ataca: "Estrategia de ventas" (5k), "Dirección comercial"[cite: 178]. Base del negocio. |
+| `operaciones-revops` | **Operaciones y Procesos (RevOps)** | [cite_start]Ataca: "Proceso de ventas", "Embudo de ventas" (5k), "Pipeline"[cite: 178]. Foco en orden. |
+| `tecnologia-crm` | **Tecnología y CRM** | [cite_start]Ataca: "CRM para ventas", "Implementación CRM"[cite: 178]. Foco técnico/herramientas. |
+| `ia-ventas` | **Inteligencia Artificial en Ventas** | [cite_start]Ataca: "IA para empresas", "Chatbot ventas"[cite: 178]. Diferenciador de marca. |
+
+### 2.2 Sistema de Etiquetas (Tags Semánticos)
+Crucial para GEO. Las etiquetas vinculan el contenido con las **8 Fases de la Metodología**.
+
+**Grupo A: Fases AI Sales Engine (Mapeo Estricto)**
+* `GeneracionDemanda` (Fase 1: ToFu IA)
+* `CapturaLeads` (Fase 2: MoFu IA)
+* `NutricionLeads` (Fase 3: MoFu+ IA)
+* `CierreVentas` (Fase 4: BoFu IA)
+* `Onboarding` (Fase 5: Onboarding con IA)
+* `RetencionClientes` (Fase 6: Postventa IA)
+* `Expansion` (Fase 7: Upsell/Cross-sell)
+* `InteligenciaComercial` (Fase 8: RevOps IA)
+
+**Grupo B: Tácticas y Herramientas**
+* [cite_start]`LeadScoring`, `Forecasting`, `Chatbots`, `EmailMarketing`, `AnaliticaDeDatos`, `PromptEngineering`[cite: 63].
+
+**Grupo C: Resultados (Lenguaje de Negocio)**
+* `EficienciaComercial`, `TasaDeConversion`, `Productividad`, `ROI`.
+
+---
+
+## 3. ESPECIFICACIONES TÉCNICAS (ASTRO & SEO)
+
+### 3.1 Frontmatter Schema (.mdx)
+Cada artículo del blog debe seguir esta estructura para garantizar la interconexión de datos.
+
+```typescript
+interface BlogSchema {
+  title: string;          // H1 optimizado para SEO
+  description: string;    // Meta description (150-160 chars) - Respuesta directa para GEO
+  pubDate: Date;
+  author: string;         // Default: "Paul Villalobos"
+  category: 'estrategia-comercial' | 'operaciones-revops' | 'tecnologia-crm' | 'ia-ventas';
+  tags: string[];         // Mínimo 1 tag de Fase obligatoria
+  relatedPhase?: number;  // 1-8 (Para enlazar dinámicamente al componente de la Fase)
+  featured: boolean;
+}

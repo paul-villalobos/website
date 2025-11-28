@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(p
     <!-- Categoría - Badge info según Design.json -->
     {post.data.category && (
       <span class="badge badge-info">
-        {post.data.category}
+        {post.processedData.categoryName || post.data.category}
       </span>
     )}
     

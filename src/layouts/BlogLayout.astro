@@ -79,6 +79,20 @@ const combinedStructuredData = combineStructuredData(
             )}
           </header>
           
+          <!-- Imagen Hero del Post -->
+          {post.data.heroImage && (
+            <div class="mb-8 -mx-5 sm:mx-0">
+              <img 
+                src={typeof post.data.heroImage.src === 'string' ? post.data.heroImage.src : post.data.heroImage.src.src}
+                alt={post.data.heroImage.alt}
+                width={1200}
+                height={630}
+                class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
+                loading="eager"
+              />
+            </div>
+          )}
+          
           <!-- Contenido del artículo -->
           <div class="prose prose-lg max-w-none font-serif" id="article-content">
             <slot />

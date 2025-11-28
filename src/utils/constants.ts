@@ -13,3 +13,9 @@ export const AUTHOR_TWITTER = "@paulvillalobos";
 export const AUTHOR_LINKEDIN = "https://linkedin.com/in/paulvillalobos";
 export const AUTHOR_TWITTER_URL = "https://twitter.com/paulvillalobos";
 
+export const BLOG_CATEGORIES: Record<string, string> = {
+  'estrategia-comercial': 'Estrategia y Gestión Comercial',
+  'operaciones-revops': 'Operaciones y Procesos (RevOps)',
+  'tecnologia-crm': 'Tecnología y CRM',
+  'ia-ventas': 'Inteligencia Artificial en Ventas',
+};
