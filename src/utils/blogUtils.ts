@@ -356,20 +356,9 @@ function createBreadcrumbItem(name: string, url: string): BreadcrumbItem {
  * Genera breadcrumbs para navegación SEO de un post individual
  */
 export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
-  const categorySlug = post.data.category;
-  const categoryName = BLOG_CATEGORIES[categorySlug] || categorySlug;
-
   return [
     createBreadcrumbItem("Inicio", "/"),
     createBreadcrumbItem("Blog", "/blog"),
-    ...(categorySlug
-      ? [
-          createBreadcrumbItem(
-            categoryName,
-            `/blog?category=${encodeURIComponent(categorySlug)}`
-          ),
-        ]
-      : []),
     createBreadcrumbItem(
       post.data.title,
       `/blog/${post.slug}`

@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
-import MainLayout from '../layouts/MainLayout.astro';
-import BlogCard from '../components/BlogCard.astro';
-import FilterDropdown from '../components/FilterDropdown.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import FilterDropdown from '../../components/FilterDropdown.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { 
   calculateCounts, 
   processPostData, 
@@ -12,8 +12,8 @@ import {
   generateBlogBreadcrumbs,
   generateBreadcrumbStructuredData,
   combineStructuredData
-} from '../utils/blogUtils';
-import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE, BLOG_CATEGORIES } from '../utils/constants';
+} from '../../utils/blogUtils';
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE, BLOG_CATEGORIES } from '../../utils/constants';
 
 // Obtener todos los posts del blog
 const allPosts = await getCollection('blog');

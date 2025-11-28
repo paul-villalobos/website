@@ -8,6 +8,31 @@ export interface Props {
 
 const { post, minHeadings = 3 } = Astro.props;
 
+// Función para limpiar markdown inline del texto
+function cleanMarkdown(text: string): string {
+  let cleaned = text;
+  let previousLength = 0;
+  
+  // Aplicar limpieza iterativamente hasta que no haya más cambios
+  // Esto maneja casos anidados como **texto con *cursiva* dentro**
+  while (cleaned.length !== previousLength) {
+    previousLength = cleaned.length;
+    
+    // Eliminar negritas con asteriscos dobles: **texto** → texto
+    cleaned = cleaned.replace(/\*\*(.+?)\*\*/g, '$1');
+    // Eliminar negritas con guiones bajos dobles: __texto__ → texto
+    cleaned = cleaned.replace(/__(.+?)__/g, '$1');
+    // Eliminar cursiva con asterisco: *texto* → texto (en cualquier posición)
+    // Solo si no es parte de **texto** (ya procesado arriba)
+    cleaned = cleaned.replace(/\*([^*\n]+?)\*/g, '$1');
+    // Eliminar cursiva con guión bajo: _texto_ → texto (en cualquier posición)
+    // Solo si no es parte de __texto__ (ya procesado arriba)
+    cleaned = cleaned.replace(/(?<!_)_([^_\n]+?)_(?!_)/g, '$1');
+  }
+  
+  return cleaned.trim();
+}
+
 // Función para extraer headings del contenido MDX
 function extractHeadings(content: string): Array<{ level: number; text: string; id: string }> {
   if (!content) return [];
@@ -18,8 +43,10 @@ function extractHeadings(content: string): Array<{ level: number; text: string; 
 
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length; // Número de #
-    const text = match[2].trim();
-    // Generar ID slug desde el texto
+    let text = match[2].trim();
+    // Limpiar markdown inline del texto
+    text = cleanMarkdown(text);
+    // Generar ID slug desde el texto limpio
     const id = text
       .toLowerCase()
       .normalize('NFD')
@@ -47,7 +74,7 @@ const shouldShow = headings.length >= minHeadings;
     class="toc-container"
     aria-label="Tabla de contenidos"
   >
-    <h2 class="toc-title">Contenido</h2>
+    <p class="toc-title">Contenido</p>
     <ol class="toc-list">
       {headings.map((heading) => (
         <li 

@@ -65,18 +65,6 @@ const combinedStructuredData = combineStructuredData(
               post={post} 
               includeBreadcrumbs={includeBreadcrumbs}
             />
-            
-            <!-- Título del artículo -->
-            <h1 class="text-display font-bold text-ink-base leading-[1.1] tracking-[-0.01em] mb-6">
-              {post.data.title}
-            </h1>
-            
-            <!-- Descripción -->
-            {post.data.description && (
-              <p class="text-[1.125rem] text-ink-muted leading-[1.6] mb-8">
-                {post.data.description}
-              </p>
-            )}
           </header>
           
           <!-- Imagen Hero del Post -->
