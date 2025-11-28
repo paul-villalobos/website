@@ -15,15 +15,12 @@ export async function getStaticPaths() {
 const { post }: { post: any } = Astro.props;
 const { Content, headings } = await post.render();
 
-// Procesar datos del post para el nuevo sistema
+// Procesar datos del post
 const processedPost = processPostData(post);
-// Mantener referencia al post original para el TOC (necesita acceso a body)
-const originalPost = post;
 ---
 
 <BlogLayout 
   post={processedPost}
-  originalPost={originalPost}
   headings={headings}
   showTOC={true}
   includeBreadcrumbs={true}

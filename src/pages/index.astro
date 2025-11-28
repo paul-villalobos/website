@@ -4,7 +4,7 @@ import Button from '../components/Button.astro';
 import ServiceCard from '../components/home/ServiceCard.astro';
 import ProcessStep from '../components/home/ProcessStep.astro';
 import SectionHeader from '../components/home/SectionHeader.astro';
-import BlogCard from '../components/BlogCard.astro';
+import ContentCard from '../components/ContentCard.astro';
 import CTACard from '../components/home/CTACard.astro';
 import { combineStructuredData } from '../utils/blogUtils';
 import { AUTHOR_NAME, SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL } from '../utils/constants';
@@ -510,7 +510,7 @@ const combinedStructuredData = combineStructuredData(
 					title="Recursos y artículos sobre IA Aplicada a Ventas"
 				/>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-					<BlogCard
+					<ContentCard
 						title="Entrena tu cerebro para trabajar creativamente con la IA generativa"
 						href="/blog/entrena-tu-cerebro-para-trabajar-creativamente-con-la-ia-generativa"
 						excerpt="Descubre cómo desarrollar habilidades cognitivas que te permitan aprovechar al máximo las herramientas de IA generativa en tu trabajo diario."
@@ -519,7 +519,7 @@ const combinedStructuredData = combineStructuredData(
 						date="Dic 2024"
 						colorVariant="primary"
 					/>
-					<BlogCard
+					<ContentCard
 						title="El rol del CEO en las ventas B2B"
 						href="/blog/el-rol-del-ceo-en-las-ventas-b2b"
 						excerpt="Análisis profundo sobre cómo los líderes ejecutivos pueden influir directamente en el éxito de sus equipos comerciales."
@@ -528,7 +528,7 @@ const combinedStructuredData = combineStructuredData(
 						date="Dic 2024"
 						colorVariant="secondary"
 					/>
-					<BlogCard
+					<ContentCard
 						title="Cómo tomar decisiones basadas en datos"
 						href="/blog/como-tomar-decisiones-basadas-en-datos"
 						excerpt="Guía práctica para implementar una cultura de toma de decisiones basada en datos en tu organización comercial."
@@ -537,7 +537,7 @@ const combinedStructuredData = combineStructuredData(
 						date="Dic 2024"
 						colorVariant="accent"
 					/>
-					<BlogCard
+					<ContentCard
 						title="Ver todos los artículos"
 						href="/blog"
 						excerpt="Explora más recursos sobre inteligencia artificial aplicada a ventas y transformación comercial."

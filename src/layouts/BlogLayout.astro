@@ -15,7 +15,6 @@ import {
 // Props específicas del blog
 export interface Props {
   post: ProcessedPost;
-  originalPost?: any; // Post original de Astro para acceso a body
   headings?: any[];
   showTOC?: boolean;
   includeBreadcrumbs?: boolean;
@@ -23,7 +22,6 @@ export interface Props {
 
 const {
   post,
-  originalPost,
   headings = [],
   showTOC = false,
   includeBreadcrumbs = true
@@ -70,11 +68,11 @@ const combinedStructuredData = combineStructuredData(
           </header>
           
           <!-- Imagen Hero del Post -->
-          {post.data.heroImage && (
+          {post.image && (
             <div class="mb-8 -mx-5 sm:mx-0">
               <img 
-                src={typeof post.data.heroImage.src === 'string' ? post.data.heroImage.src : post.data.heroImage.src.src}
-                alt={post.data.heroImage.alt}
+                src={post.image}
+                alt={post.imageAlt}
                 width={1200}
                 height={630}
                 class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
@@ -91,9 +89,9 @@ const combinedStructuredData = combineStructuredData(
         </article>
         
         <!-- Sidebar para TOC -->
-        {showTOC && (headings.length > 0 || originalPost) && (
-          <aside class="hidden lg:block w-64 flex-shrink-0">
-            <TableOfContents headings={headings} post={originalPost} minHeadings={3} />
+        {showTOC && headings.length > 0 && (
+          <aside class="hidden lg:block w-64 shrink-0">
+            <TableOfContents headings={headings} minHeadings={3} />
           </aside>
         )}
       </div>

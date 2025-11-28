@@ -1,0 +1,98 @@
+---
+// Componente simple para cards de contenido en home
+export interface Props {
+  title: string;
+  href: string;
+  excerpt: string;
+  category?: string;
+  readingTime?: string;
+  date?: string;
+  colorVariant?: 'primary' | 'secondary' | 'accent';
+  imageUrl?: string;
+}
+
+const { 
+  title,
+  href,
+  excerpt,
+  category,
+  readingTime,
+  date,
+  colorVariant = 'primary',
+  imageUrl
+} = Astro.props;
+
+// Mapeo de colores para variantes
+const colorMap = {
+  primary: {
+    bg: 'from-[var(--pv-primary-soft)]',
+    badgeBg: 'bg-[var(--pv-primary-soft)]',
+    badgeText: 'text-primary',
+  },
+  secondary: {
+    bg: 'from-[var(--pv-secondary-soft)]',
+    badgeBg: 'bg-[var(--pv-secondary-soft)]',
+    badgeText: 'text-[var(--pv-secondary-base)]',
+  },
+  accent: {
+    bg: 'from-[var(--pv-accent-soft)]',
+    badgeBg: 'bg-[var(--pv-accent-soft)]',
+    badgeText: 'text-[var(--pv-accent-base)]',
+  },
+};
+
+const colors = colorMap[colorVariant];
+---
+
+<article 
+  class="bg-white border border-[var(--pv-border-mid)] rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group"
+>
+  <!-- Imagen o gradiente -->
+  {imageUrl ? (
+    <div class={`aspect-video overflow-hidden bg-gradient-to-br ${colors.bg} to-white`}>
+      <img 
+        src={imageUrl} 
+        alt={title}
+        width="640"
+        height="360"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+    </div>
+  ) : (
+    <div class={`aspect-video bg-gradient-to-br ${colors.bg} to-white`}></div>
+  )}
+  
+  <!-- Contenido de la tarjeta -->
+  <div class="p-6">
+    <!-- Categoría -->
+    {category && (
+      <div class="mb-3">
+        <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colors.badgeBg} ${colors.badgeText}`}>
+          {category}
+        </span>
+      </div>
+    )}
+    
+    <!-- Título -->
+    <h2 class="text-xl font-semibold text-ink-base hover:text-primary mb-3 transition-colors duration-200">
+      <a href={href} class="block">
+        {title}
+      </a>
+    </h2>
+    
+    <!-- Descripción -->
+    <p class="text-ink-muted text-sm mb-4">
+      {excerpt}
+    </p>
+    
+    <!-- Metadatos -->
+    {(date || readingTime) && (
+      <div class="flex items-center gap-4 text-sm text-ink-subtle">
+        {date && <time>{date}</time>}
+        {readingTime && <span>{readingTime}</span>}
+      </div>
+    )}
+  </div>
+</article>
+

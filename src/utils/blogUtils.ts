@@ -14,22 +14,18 @@ import {
 export interface ProcessedPost {
   slug: string;
   data: any;
-  processedData: {
-    image: string | null;
-    imageAlt: string;
-    formattedDate: string;
-    categoryName: string;
-    filterData: {
-      category: string;
-      tags: string;
-      title: string;
-      description: string;
-    };
-    hasImage: boolean;
-    hasCategory: boolean;
-    hasTags: boolean;
-    visibleTags: string[];
-    remainingTagsCount: number;
+  // Campos procesados aplanados (sin anidamiento innecesario)
+  image: string | null;
+  imageAlt: string;
+  formattedDate: string;
+  categoryName: string;
+  readingTime: string;
+  // Datos para filtros (usado en blog index)
+  filterData: {
+    category: string;
+    tags: string;
+    title: string;
+    description: string;
   };
 }
 
@@ -50,7 +46,6 @@ export interface BreadcrumbItem {
   url: string;
 }
 
-
 export interface CountsResult {
   categoryCounts: Record<string, number>;
   tagCounts: Record<string, number>;
@@ -64,16 +59,12 @@ export interface CountsResult {
 export function calculateCounts(posts: any[]): CountsResult {
   const result = posts.reduce(
     (acc, post) => {
-      // Contar categorías
       if (post.data.category) {
         acc.categoryCounts[post.data.category] = (acc.categoryCounts[post.data.category] || 0) + 1;
       }
-
-      // Contar tags
       (post.data.tags || []).forEach((tag: string) => {
         acc.tagCounts[tag] = (acc.tagCounts[tag] || 0) + 1;
       });
-
       return acc;
     },
     {
@@ -90,66 +81,50 @@ export function calculateCounts(posts: any[]): CountsResult {
 }
 
 /**
- * Normaliza la imagen de un post
+ * Normaliza la imagen de un post (simplificado)
  * Soporta tanto URLs string como ImageMetadata de Astro
  */
 function normalizePostImage(post: any): { image: string | null; imageAlt: string } {
-  if (post.data.hero?.src) {
-    const src = typeof post.data.hero.src === 'string' 
-      ? post.data.hero.src 
-      : post.data.hero.src.src; // ImageMetadata tiene .src.src
-    return {
-      image: src,
-      imageAlt: post.data.hero.alt || post.data.title,
-    };
-  }
+  const imageField = post.data.hero || post.data.heroImage;
   
-  if (post.data.heroImage) {
-    if (typeof post.data.heroImage === "object" && post.data.heroImage.src) {
-      // Manejar ImageMetadata (objeto con propiedad src que puede ser otro objeto)
-      const src = typeof post.data.heroImage.src === 'string'
-        ? post.data.heroImage.src
-        : post.data.heroImage.src.src;
-      return {
-        image: src,
-        imageAlt: post.data.heroImage.alt || post.data.title,
-      };
-    }
-    
-    if (typeof post.data.heroImage === "string") {
-      return {
-        image: post.data.heroImage,
-        imageAlt: post.data.title,
-      };
-    }
+  if (!imageField) {
+    return { image: null, imageAlt: post.data.title };
   }
 
-  return {
-    image: null,
-    imageAlt: post.data.title,
-  };
+  // Manejar string directo
+  if (typeof imageField === "string") {
+    return { image: imageField, imageAlt: post.data.title };
+  }
+
+  // Manejar objeto con src
+  if (typeof imageField === "object" && imageField.src) {
+    const src = typeof imageField.src === 'string' ? imageField.src : imageField.src.src;
+    return {
+      image: src,
+      imageAlt: imageField.alt || post.data.title,
+    };
+  }
+
+  return { image: null, imageAlt: post.data.title };
 }
 
 /**
  * Procesa los datos de un post para optimizar el template
+ * Estructura aplanada - sin flags booleanos redundantes
+ * Pre-calcula metadatos para evitar cálculos redundantes
  */
 export function processPostData(post: any): ProcessedPost {
   const { image, imageAlt } = normalizePostImage(post);
 
-  // Formatear fecha
-  const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-    "es-ES",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
+  const formattedDate = new Date(post.data.pubDate).toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const categorySlug = post.data.category || "";
   const categoryName = BLOG_CATEGORIES[categorySlug] || categorySlug;
 
-  // Preparar datos para filtros
   const filterData = {
     category: categorySlug,
     tags: post.data.tags?.join(",") || "",
@@ -157,20 +132,16 @@ export function processPostData(post: any): ProcessedPost {
     description: post.data.description?.toLowerCase() || "",
   };
 
+  const readingTime = estimateReadingTime(post.data.body || "");
+
   return {
     ...post,
-    processedData: {
-      image,
-      imageAlt,
-      formattedDate,
-      categoryName,
-      filterData,
-      hasImage: !!image,
-      hasCategory: !!categorySlug,
-      hasTags: !!(post.data.tags && post.data.tags.length > 0),
-      visibleTags: post.data.tags?.slice(0, 3) || [],
-      remainingTagsCount: Math.max(0, (post.data.tags?.length || 0) - 3),
-    },
+    image,
+    imageAlt,
+    formattedDate,
+    categoryName,
+    readingTime,
+    filterData,
   };
 }
 
@@ -179,70 +150,14 @@ export function processPostData(post: any): ProcessedPost {
  */
 export function sortPostsByDate(posts: any[]): any[] {
   return posts.sort((a: any, b: any) => {
-    const dateA = new Date(a.data.pubDate);
-    const dateB = new Date(b.data.pubDate);
-    return dateB.getTime() - dateA.getTime();
+    return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
   });
 }
 
 /**
- * Función base para generar metadatos comunes
- */
-function generateBaseMeta(overrides: Partial<{
-  title: string;
-  description: string;
-  keywords: string;
-  canonical: string;
-  ogImage: string;
-  ogType: string;
-}>) {
-  return {
-    title: overrides.title || SITE_TITLE,
-    description: overrides.description || SITE_DESCRIPTION,
-    keywords: overrides.keywords || DEFAULT_KEYWORDS,
-    canonical: overrides.canonical || SITE_URL,
-    ogImage: overrides.ogImage || DEFAULT_OG_IMAGE,
-    ogType: overrides.ogType || "website",
-  };
-}
-
-/**
- * Crea schema de autor para datos estructurados
- */
-function createAuthorSchema(authorName?: string, includeJobTitle = false) {
-  return {
-    "@type": "Person",
-    name: authorName || AUTHOR_NAME,
-    ...(includeJobTitle && { jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas" }),
-    url: SITE_URL,
-  };
-}
-
-/**
- * Crea schema de publisher para datos estructurados
- */
-function createPublisherSchema() {
-  return {
-    "@type": "Person",
-    name: AUTHOR_NAME,
-    url: SITE_URL,
-  };
-}
-
-/**
- * Crea schema de imagen para datos estructurados
- */
-function createImageSchema(imageUrl: string, imageAlt: string, includeDimensions = false) {
-  return {
-    "@type": "ImageObject",
-    url: imageUrl,
-    caption: imageAlt,
-    ...(includeDimensions && { width: 1200, height: 630 }),
-  };
-}
-
-/**
  * Combina múltiples datos estructurados en un @graph
+ * Usar @graph es la mejor práctica de Schema.org cuando una página tiene
+ * múltiples entidades independientes (ej: BlogPosting + BreadcrumbList)
  */
 export function combineStructuredData(...schemas: any[]) {
   return {
@@ -250,8 +165,6 @@ export function combineStructuredData(...schemas: any[]) {
     "@graph": schemas.filter(Boolean),
   };
 }
-
-
 
 /**
  * Genera datos estructurados JSON-LD para el blog
@@ -267,8 +180,17 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
     description:
       "Artículos sobre inteligencia artificial aplicada a ventas B2B, automatización comercial, estrategias de ventas y transformación digital empresarial.",
     url: blogUrl,
-    author: createAuthorSchema(AUTHOR_NAME, true),
-    publisher: createPublisherSchema(),
+    author: {
+      "@type": "Person",
+      name: AUTHOR_NAME,
+      jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Person",
+      name: AUTHOR_NAME,
+      url: SITE_URL,
+    },
     inLanguage: "es-ES",
     blogPost: recentPosts.map((post) => ({
       "@type": "BlogPosting",
@@ -277,10 +199,22 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
       url: post.data.canonical || `${SITE_URL}/blog/${post.slug}`,
       datePublished: post.data.pubDate,
       dateModified: post.data.updatedDate || post.data.pubDate,
-      author: createAuthorSchema(post.data.authors?.[0]),
-      publisher: createPublisherSchema(),
-      image: post.processedData.image
-        ? createImageSchema(post.processedData.image, post.processedData.imageAlt)
+      author: {
+        "@type": "Person",
+        name: post.data.authors?.[0] || AUTHOR_NAME,
+        url: SITE_URL,
+      },
+      publisher: {
+        "@type": "Person",
+        name: AUTHOR_NAME,
+        url: SITE_URL,
+      },
+      image: post.image
+        ? {
+            "@type": "ImageObject",
+            url: post.image,
+            caption: post.imageAlt,
+          }
         : undefined,
       keywords: post.data.tags?.join(", ") || "",
       articleSection: BLOG_CATEGORIES[post.data.category] || post.data.category || "General",
@@ -290,27 +224,23 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
 
 /**
  * Genera metadatos SEO específicos para un post individual
+ * Usa datos pre-calculados del ProcessedPost
  */
 export function generatePostMeta(post: ProcessedPost): PostMeta {
   const canonicalUrl = post.data.canonical || `${SITE_URL}/blog/${post.slug}`;
   const postKeywords = post.data.tags?.join(", ") || "";
   const baseKeywords = "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
-  const categoryName = BLOG_CATEGORIES[post.data.category] || post.data.category || "inteligencia artificial aplicada a ventas";
 
   return {
-    ...generateBaseMeta({
-      title: `${post.data.title} | Paul Villalobos - Blog`,
-      description:
-        post.data.description ||
-        `Artículo sobre ${categoryName} por ${AUTHOR_NAME}.`,
-      keywords: postKeywords ? `${postKeywords}, ${baseKeywords}` : baseKeywords,
-      canonical: canonicalUrl,
-      ogImage: post.processedData.image || `${SITE_URL}/images/blog-default.jpg`,
-      ogType: "article",
-    }),
+    title: `${post.data.title} | Paul Villalobos - Blog`,
+    description: post.data.description || `Artículo sobre ${post.categoryName} por ${AUTHOR_NAME}.`,
+    keywords: postKeywords ? `${postKeywords}, ${baseKeywords}` : baseKeywords,
+    canonical: canonicalUrl,
+    ogImage: post.image || `${SITE_URL}/images/blog-default.jpg`,
+    ogType: "article",
     author: post.data.authors?.[0] || AUTHOR_NAME,
-    publishDate: post.processedData.formattedDate,
-    readingTime: estimateReadingTime(post.data.body || ""),
+    publishDate: post.formattedDate,
+    readingTime: post.readingTime,
   };
 }
 
@@ -329,14 +259,29 @@ export function generatePostStructuredData(post: ProcessedPost): any {
     url: postUrl,
     datePublished: post.data.pubDate,
     dateModified: post.data.updatedDate || post.data.pubDate,
-    author: createAuthorSchema(post.data.authors?.[0], true),
-    publisher: createPublisherSchema(),
+    author: {
+      "@type": "Person",
+      name: post.data.authors?.[0] || AUTHOR_NAME,
+      jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Person",
+      name: AUTHOR_NAME,
+      url: SITE_URL,
+    },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": postUrl,
     },
-    image: post.processedData.image
-      ? createImageSchema(post.processedData.image, post.processedData.imageAlt, true)
+    image: post.image
+      ? {
+          "@type": "ImageObject",
+          url: post.image,
+          caption: post.imageAlt,
+          width: 1200,
+          height: 630,
+        }
       : undefined,
     keywords: post.data.tags?.join(", ") || "",
     articleSection: categoryName,
@@ -346,23 +291,13 @@ export function generatePostStructuredData(post: ProcessedPost): any {
 }
 
 /**
- * Crea un item de breadcrumb
- */
-function createBreadcrumbItem(name: string, url: string): BreadcrumbItem {
-  return { name, url };
-}
-
-/**
  * Genera breadcrumbs para navegación SEO de un post individual
  */
 export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
   return [
-    createBreadcrumbItem("Inicio", "/"),
-    createBreadcrumbItem("Blog", "/blog"),
-    createBreadcrumbItem(
-      post.data.title,
-      `/blog/${post.slug}`
-    ),
+    { name: "Inicio", url: "/" },
+    { name: "Blog", url: "/blog" },
+    { name: post.data.title, url: `/blog/${post.slug}` },
   ];
 }
 
@@ -371,8 +306,8 @@ export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
  */
 export function generateBlogBreadcrumbs(): BreadcrumbItem[] {
   return [
-    createBreadcrumbItem("Inicio", "/"),
-    createBreadcrumbItem("Blog", "/blog"),
+    { name: "Inicio", url: "/" },
+    { name: "Blog", url: "/blog" },
   ];
 }
 
@@ -389,13 +324,10 @@ export function estimateReadingTime(content: string): string {
   return `${minutes} min de lectura`;
 }
 
-
 /**
  * Genera datos estructurados para breadcrumbs
  */
-export function generateBreadcrumbStructuredData(
-  breadcrumbs: BreadcrumbItem[]
-): any {
+export function generateBreadcrumbStructuredData(breadcrumbs: BreadcrumbItem[]): any {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

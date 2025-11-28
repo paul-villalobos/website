@@ -156,35 +156,33 @@ const defaultStructuredData = {
 					</a>
 				</div> -->
 
-				<input type="checkbox" id="mobile-menu-toggle" class="hidden">
-				<label 
-					for="mobile-menu-toggle"
-					class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200 cursor-pointer"
+				<button 
+					id="mobile-menu-toggle"
+					class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+					aria-label="Abrir menú"
 				>
-					<svg class="menu-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
 					</svg>
-					<svg class="close-icon w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-					</svg>
-				</label>
+				</button>
 			</nav>
 
 			<div 
 				id="mobile-menu"
-				class="mobile-menu md:hidden fixed inset-0 z-50 bg-white transition-transform duration-300 ease-in-out"
+				class="mobile-menu md:hidden fixed inset-0 z-50 bg-white"
 			>
 				<div class="flex flex-col h-full">
 					<div class="flex items-center justify-between p-4 border-b border-gray-200 h-18">
 						<span class="text-lg font-bold text-slate-900">Menú de navegación</span>
-						<label 
-							for="mobile-menu-toggle"
-							class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200 cursor-pointer"
+						<button 
+							id="mobile-menu-close"
+							class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+							aria-label="Cerrar menú"
 						>
 							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
-						</label>
+						</button>
 					</div>
 
 					<div class="flex-1 px-4 py-6 space-y-6">
@@ -268,6 +266,31 @@ const defaultStructuredData = {
 			</div>
 		</footer>
 
+		<!-- Script para menú móvil -->
+		<script>
+			const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+			const mobileMenuClose = document.getElementById('mobile-menu-close');
+			const mobileMenu = document.getElementById('mobile-menu');
+
+			function openMenu() {
+				mobileMenu?.classList.add('open');
+				document.body.style.overflow = 'hidden';
+			}
+
+			function closeMenu() {
+				mobileMenu?.classList.remove('open');
+				document.body.style.overflow = '';
+			}
+
+			mobileMenuToggle?.addEventListener('click', openMenu);
+			mobileMenuClose?.addEventListener('click', closeMenu);
+
+			// Cerrar menú al hacer clic en un enlace
+			const menuLinks = mobileMenu?.querySelectorAll('a');
+			menuLinks?.forEach(link => {
+				link.addEventListener('click', closeMenu);
+			});
+		</script>
 
 	</body>
 </html>

@@ -1,11 +1,9 @@
 ---
-import type { ProcessedPost, PostMeta, BreadcrumbItem } from '../utils/blogUtils';
+import type { ProcessedPost, BreadcrumbItem } from '../utils/blogUtils';
 import Breadcrumb from './Breadcrumb.astro';
 import Icon from './Icon.astro';
-import { 
-  generatePostMeta, 
-  generateBreadcrumbs
-} from '../utils/blogUtils';
+import { generateBreadcrumbs } from '../utils/blogUtils';
+import { AUTHOR_NAME } from '../utils/constants';
 
 export interface Props {
   post: ProcessedPost;
@@ -14,9 +12,9 @@ export interface Props {
 
 const { post, includeBreadcrumbs = true } = Astro.props;
 
-// Generar metadatos para mostrar en la UI
-const postMeta: PostMeta = generatePostMeta(post);
+// Usar datos pre-calculados del post (sin regenerar)
 const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(post) : [];
+const author = post.data.authors?.[0] || AUTHOR_NAME;
 ---
 
 <!-- Breadcrumbs visuales -->
@@ -34,7 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(p
   <div class="flex items-center gap-2">
     <Icon name="calendar" class="w-4 h-4 text-ink-subtle" />
     <time datetime={post.data.pubDate} class="text-[0.875rem] text-ink-subtle leading-[1.5]">
-      {postMeta.publishDate}
+      {post.formattedDate}
     </time>
   </div>
   
@@ -42,7 +40,7 @@ const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(p
   <div class="flex items-center gap-2">
     <Icon name="clock" class="w-4 h-4 text-ink-subtle" />
     <span class="text-[0.875rem] text-ink-subtle leading-[1.5]">
-      {postMeta.readingTime}
+      {post.readingTime}
     </span>
   </div>
   
@@ -50,7 +48,7 @@ const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(p
   <div class="flex items-center gap-2">
     <Icon name="user" class="w-4 h-4 text-ink-subtle" />
     <span class="text-[0.875rem] text-ink-subtle leading-[1.5]">
-      {postMeta.author}
+      {author}
     </span>
   </div>
 </div>
@@ -61,7 +59,7 @@ const breadcrumbs: BreadcrumbItem[] = includeBreadcrumbs ? generateBreadcrumbs(p
     <!-- Categoría - Badge info según Design.json -->
     {post.data.category && (
       <span class="badge badge-info">
-        {post.processedData.categoryName || post.data.category}
+        {post.categoryName}
       </span>
     )}
     
