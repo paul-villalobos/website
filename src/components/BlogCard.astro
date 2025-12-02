@@ -1,6 +1,7 @@
 ---
 import type { ProcessedPost } from '../utils/blogUtils';
 import Icon from './Icon.astro';
+import { Image } from 'astro:assets';
 
 export interface Props {
   post: ProcessedPost;
@@ -30,14 +31,24 @@ const hasTags = post.data.tags && post.data.tags.length > 0;
   <!-- Imagen del post -->
   {imageUrl && (
     <div class="aspect-video overflow-hidden">
-      <img 
-        src={imageUrl} 
-        alt={imageAlt}
-        width="640"
-        height="360"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        loading="lazy"
-      />
+      {typeof imageUrl === 'string' ? (
+        <img 
+          src={imageUrl} 
+          alt={imageAlt}
+          width="640"
+          height="360"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+        />
+      ) : (
+        <Image 
+          src={imageUrl} 
+          alt={imageAlt}
+          width={640}
+          height={360}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      )}
     </div>
   )}
   

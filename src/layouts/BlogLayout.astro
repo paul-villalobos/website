@@ -1,5 +1,6 @@
 ---
 import MainLayout from './MainLayout.astro';
+import { Image } from 'astro:assets';
 
 import BlogPostMeta from '../components/BlogPostMeta.astro';
 import TableOfContents from '../components/TableOfContents.astro';
@@ -70,14 +71,26 @@ const combinedStructuredData = combineStructuredData(
           <!-- Imagen Hero del Post -->
           {post.image && (
             <div class="mb-8 -mx-5 sm:mx-0">
-              <img 
-                src={post.image}
-                alt={post.imageAlt}
-                width={1200}
-                height={630}
-                class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
-                loading="eager"
-              />
+              {typeof post.image === 'string' ? (
+                <img 
+                  src={post.image}
+                  alt={post.imageAlt}
+                  width={1200}
+                  height={630}
+                  class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
+                  loading="eager"
+                />
+              ) : (
+                <Image 
+                  src={post.image}
+                  alt={post.imageAlt}
+                  width={1200}
+                  height={630}
+                  class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              )}
             </div>
           )}
           

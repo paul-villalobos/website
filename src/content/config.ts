@@ -25,16 +25,10 @@ const blog = defineCollection({
       canonical: z.string().url().optional(),
       draft: z.boolean().default(false),
       heroImage: z
-        .union([
-          // 1. Objeto con src string (URLs públicas o externas)
-          z.object({
-            src: z.string(),
-            alt: z.string(),
-          }),
-          // 2. String simple (legacy support)
-          z.string(),
-          z.null(),
-        ])
+        .object({
+          src: image(),
+          alt: z.string(),
+        })
         .optional(),
     }),
 });

@@ -9,13 +9,14 @@ import {
   AUTHOR_LINKEDIN,
   AUTHOR_TWITTER_URL,
   BLOG_CATEGORIES,
-} from './constants';
+} from "./constants";
+import type { ImageMetadata } from "astro";
 
 export interface ProcessedPost {
   slug: string;
   data: any;
   // Campos procesados aplanados (sin anidamiento innecesario)
-  image: string | null;
+  image: ImageMetadata | string | null;
   imageAlt: string;
   formattedDate: string;
   categoryName: string;
@@ -58,9 +59,10 @@ export interface CountsResult {
  */
 export function calculateCounts(posts: any[]): CountsResult {
   const result = posts.reduce(
-    (acc, post) => {
+    (acc: any, post: any) => {
       if (post.data.category) {
-        acc.categoryCounts[post.data.category] = (acc.categoryCounts[post.data.category] || 0) + 1;
+        acc.categoryCounts[post.data.category] =
+          (acc.categoryCounts[post.data.category] || 0) + 1;
       }
       (post.data.tags || []).forEach((tag: string) => {
         acc.tagCounts[tag] = (acc.tagCounts[tag] || 0) + 1;
@@ -84,21 +86,37 @@ export function calculateCounts(posts: any[]): CountsResult {
  * Normaliza la imagen de un post (simplificado)
  * Soporta tanto URLs string como ImageMetadata de Astro
  */
-function normalizePostImage(post: any): { image: string | null; imageAlt: string } {
+function normalizePostImage(post: any): {
+  image: ImageMetadata | string | null;
+  imageAlt: string;
+} {
   const imageField = post.data.hero || post.data.heroImage;
-  
+
   if (!imageField) {
     return { image: null, imageAlt: post.data.title };
   }
 
-  // Manejar string directo
+  // Manejar objeto con src que es ImageMetadata (nuevo schema)
+  if (
+    typeof imageField === "object" &&
+    imageField.src &&
+    typeof imageField.src === "object"
+  ) {
+    return {
+      image: imageField.src,
+      imageAlt: imageField.alt || post.data.title,
+    };
+  }
+
+  // Manejar string directo (legacy)
   if (typeof imageField === "string") {
     return { image: imageField, imageAlt: post.data.title };
   }
 
-  // Manejar objeto con src
+  // Manejar objeto con src string (legacy)
   if (typeof imageField === "object" && imageField.src) {
-    const src = typeof imageField.src === 'string' ? imageField.src : imageField.src.src;
+    const src =
+      typeof imageField.src === "string" ? imageField.src : imageField.src.src;
     return {
       image: src,
       imageAlt: imageField.alt || post.data.title,
@@ -116,11 +134,14 @@ function normalizePostImage(post: any): { image: string | null; imageAlt: string
 export function processPostData(post: any): ProcessedPost {
   const { image, imageAlt } = normalizePostImage(post);
 
-  const formattedDate = new Date(post.data.pubDate).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
+    "es-ES",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 
   const categorySlug = post.data.category || "";
   const categoryName = BLOG_CATEGORIES[categorySlug] || categorySlug;
@@ -150,7 +171,9 @@ export function processPostData(post: any): ProcessedPost {
  */
 export function sortPostsByDate(posts: any[]): any[] {
   return posts.sort((a: any, b: any) => {
-    return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+    return (
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+    );
   });
 }
 
@@ -192,33 +215,47 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
       url: SITE_URL,
     },
     inLanguage: "es-ES",
-    blogPost: recentPosts.map((post) => ({
-      "@type": "BlogPosting",
-      headline: post.data.title,
-      description: post.data.description,
-      url: post.data.canonical || `${SITE_URL}/blog/${post.slug}`,
-      datePublished: post.data.pubDate,
-      dateModified: post.data.updatedDate || post.data.pubDate,
-      author: {
-        "@type": "Person",
-        name: post.data.authors?.[0] || AUTHOR_NAME,
-        url: SITE_URL,
-      },
-      publisher: {
-        "@type": "Person",
-        name: AUTHOR_NAME,
-        url: SITE_URL,
-      },
-      image: post.image
-        ? {
-            "@type": "ImageObject",
-            url: post.image,
-            caption: post.imageAlt,
-          }
-        : undefined,
-      keywords: post.data.tags?.join(", ") || "",
-      articleSection: BLOG_CATEGORIES[post.data.category] || post.data.category || "General",
-    })),
+    blogPost: recentPosts.map((post) => {
+      let imageUrl = undefined;
+      if (post.image) {
+        if (typeof post.image === "string") {
+          imageUrl = post.image;
+        } else if ("src" in post.image) {
+          imageUrl = post.image.src;
+        }
+      }
+
+      return {
+        "@type": "BlogPosting",
+        headline: post.data.title,
+        description: post.data.description,
+        url: post.data.canonical || `${SITE_URL}/blog/${post.slug}`,
+        datePublished: post.data.pubDate,
+        dateModified: post.data.updatedDate || post.data.pubDate,
+        author: {
+          "@type": "Person",
+          name: post.data.authors?.[0] || AUTHOR_NAME,
+          url: SITE_URL,
+        },
+        publisher: {
+          "@type": "Person",
+          name: AUTHOR_NAME,
+          url: SITE_URL,
+        },
+        image: imageUrl
+          ? {
+              "@type": "ImageObject",
+              url: imageUrl,
+              caption: post.imageAlt,
+            }
+          : undefined,
+        keywords: post.data.tags?.join(", ") || "",
+        articleSection:
+          BLOG_CATEGORIES[post.data.category] ||
+          post.data.category ||
+          "General",
+      };
+    }),
   };
 }
 
@@ -229,14 +266,31 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
 export function generatePostMeta(post: ProcessedPost): PostMeta {
   const canonicalUrl = post.data.canonical || `${SITE_URL}/blog/${post.slug}`;
   const postKeywords = post.data.tags?.join(", ") || "";
-  const baseKeywords = "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
+  const baseKeywords =
+    "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
+
+  let ogImage = `${SITE_URL}/images/blog-default.jpg`;
+  if (post.image) {
+    if (typeof post.image === "string") {
+      ogImage = post.image;
+    } else if ("src" in post.image) {
+      ogImage = post.image.src;
+    }
+  }
+
+  // Ensure absolute URL for OG image if it's relative
+  if (ogImage && !ogImage.startsWith("http")) {
+    ogImage = new URL(ogImage, SITE_URL).toString();
+  }
 
   return {
     title: `${post.data.title} | Paul Villalobos - Blog`,
-    description: post.data.description || `Artículo sobre ${post.categoryName} por ${AUTHOR_NAME}.`,
+    description:
+      post.data.description ||
+      `Artículo sobre ${post.categoryName} por ${AUTHOR_NAME}.`,
     keywords: postKeywords ? `${postKeywords}, ${baseKeywords}` : baseKeywords,
     canonical: canonicalUrl,
-    ogImage: post.image || `${SITE_URL}/images/blog-default.jpg`,
+    ogImage: ogImage,
     ogType: "article",
     author: post.data.authors?.[0] || AUTHOR_NAME,
     publishDate: post.formattedDate,
@@ -249,7 +303,17 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
  */
 export function generatePostStructuredData(post: ProcessedPost): any {
   const postUrl = post.data.canonical || `${SITE_URL}/blog/${post.slug}`;
-  const categoryName = BLOG_CATEGORIES[post.data.category] || post.data.category || "General";
+  const categoryName =
+    BLOG_CATEGORIES[post.data.category] || post.data.category || "General";
+
+  let imageUrl = undefined;
+  if (post.image) {
+    if (typeof post.image === "string") {
+      imageUrl = post.image;
+    } else if ("src" in post.image) {
+      imageUrl = post.image.src;
+    }
+  }
 
   return {
     "@context": "https://schema.org",
@@ -274,10 +338,10 @@ export function generatePostStructuredData(post: ProcessedPost): any {
       "@type": "WebPage",
       "@id": postUrl,
     },
-    image: post.image
+    image: imageUrl
       ? {
           "@type": "ImageObject",
-          url: post.image,
+          url: imageUrl,
           caption: post.imageAlt,
           width: 1200,
           height: 630,
@@ -327,7 +391,9 @@ export function estimateReadingTime(content: string): string {
 /**
  * Genera datos estructurados para breadcrumbs
  */
-export function generateBreadcrumbStructuredData(breadcrumbs: BreadcrumbItem[]): any {
+export function generateBreadcrumbStructuredData(
+  breadcrumbs: BreadcrumbItem[]
+): any {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
