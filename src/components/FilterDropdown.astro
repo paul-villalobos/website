@@ -10,13 +10,15 @@ export interface Props {
   options: FilterOption[];
   placeholder: string;
   totalCount: number;
+  ariaLabel?: string;
 }
 
-const { id, options, placeholder, totalCount } = Astro.props;
+const { id, options, placeholder, totalCount, ariaLabel } = Astro.props;
 ---
 
 <select 
   id={id}
+  aria-label={ariaLabel || placeholder}
   class="px-4 py-3 bg-white border border-slate-300 rounded-full text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
 >
   <option value="">{placeholder} ({totalCount})</option>

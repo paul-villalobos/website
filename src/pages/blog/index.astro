@@ -79,6 +79,7 @@ const combinedBlogStructuredData = combineStructuredData(
             <!-- Filtro por categoría -->
             <FilterDropdown 
               id="category-filter"
+              ariaLabel="Filtrar por categoría"
               options={allCategories.map(cat => ({
                 value: cat,
                 label: BLOG_CATEGORIES[cat] || cat,
@@ -91,6 +92,7 @@ const combinedBlogStructuredData = combineStructuredData(
             <!-- Filtro por tags -->
             <FilterDropdown 
               id="tags-filter"
+              ariaLabel="Filtrar por tags"
               options={allTags.map(tag => ({
                 value: tag,
                 label: tag,
