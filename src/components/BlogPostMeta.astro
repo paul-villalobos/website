@@ -23,7 +23,7 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
     items={breadcrumbs} 
     align="left" 
     variant="minimal" 
-  />
+    />
 )}
 
 <!-- Metadatos del post -->
@@ -31,7 +31,7 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
   <!-- Fecha de publicación -->
   <div class="flex items-center gap-2">
     <Icon name="calendar" class="w-4 h-4 text-ink-subtle" />
-    <time datetime={post.data.pubDate} class="text-[0.875rem] text-ink-subtle leading-[1.5]">
+    <time datetime={post.data.pubDate} class="text-[0.875rem] text-ink-subtle leading-normal">
       {post.formattedDate}
     </time>
   </div>
@@ -39,7 +39,7 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
   <!-- Tiempo de lectura -->
   <div class="flex items-center gap-2">
     <Icon name="clock" class="w-4 h-4 text-ink-subtle" />
-    <span class="text-[0.875rem] text-ink-subtle leading-[1.5]">
+    <span class="text-[0.875rem] text-ink-subtle leading-normal">
       {post.readingTime}
     </span>
   </div>
@@ -47,7 +47,7 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
   <!-- Autor -->
   <div class="flex items-center gap-2">
     <Icon name="user" class="w-4 h-4 text-ink-subtle" />
-    <span class="text-[0.875rem] text-ink-subtle leading-[1.5]">
+    <span class="text-[0.875rem] text-ink-subtle leading-normal">
       {author}
     </span>
   </div>
@@ -88,11 +88,11 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
 
   .badge-info {
     background-color: var(--pv-primary-soft);
-    color: var(--pv-primary-base);
+    color: #0044cc; /* Darker blue for accessibility */
   }
 
   .badge-teal {
     background-color: var(--pv-secondary-soft);
-    color: var(--pv-secondary-base);
+    color: #006677; /* Darker teal for accessibility */
   }
 </style>
