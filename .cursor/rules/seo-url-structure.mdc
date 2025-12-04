@@ -39,11 +39,14 @@ Garantizar que todas las URLs del blog sean **amigables para SEO** y **comprensi
    - ❌ “guia-ia-2023.mdx”
    - ✅ “guia-inteligencia-artificial.mdx”
 
-2. **Siempre incluir fechas en frontmatter**:
+2. **Gestión de Fechas en Frontmatter**:
+
+   - **Creación**: Al crear un nuevo post, `pubDate` DEBE establecerse a la fecha actual (YYYY-MM-DD).
+   - **Actualización**: Al modificar un post existente, `updatedDate` DEBE actualizarse a la fecha actual (YYYY-MM-DD).
 
    ```md
-   pubDate: "YYYY-MM-DD"
-   updatedDate: "YYYY-MM-DD"
+   pubDate: "YYYY-MM-DD"     # Fecha de publicación original
+   updatedDate: "YYYY-MM-DD" # Fecha de última modificación
    ```
 
 3. Usar campos SEO consistentes:

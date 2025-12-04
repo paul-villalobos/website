@@ -3,5 +3,3 @@ Allow: /
 
 # Sitemap
 Sitemap: https://paulvillalobos.com/sitemap-index.xml
-Sitemap: https://paulvillalobos.com/sitemap-0.xml
-
