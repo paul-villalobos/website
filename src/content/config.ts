@@ -25,24 +25,23 @@ const GroupCTags = [
 // Unión de todos los tags permitidos para el enum
 const AllTags = [...GroupATags, ...GroupBTags, ...GroupCTags] as const;
 
-const blog = defineCollection({
+const blogCollection = defineCollection({
   type: "content",
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string(),
+      // slug: No se define aquí porque Astro lo extrae automáticamente al nivel superior (entry.slug)
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       author: z.string().default("Paul Villalobos"),
       // Categorías del Blog (Los 4 Pilares)
-      category: z
-        .enum([
-          "estrategia-ventas-b2b-direccion",
-          "embudos-pipeline-revops",
-          "crm-tecnologia-ventas",
-          "inteligencia-artificial-automatizacion",
-        ])
-        .optional(),
+      category: z.enum([
+        "estrategia-ventas-b2b-direccion",
+        "embudos-pipeline-revops",
+        "crm-tecnologia-ventas",
+        "inteligencia-artificial-automatizacion",
+      ]),
       tags: z
         .array(z.enum(AllTags))
         .default([])
@@ -66,10 +65,14 @@ const blog = defineCollection({
               "Los tags deben cumplir la estructura: 1 del Grupo A (Fase), opcionalmente 1 del Grupo B (Herramienta), y 1 del Grupo C (Formato).",
           }
         ),
-      featured: z.boolean().default(false),
-      slug: z.string().optional(),
-      canonical: z.string().url().optional(),
-      draft: z.boolean().default(false),
+      canonical: z
+        .string()
+        .url()
+        .refine((url) => url.includes("paulvillalobos.com/blog/"), {
+          message:
+            "La URL canónica debe contener 'paulvillalobos.com/blog/' para asegurar la consistencia SEO.",
+        })
+        .optional(),
       heroImage: z
         .object({
           src: image(),
@@ -79,4 +82,4 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+export const collections = { blog: blogCollection };
