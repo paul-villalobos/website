@@ -3,9 +3,12 @@
  */
 
 export const SITE_URL = "https://paulvillalobos.com";
-export const SITE_TITLE = "Paul Villalobos | Inteligencia Artificial Aplicada a Ventas";
-export const SITE_DESCRIPTION = "Paul Villalobos — Experto en IA aplicada a ventas B2B. Consultoría, automatización comercial y estrategias con inteligencia artificial para maximizar resultados comerciales.";
-export const DEFAULT_KEYWORDS = "inteligencia artificial ventas, IA ventas B2B, automatización comercial, CRM inteligente, consultoría IA ventas, estrategia comercial IA, Paul Villalobos";
+export const SITE_TITLE =
+  "Paul Villalobos | Inteligencia Artificial Aplicada a Ventas";
+export const SITE_DESCRIPTION =
+  "Paul Villalobos — Experto en IA aplicada a ventas B2B. Consultoría, automatización comercial y estrategias con inteligencia artificial para maximizar resultados comerciales.";
+export const DEFAULT_KEYWORDS =
+  "inteligencia artificial ventas, IA ventas B2B, automatización comercial, CRM inteligente, consultoría IA ventas, estrategia comercial IA, Paul Villalobos";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-default.jpg`;
 export const AUTHOR_NAME = "Paul Villalobos";
 export const AUTHOR_EMAIL = "hola@paulvillalobos.com";
@@ -14,8 +17,9 @@ export const AUTHOR_LINKEDIN = "https://linkedin.com/in/paulvillalobos";
 export const AUTHOR_TWITTER_URL = "https://twitter.com/paulvillalobos";
 
 export const BLOG_CATEGORIES: Record<string, string> = {
-  'estrategia-comercial': 'Estrategia y Gestión Comercial',
-  'operaciones-revops': 'Operaciones y Procesos (RevOps)',
-  'tecnologia-crm': 'Tecnología y CRM',
-  'ia-ventas': 'Inteligencia Artificial en Ventas',
+  "estrategia-ventas-b2b-direccion": "Estrategia de Ventas B2B y Dirección",
+  "embudos-pipeline-revops": "Pipeline, Embudos y Procesos (RevOps)",
+  "crm-tecnologia-ventas": "CRM y Tecnología de Ventas",
+  "inteligencia-artificial-automatizacion":
+    "Inteligencia Artificial y Automatización",
 };

@@ -15,6 +15,28 @@ import {
 } from '../../utils/blogUtils';
 import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_NAME, DEFAULT_OG_IMAGE, BLOG_CATEGORIES } from '../../utils/constants';
 
+// Definición de Grupos de Tags para ordenamiento (Prioridad Estratégica)
+const TAG_GROUPS = {
+  phases: [
+    "ToFu - Demanda",
+    "MoFu - Gestión de Leads", 
+    "BoFu - Cierre y Negociación",
+    "Postventa y LTV",
+    "Inteligencia Comercial"
+  ],
+  tools: [
+    "WhatsApp & Chatbots",
+    "KPIs & Métricas", 
+    "Excel & Data",
+    "Stack Tecnológico"
+  ],
+  formats: [
+    "Playbook Táctico",
+    "Estrategia & Opinión",
+    "Caso de Estudio"
+  ]
+};
+
 // Obtener todos los posts del blog
 const allPosts = await getCollection('blog');
 
@@ -23,6 +45,31 @@ const sortedPosts = sortPostsByDate(allPosts);
 
 // Calcular contadores para filtros
 const { categoryCounts, tagCounts, allCategories, allTags } = calculateCounts(sortedPosts);
+
+// Ordenar Tags con lógica personalizada: Fases > Herramientas > Formatos > Otros
+const sortedTags = [...allTags].sort((a, b) => {
+  // Función helper para encontrar índice en grupos
+  const getGroupIndex = (tag: string) => {
+    if (TAG_GROUPS.phases.includes(tag)) return 1;
+    if (TAG_GROUPS.tools.includes(tag)) return 2;
+    if (TAG_GROUPS.formats.includes(tag)) return 3;
+    return 4; // Otros/Desconocidos al final
+  };
+
+  const groupA = getGroupIndex(a);
+  const groupB = getGroupIndex(b);
+
+  if (groupA !== groupB) {
+    return groupA - groupB; // Ordenar por prioridad de grupo
+  }
+  
+  // Si están en el mismo grupo, mantener orden específico del array de definición
+  if (groupA === 1) return TAG_GROUPS.phases.indexOf(a) - TAG_GROUPS.phases.indexOf(b);
+  if (groupA === 2) return TAG_GROUPS.tools.indexOf(a) - TAG_GROUPS.tools.indexOf(b);
+  if (groupA === 3) return TAG_GROUPS.formats.indexOf(a) - TAG_GROUPS.formats.indexOf(b);
+
+  return a.localeCompare(b); // Default alfabético para otros
+});
 
 // Procesar datos de posts para optimizar el template
 const processedPosts = sortedPosts.map(processPostData);
@@ -93,7 +140,7 @@ const combinedBlogStructuredData = combineStructuredData(
             <FilterDropdown 
               id="tags-filter"
               ariaLabel="Filtrar por tags"
-              options={allTags.map(tag => ({
+              options={sortedTags.map(tag => ({
                 value: tag,
                 label: tag,
                 count: tagCounts[tag]
