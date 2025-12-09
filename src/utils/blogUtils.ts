@@ -358,10 +358,11 @@ export function generatePostStructuredData(post: ProcessedPost): any {
  * Genera breadcrumbs para navegación SEO de un post individual
  */
 export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
+  const siteUrl = import.meta.env.SITE || SITE_URL;
   return [
-    { name: "Inicio", url: "/" },
-    { name: "Blog", url: "/blog" },
-    { name: post.data.title, url: `/blog/${post.slug}` },
+    { name: "Inicio", url: siteUrl },
+    { name: "Blog", url: `${siteUrl}/blog` },
+    { name: post.data.title, url: `${siteUrl}/blog/${post.slug}` },
   ];
 }
 
@@ -369,9 +370,10 @@ export function generateBreadcrumbs(post: ProcessedPost): BreadcrumbItem[] {
  * Genera breadcrumbs para la página del blog
  */
 export function generateBlogBreadcrumbs(): BreadcrumbItem[] {
+  const siteUrl = import.meta.env.SITE || SITE_URL;
   return [
-    { name: "Inicio", url: "/" },
-    { name: "Blog", url: "/blog" },
+    { name: "Inicio", url: siteUrl },
+    { name: "Blog", url: `${siteUrl}/blog` },
   ];
 }
 
