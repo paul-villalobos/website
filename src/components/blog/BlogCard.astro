@@ -1,6 +1,6 @@
 ---
-import type { ProcessedPost } from '../utils/blogUtils';
-import Icon from './Icon.astro';
+import type { ProcessedPost } from '../../utils/blogUtils';
+import Icon from '../shared/Icon.astro';
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -107,3 +107,4 @@ const hasTags = post.data.tags && post.data.tags.length > 0;
     </div>
   </div>
 </article>
+

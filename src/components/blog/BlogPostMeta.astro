@@ -1,9 +1,9 @@
 ---
-import type { ProcessedPost, BreadcrumbItem } from '../utils/blogUtils';
-import Breadcrumb from './Breadcrumb.astro';
-import Icon from './Icon.astro';
-import { generateBreadcrumbs } from '../utils/blogUtils';
-import { AUTHOR_NAME } from '../utils/constants';
+import type { ProcessedPost, BreadcrumbItem } from '../../utils/blogUtils';
+import Breadcrumb from '../shared/Breadcrumb.astro';
+import Icon from '../shared/Icon.astro';
+import { generateBreadcrumbs } from '../../utils/blogUtils';
+import { AUTHOR_NAME } from '../../utils/constants';
 
 export interface Props {
   post: ProcessedPost;
@@ -96,3 +96,4 @@ const author = post.data.authors?.[0] || AUTHOR_NAME;
     color: #006677; /* Darker teal for accessibility */
   }
 </style>
+

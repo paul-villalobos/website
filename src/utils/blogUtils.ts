@@ -284,7 +284,7 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
   }
 
   return {
-    title: `${post.data.title} | Paul Villalobos - Blog`,
+    title: `${post.data.title}`,
     description:
       post.data.description ||
       `Artículo sobre ${post.categoryName} por ${AUTHOR_NAME}.`,
