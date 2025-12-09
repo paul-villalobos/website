@@ -1,0 +1,38 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	colorVariant?: 'primary' | 'secondary' | 'accent' | 'alt';
+}
+
+const { title, description, colorVariant = 'primary' } = Astro.props;
+
+const colorMap = {
+	primary: {
+		bg: 'from-[var(--pv-primary-soft)]',
+		border: 'border-[var(--pv-border-light)]',
+	},
+	secondary: {
+		bg: 'from-[var(--pv-secondary-soft)]',
+		border: 'border-[var(--pv-border-light)]',
+	},
+	accent: {
+		bg: 'from-[var(--pv-accent-soft)]',
+		border: 'border-[var(--pv-border-light)]',
+	},
+	alt: {
+		bg: 'from-[var(--pv-bg-alt)]',
+		border: 'border-[var(--pv-border-mid)]',
+	},
+};
+
+const colors = colorMap[colorVariant];
+---
+
+<div
+	class={`bg-linear-to-br ${colors.bg} to-white border ${colors.border} rounded-xl p-6`}
+>
+	<h3 class="font-semibold text-ink-base mb-2">{title}</h3>
+	<p class="text-ink-muted text-sm">{description}</p>
+</div>
+

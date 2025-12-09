@@ -1,113 +1,102 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import Button from '../components/Button.astro';
-import ServiceCard from '../components/home/ServiceCard.astro';
-import ProcessStep from '../components/home/ProcessStep.astro';
-import SectionHeader from '../components/home/SectionHeader.astro';
-import ContentCard from '../components/ContentCard.astro';
-import CTACard from '../components/home/CTACard.astro';
-import { combineStructuredData } from '../utils/blogUtils';
-import { AUTHOR_NAME, SITE_URL, SITE_TITLE, SITE_DESCRIPTION, DEFAULT_KEYWORDS, AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL } from '../utils/constants';
+import MainLayout from "../layouts/MainLayout.astro";
+import Button from "../components/Button.astro";
+import ServiceCard from "../components/home/ServiceCard.astro";
+import ProcessStep from "../components/home/ProcessStep.astro";
+import SectionHeader from "../components/home/SectionHeader.astro";
+import ContentCard from "../components/ContentCard.astro";
+import CTACard from "../components/home/CTACard.astro";
+import PhaseCard from "../components/home/PhaseCard.astro";
+import {
+  AUTHOR_NAME,
+  SITE_URL,
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  AUTHOR_LINKEDIN,
+  AUTHOR_TWITTER_URL,
+} from "../utils/constants";
 
 // Generar metadatos SEO para la página de inicio
 const homeMeta = {
-	title: SITE_TITLE,
-	description: SITE_DESCRIPTION,
-	keywords: DEFAULT_KEYWORDS,
-	canonical: SITE_URL,
-	ogImage: "https://paulvillalobos.com/images/og-default.jpg", // Placeholder or default
-	ogType: "website",
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  keywords: DEFAULT_KEYWORDS,
+  canonical: SITE_URL,
+  ogImage: "https://paulvillalobos.com/images/og-default.jpg", // Placeholder or default
+  ogType: "website",
 };
 
 const homeStructuredData = {
-	"@context": "https://schema.org",
-	"@type": "Person",
-	"name": AUTHOR_NAME,
-	"jobTitle": "Especialista en Inteligencia Artificial Aplicada a Ventas",
-	"description": "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
-	"url": SITE_URL,
-	"sameAs": [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
-	"knowsAbout": [
-		"Inteligencia Artificial",
-		"Ventas B2B",
-		"Automatización Comercial",
-		"CRM",
-		"Estrategias de Ventas",
-	],
-	"offers": {
-		"@type": "Service",
-		"serviceType": "Consultoría en Inteligencia Artificial Aplicada a Ventas",
-		"areaServed": "ES",
-		"availableChannel": {
-			"@type": "ServiceChannel",
-			"serviceUrl": SITE_URL,
-		},
-	},
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: AUTHOR_NAME,
+  jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
+  description:
+    "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
+  url: SITE_URL,
+  sameAs: [AUTHOR_LINKEDIN, AUTHOR_TWITTER_URL],
+  knowsAbout: [
+    "Inteligencia Artificial",
+    "Ventas B2B",
+    "Automatización Comercial",
+    "CRM",
+    "Estrategias de Ventas",
+  ],
+  offers: {
+    "@type": "Service",
+    serviceType: "Consultoría en Inteligencia Artificial Aplicada a Ventas",
+    areaServed: {
+      "@type": "Place",
+      name: "Latinoamérica",
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: SITE_URL,
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Servicios AI Sales Engine",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Chatbot de Ventas Inteligente",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Automatización de Procesos Comerciales",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "CRM con IA para Equipos Comerciales",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Cursos y Entrenamientos en IA Aplicada a Empresa",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Implementación del AI Sales Engine",
+          },
+        },
+      ],
+    },
+  },
 };
-
-// Schema.org microdatos para la página
-const pageStructuredData = {
-	"@context": "https://schema.org",
-	"@type": "Service",
-	"serviceType": "Consultoría en Inteligencia Artificial Aplicada a Ventas",
-	"provider": {
-		"@type": "Person",
-		"name": AUTHOR_NAME,
-		"jobTitle": "Consultor en estrategia comercial e inteligencia artificial aplicada a ventas",
-		"description": "10 años trabajando en ventas B2B, canales, pricing, CRM, data analytics y automatización comercial."
-	},
-	"areaServed": {
-		"@type": "Place",
-		"name": "Latinoamérica"
-	},
-	"hasOfferCatalog": {
-		"@type": "OfferCatalog",
-		"name": "Servicios AI Sales Engine",
-		"itemListElement": [
-			{
-				"@type": "Offer",
-				"itemOffered": {
-					"@type": "Service",
-					"name": "Chatbot de Ventas Inteligente"
-				}
-			},
-			{
-				"@type": "Offer",
-				"itemOffered": {
-					"@type": "Service",
-					"name": "Automatización de Procesos Comerciales"
-				}
-			},
-			{
-				"@type": "Offer",
-				"itemOffered": {
-					"@type": "Service",
-					"name": "CRM con IA para Equipos Comerciales"
-				}
-			},
-			{
-				"@type": "Offer",
-				"itemOffered": {
-					"@type": "Service",
-					"name": "Cursos y Entrenamientos en IA Aplicada a Empresa"
-				}
-			},
-			{
-				"@type": "Offer",
-				"itemOffered": {
-					"@type": "Service",
-					"name": "Implementación del AI Sales Engine"
-				}
-			}
-		]
-	}
-};
-
-// Combinar datos estructurados de home y página
-const combinedStructuredData = combineStructuredData(
-	homeStructuredData,
-	pageStructuredData
-);
 ---
 
 <MainLayout
@@ -117,236 +106,287 @@ const combinedStructuredData = combineStructuredData(
   canonical={homeMeta.canonical}
   ogImage={homeMeta.ogImage}
   ogType={homeMeta.ogType}
-  structuredData={combinedStructuredData}
+  structuredData={homeStructuredData}
 >
-	<!-- SEO Keywords: inteligencia artificial en ventas, IA comercial, AI Sales Engine, consultoría IA ventas -->
-	<!-- 🔹 1. HERO — Posicionamiento Directo y Premium -->
-	<section id="hero" class="min-h-[560px] flex items-center bg-gradient-to-br from-white via-[var(--pv-primary-soft)] to-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5 py-section w-full">
-			<div class="max-w-[820px] mx-auto text-center space-y-8">
-				<h1 class="text-display text-ink-base">
-					IA Comercial para Equipos de Ventas
-				</h1>
-				<p class="text-lg sm:text-xl text-ink-muted leading-relaxed max-w-3xl mx-auto">
-					Un sistema comercial claro y aplicable para integrar IA en ventas sin proyectos gigantes ni complejidad técnica.
-				</p>
-				<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-					<!-- <Button href="#contacto" variant="primary" size="md">
+  <!-- SEO Keywords: inteligencia artificial en ventas, IA comercial, AI Sales Engine, consultoría IA ventas -->
+  <!-- 🔹 1. HERO — Posicionamiento Directo y Premium -->
+  <section
+    id="hero"
+    class="min-h-[560px] flex items-center bg-linear-to-br from-white via-(--pv-primary-soft) to-white"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-5 py-section w-full">
+      <div class="max-w-[820px] mx-auto text-center space-y-8">
+        <h1 class="text-display text-ink-base">
+          IA Comercial para Equipos de Ventas
+        </h1>
+        <p
+          class="text-lg sm:text-xl text-ink-muted leading-relaxed max-w-3xl mx-auto"
+        >
+          Un sistema comercial claro y aplicable para integrar IA en ventas sin
+          proyectos gigantes ni complejidad técnica.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <!-- <Button href="#contacto" variant="primary" size="md">
 						Agenda tu Diagnóstico IA Comercial
 					</Button> -->
-					<!-- TODO: Lead Magnet: Canvas AI Sales Engine -->
-					<!-- <Button href="#" variant="ghost" size="md">
+          <!-- TODO: Lead Magnet: Canvas AI Sales Engine -->
+          <!-- <Button href="#" variant="ghost" size="md">
 						Descargar AI Sales Engine Canvas (gratis)
 					</Button> -->
-				</div>
-			</div>
-		</div>
-	</section>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- SEO Keywords: problemas comerciales empresas, CRM sin uso, seguimiento comercial, IA para solucionar ventas -->
-	<!-- 🔹 2. El problema que viven hoy los equipos comerciales -->
-	<section id="problema" class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto space-y-8">
-				<SectionHeader 
-					title="El problema que viven hoy los equipos comerciales"
-					class="mb-12"
-				/>
-				<div class="space-y-6 text-lg text-ink-muted leading-relaxed">
-					<p>
-						Las empresas ya saben que necesitan IA…
-					</p>
-					<p>
-						Pero no saben por dónde empezar, qué herramientas usar o cómo encajarlas en su proceso comercial actual.
-					</p>
-					<p class="font-semibold text-ink-base mt-8 mb-4">
-						Los síntomas más comunes:
-					</p>
-					<ul class="space-y-4 list-none">
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>CRM sin uso o con información incompleta</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Seguimiento lento y poco predecible</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Tareas repetitivas que consumen horas</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Leads sin atender o mal calificados</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Propuestas demoradas</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Falta de data para tomar decisiones</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Cierres que dependen "solo del vendedor"</span>
-						</li>
-						<li class="flex items-start space-x-3">
-							<span class="text-primary mt-1">•</span>
-							<span>Postventa sin estructura</span>
-						</li>
-					</ul>
-					<p class="mt-8">
-						La mayoría de equipos comerciales ya sienten el desgaste: procesos desordenados, tareas manuales, poca visibilidad del pipeline y vendedores que no están usando su tiempo de forma estratégica. Y la IA no va a resolver nada por sí sola si el proceso base no está ordenado.
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- SEO Keywords: problemas comerciales empresas, CRM sin uso, seguimiento comercial, IA para solucionar ventas -->
+  <!-- 🔹 2. El problema que viven hoy los equipos comerciales -->
+  <section
+    id="problema"
+    class="py-section bg-linear-to-b from-(--pv-bg-alt) to-white"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-4xl mx-auto space-y-8">
+        <SectionHeader
+          title="El problema que viven hoy los equipos comerciales"
+          class="mb-12"
+        />
+        <div class="space-y-6 text-lg text-ink-muted leading-relaxed">
+          <p>Las empresas ya saben que necesitan IA…</p>
+          <p>
+            Pero no saben por dónde empezar, qué herramientas usar o cómo
+            encajarlas en su proceso comercial actual.
+          </p>
+          <p class="font-semibold text-ink-base mt-8 mb-4">
+            Los síntomas más comunes:
+          </p>
+          <ul class="space-y-4 list-none">
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>CRM sin uso o con información incompleta</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Seguimiento lento y poco predecible</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Tareas repetitivas que consumen horas</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Leads sin atender o mal calificados</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Propuestas demoradas</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Falta de data para tomar decisiones</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Cierres que dependen "solo del vendedor"</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-primary mt-1">•</span>
+              <span>Postventa sin estructura</span>
+            </li>
+          </ul>
+          <p class="mt-8">
+            La mayoría de equipos comerciales ya sienten el desgaste: procesos
+            desordenados, tareas manuales, poca visibilidad del pipeline y
+            vendedores que no están usando su tiempo de forma estratégica. Y la
+            IA no va a resolver nada por sí sola si el proceso base no está
+            ordenado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- SEO Keywords: AI Sales Engine, sistema comercial con IA, metodología IA ventas, funnel con IA -->
-	<!-- 🔹 3. AI Sales Engine — Tu nuevo sistema comercial impulsado por IA -->
-	<section id="ai-sales-engine" class="py-section bg-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto space-y-12">
-				<SectionHeader 
-					title="AI Sales Engine — Sistema comercial impulsado por IA"
-					subtitle="Un sistema comercial práctico, diseñado para equipos que necesitan integrar IA en sus procesos sin fricción."
-				/>
-				<div class="space-y-6">
-					<p class="text-xl font-semibold text-ink-base">
-						Las 8 fases del AI Sales Engine:
-					</p>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">IA DemandGen</h3>
-							<p class="text-ink-muted text-sm">Generación inteligente de demanda</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">IA Engagement & Prospección</h3>
-							<p class="text-ink-muted text-sm">Captura y calificación automática</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">IA Discovery Profundo</h3>
-							<p class="text-ink-muted text-sm">Entendimiento real del cliente con IA</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">AI Proposal Engine</h3>
-							<p class="text-ink-muted text-sm">Propuestas rápidas y personalizadas</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-secondary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">AI Closing & Negotiation</h3>
-							<p class="text-ink-muted text-sm">Aceleración del cierre comercial</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-accent-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">AI Delivery & Customer Success</h3>
-							<p class="text-ink-muted text-sm">Onboarding + postventa</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-primary-soft)] to-white border border-[var(--pv-border-light)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">AI Expansion & Monetización</h3>
-							<p class="text-ink-muted text-sm">Upsell, cross-sell y retención</p>
-						</div>
-						<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white border border-[var(--pv-border-mid)] rounded-xl p-6">
-							<h3 class="font-semibold text-ink-base mb-2">AI Data Loop</h3>
-							<p class="text-ink-muted text-sm">Inteligencia comercial y mejora continua</p>
-						</div>
-					</div>
-					<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-12 border border-[var(--pv-border-mid)] mt-8">
-						<p class="text-xl font-semibold text-ink-base mb-4 text-center">Promesa del sistema:</p>
-						<div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-							<div>
-								<p class="text-lg font-bold text-primary">Más velocidad.</p>
-							</div>
-							<div>
-								<p class="text-lg font-bold" style="color: var(--pv-secondary-base);">Menos fricción.</p>
-							</div>
-							<div>
-								<p class="text-lg font-bold" style="color: var(--pv-accent-base);">Más precisión.</p>
-							</div>
-							<div>
-								<p class="text-lg font-bold text-primary">Mejor ejecución.</p>
-							</div>
-						</div>
-						<p class="text-center text-ink-muted mt-6">
-							Sin proyectos gigantes y sin humo.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- SEO Keywords: AI Sales Engine, sistema comercial con IA, metodología IA ventas, funnel con IA -->
+  <!-- 🔹 3. AI Sales Engine — Tu nuevo sistema comercial impulsado por IA -->
+  <section id="ai-sales-engine" class="py-section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-4xl mx-auto space-y-12">
+        <SectionHeader
+          title="AI Sales Engine — Sistema comercial impulsado por IA"
+          subtitle="Un sistema comercial práctico, diseñado para equipos que necesitan integrar IA en sus procesos sin fricción."
+        />
+        <div class="space-y-6">
+          <p class="text-xl font-semibold text-ink-base">
+            Las 8 fases del AI Sales Engine:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <PhaseCard
+              title="IA DemandGen"
+              description="Generación inteligente de demanda"
+              colorVariant="primary"
+            />
+            <PhaseCard
+              title="IA Engagement & Prospección"
+              description="Captura y calificación automática"
+              colorVariant="secondary"
+            />
+            <PhaseCard
+              title="IA Discovery Profundo"
+              description="Entendimiento real del cliente con IA"
+              colorVariant="accent"
+            />
+            <PhaseCard
+              title="AI Proposal Engine"
+              description="Propuestas rápidas y personalizadas"
+              colorVariant="primary"
+            />
+            <PhaseCard
+              title="AI Closing & Negotiation"
+              description="Aceleración del cierre comercial"
+              colorVariant="secondary"
+            />
+            <PhaseCard
+              title="AI Delivery & Customer Success"
+              description="Onboarding + postventa"
+              colorVariant="accent"
+            />
+            <PhaseCard
+              title="AI Expansion & Monetización"
+              description="Upsell, cross-sell y retención"
+              colorVariant="primary"
+            />
+            <PhaseCard
+              title="AI Data Loop"
+              description="Inteligencia comercial y mejora continua"
+              colorVariant="alt"
+            />
+          </div>
+          <div
+            class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-12 border border-[var(--pv-border-mid)] mt-8"
+          >
+            <p class="text-xl font-semibold text-ink-base mb-4 text-center">
+              Promesa del sistema:
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-lg font-bold text-primary">Más velocidad.</p>
+              </div>
+              <div>
+                <p
+                  class="text-lg font-bold"
+                  style="color: var(--pv-secondary-base);"
+                >
+                  Menos fricción.
+                </p>
+              </div>
+              <div>
+                <p
+                  class="text-lg font-bold"
+                  style="color: var(--pv-accent-base);"
+                >
+                  Más precisión.
+                </p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-primary">Mejor ejecución.</p>
+              </div>
+            </div>
+            <p class="text-center text-ink-muted mt-6">
+              Sin proyectos gigantes y sin humo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- Mini sección sobre Paul Villalobos -->
-	<section id="sobre-paul" class="py-section bg-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-3xl mx-auto">
-				<div class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-10 border border-[var(--pv-border-mid)]">
-					<h3 class="text-2xl font-bold text-ink-base mb-4">Sobre Paul Villalobos</h3>
-					<div class="space-y-4 text-ink-muted leading-relaxed">
-						<p>
-							Consultor en estrategia comercial e inteligencia artificial aplicada a ventas.
-						</p>
-						<p>
-							10 años trabajando en ventas B2B, canales, pricing, CRM, data analytics y automatización comercial.
-						</p>
-						<p>
-							Ayudo a empresas a ordenar su proceso comercial e implementar IA de forma práctica, simple y medible. Mi enfoque combina lo técnico (data, sistemas, automatización) con lo comercial (ventas, ejecución, gestión), para que los equipos vendan más con menos fricción.
-						</p>
-						<p>
-							Creo que los equipos comerciales merecen una forma moderna, clara y alcanzable de usar IA — sin proyectos complejos, sin consultoría inentendible y sin depender de tecnología que nunca se adopta. Mi trabajo es convertir la IA en herramientas reales que mejoran la ejecución comercial desde el primer mes.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- Mini sección sobre Paul Villalobos -->
+  <section id="sobre-paul" class="py-section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-3xl mx-auto">
+        <div
+          class="bg-gradient-to-br from-[var(--pv-bg-alt)] to-white rounded-2xl p-8 lg:p-10 border border-[var(--pv-border-mid)]"
+        >
+          <h3 class="text-2xl font-bold text-ink-base mb-4">
+            Sobre Paul Villalobos
+          </h3>
+          <div class="space-y-4 text-ink-muted leading-relaxed">
+            <p>
+              Consultor en estrategia comercial e inteligencia artificial
+              aplicada a ventas.
+            </p>
+            <p>
+              10 años trabajando en ventas B2B, canales, pricing, CRM, data
+              analytics y automatización comercial.
+            </p>
+            <p>
+              Ayudo a empresas a ordenar su proceso comercial e implementar IA
+              de forma práctica, simple y medible. Mi enfoque combina lo técnico
+              (data, sistemas, automatización) con lo comercial (ventas,
+              ejecución, gestión), para que los equipos vendan más con menos
+              fricción.
+            </p>
+            <p>
+              Creo que los equipos comerciales merecen una forma moderna, clara
+              y alcanzable de usar IA — sin proyectos complejos, sin consultoría
+              inentendible y sin depender de tecnología que nunca se adopta. Mi
+              trabajo es convertir la IA en herramientas reales que mejoran la
+              ejecución comercial desde el primer mes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- SEO Keywords: implementación IA comercial, diagnóstico comercial IA, quick wins IA, automatización ventas -->
-	<!-- 🔹 4. Cómo trabajamos — De diagnóstico a impacto real -->
-	<section id="como-trabajamos" class="py-section bg-gradient-to-b from-white to-[var(--pv-bg-alt)]">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto space-y-12">
-				<SectionHeader 
-					title="Cómo trabajamos — De diagnóstico a impacto real"
-				/>
-				<div class="space-y-8">
-					<ProcessStep 
-						number={1}
-						title="Diagnóstico IA Comercial"
-						description="Mapeamos tus 8 fases actuales y detectamos cuellos de botella."
-						colorVariant="primary"
-					/>
-					<ProcessStep 
-						number={2}
-						title="Quick Wins"
-						description="Implementamos mejoras rápidas que mueven la aguja desde el primer mes."
-						colorVariant="secondary"
-					/>
-					<ProcessStep 
-						number={3}
-						title="Integración IA en procesos reales"
-						description="Automatizamos, estructuramos y potenciamos lo que ya tienes."
-						colorVariant="accent"
-					/>
-					<ProcessStep 
-						number={4}
-						title="Habilitación del equipo"
-						description="Formamos a tu equipo para que realmente use la IA día a día."
-						colorVariant="primary"
-					/>
-					<ProcessStep 
-						number={5}
-						title="Medición y escalamiento"
-						description="Optimizamos continuamente con data, no con intuición."
-						colorVariant="secondary"
-					/>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- SEO Keywords: implementación IA comercial, diagnóstico comercial IA, quick wins IA, automatización ventas -->
+  <!-- 🔹 4. Cómo trabajamos — De diagnóstico a impacto real -->
+  <section
+    id="como-trabajamos"
+    class="py-section bg-gradient-to-b from-white to-[var(--pv-bg-alt)]"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-4xl mx-auto space-y-12">
+        <SectionHeader
+          title="Cómo trabajamos — De diagnóstico a impacto real"
+        />
+        <div class="space-y-8">
+          <ProcessStep
+            number={1}
+            title="Diagnóstico IA Comercial"
+            description="Mapeamos tus 8 fases actuales y detectamos cuellos de botella."
+            colorVariant="primary"
+          />
+          <ProcessStep
+            number={2}
+            title="Quick Wins"
+            description="Implementamos mejoras rápidas que mueven la aguja desde el primer mes."
+            colorVariant="secondary"
+          />
+          <ProcessStep
+            number={3}
+            title="Integración IA en procesos reales"
+            description="Automatizamos, estructuramos y potenciamos lo que ya tienes."
+            colorVariant="accent"
+          />
+          <ProcessStep
+            number={4}
+            title="Habilitación del equipo"
+            description="Formamos a tu equipo para que realmente use la IA día a día."
+            colorVariant="primary"
+          />
+          <ProcessStep
+            number={5}
+            title="Medición y escalamiento"
+            description="Optimizamos continuamente con data, no con intuición."
+            colorVariant="secondary"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- TODO: CTA Intermedio -->
-	<!-- <CTACard
+  <!-- TODO: CTA Intermedio -->
+  <!-- <CTACard
 		id="cta-intermedio"
 		title="Diagnóstico IA Comercial — 30 minutos (gratuito)"
 		description="Identificamos tus quick wins, los cuellos de botella de tu proceso comercial y las primeras oportunidades para aplicar IA sin reinventar nada."
@@ -356,137 +396,142 @@ const combinedStructuredData = combineStructuredData(
 		backgroundVariant="soft"
 	/> -->
 
-	<!-- SEO Keywords: servicios IA para ventas, chatbot de ventas, automatización comercial, CRM con IA, entrenamiento IA empresarial -->
-	<!-- 🔹 5. Servicios alineados al AI Sales Engine -->
-	<section id="servicios" class="py-section bg-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto space-y-12">
-				<SectionHeader 
-					title="Servicios alineados al AI Sales Engine"
-				/>
-				<div class="space-y-8">
-					<ServiceCard
-						title="1. Chatbot de Ventas Inteligente"
-						description="El asistente que responde, califica y agenda por tu equipo."
-						resultado="mayor velocidad de respuesta, menos mensajes perdidos y leads mejor priorizados."
-						incluye="diseño del flujo conversacional, prompts optimizados, calificación automática, handoff a vendedor e integración básica con CRM o correo."
-						impacta="Fase 2 y Fase 3."
-						icon="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-						colorVariant="primary"
-					/>
-					<ServiceCard
-						title="2. Automatización de Procesos Comerciales"
-						description="Elimina tareas manuales y estandariza la ejecución del equipo."
-						resultado="más tiempo para vender, menos errores operativos y procesos consistentes."
-						incluye="mapeo de procesos, automatización de seguimientos, secuencias, alertas, workflows y tableros de control simples."
-						impacta="Fase 3, Fase 5 y Fase 6."
-						icon="M13 10V3L4 14h7v7l9-11h-7z"
-						colorVariant="secondary"
-					/>
-					<ServiceCard
-						title="3. CRM con IA para Equipos Comerciales"
-						description="Ordena tu proceso comercial y dale al equipo un CRM que realmente usarán."
-						resultado="pipeline más limpio, visibilidad real y decisiones basadas en datos."
-						incluye="estructura del CRM, campos clave, etapas del funnel, vistas optimizadas e IA para priorización y seguimiento inteligente."
-						impacta="Fase 2, 3, 4 y 8."
-						icon="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-						colorVariant="accent"
-					/>
-					<ServiceCard
-						title="4. Cursos y Entrenamientos en IA Aplicada a Ventas"
-						description="Entrenamientos prácticos para que tu equipo adopte la IA sin frustración técnica."
-						resultado="vendedores capaces de usar IA en prospección, seguimiento, negociación y cierre."
-						incluye="talleres en vivo, guías, plantillas, ejercicios reales y acompañamiento en implementación."
-						impacta="Todas las fases."
-						icon="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-						colorVariant="primary"
-					/>
-					<ServiceCard
-						title="5. Implementación del AI Sales Engine (Consultoría Completa)"
-						description="La metodología completa para integrar IA en todas las fases del proceso comercial."
-						resultado="un sistema comercial ordenado, medible y asistido por IA, listo para escalar."
-						incluye="diagnóstico, diseño del sistema, mapa de automatizaciones, CRM inteligente, entrenamientos y acompañamiento 1:1."
-						impacta="Absolutamente todas las fases."
-						icon="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-						colorVariant="secondary"
-					/>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- SEO Keywords: servicios IA para ventas, chatbot de ventas, automatización comercial, CRM con IA, entrenamiento IA empresarial -->
+  <!-- 🔹 5. Servicios alineados al AI Sales Engine -->
+  <section id="servicios" class="py-section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-4xl mx-auto space-y-12">
+        <SectionHeader title="Servicios alineados al AI Sales Engine" />
+        <div class="space-y-8">
+          <ServiceCard
+            title="1. Chatbot de Ventas Inteligente"
+            description="El asistente que responde, califica y agenda por tu equipo."
+            resultado="mayor velocidad de respuesta, menos mensajes perdidos y leads mejor priorizados."
+            incluye="diseño del flujo conversacional, prompts optimizados, calificación automática, handoff a vendedor e integración básica con CRM o correo."
+            impacta="Fase 2 y Fase 3."
+            icon="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            colorVariant="primary"
+          />
+          <ServiceCard
+            title="2. Automatización de Procesos Comerciales"
+            description="Elimina tareas manuales y estandariza la ejecución del equipo."
+            resultado="más tiempo para vender, menos errores operativos y procesos consistentes."
+            incluye="mapeo de procesos, automatización de seguimientos, secuencias, alertas, workflows y tableros de control simples."
+            impacta="Fase 3, Fase 5 y Fase 6."
+            icon="M13 10V3L4 14h7v7l9-11h-7z"
+            colorVariant="secondary"
+          />
+          <ServiceCard
+            title="3. CRM con IA para Equipos Comerciales"
+            description="Ordena tu proceso comercial y dale al equipo un CRM que realmente usarán."
+            resultado="pipeline más limpio, visibilidad real y decisiones basadas en datos."
+            incluye="estructura del CRM, campos clave, etapas del funnel, vistas optimizadas e IA para priorización y seguimiento inteligente."
+            impacta="Fase 2, 3, 4 y 8."
+            icon="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            colorVariant="accent"
+          />
+          <ServiceCard
+            title="4. Cursos y Entrenamientos en IA Aplicada a Ventas"
+            description="Entrenamientos prácticos para que tu equipo adopte la IA sin frustración técnica."
+            resultado="vendedores capaces de usar IA en prospección, seguimiento, negociación y cierre."
+            incluye="talleres en vivo, guías, plantillas, ejercicios reales y acompañamiento en implementación."
+            impacta="Todas las fases."
+            icon="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            colorVariant="primary"
+          />
+          <ServiceCard
+            title="5. Implementación del AI Sales Engine (Consultoría Completa)"
+            description="La metodología completa para integrar IA en todas las fases del proceso comercial."
+            resultado="un sistema comercial ordenado, medible y asistido por IA, listo para escalar."
+            incluye="diagnóstico, diseño del sistema, mapa de automatizaciones, CRM inteligente, entrenamientos y acompañamiento 1:1."
+            impacta="Absolutamente todas las fases."
+            icon="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+            colorVariant="secondary"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- SEO Keywords: casos de éxito IA en ventas, aumento de conversión, testimonios IA comercial -->
-	<!-- 🔹 6. Casos de éxito — Resultados reales -->
-	<section id="casos-exito" class="py-section bg-gradient-to-b from-[var(--pv-bg-alt)] to-white">
-		<div class="max-w-7xl mx-auto px-4 sm:px-5">
-			<div class="max-w-4xl mx-auto space-y-12">
-				<SectionHeader 
-					title="Ejemplo ilustrativo de impacto con el AI Sales Engine"
-					subtitle="(Este ejemplo muestra cómo suelen verse los resultados cuando se implementa la metodología. No representa un caso real ni un cliente específico.)"
-					class="mb-8"
-				/>
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-					<div class="bg-white border border-[var(--pv-border-mid)] rounded-2xl p-8">
-						<h3 class="text-xl font-semibold text-ink-base mb-6">Implementación típica incluye:</h3>
-						<ul class="space-y-4 text-ink-muted">
-							<li class="flex items-start space-x-3">
-								<span class="text-primary mt-1">✓</span>
-								<span>Chatbot de calificación</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-primary mt-1">✓</span>
-								<span>Secuencias automatizadas</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-primary mt-1">✓</span>
-								<span>CRM con IA para priorización</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-primary mt-1">✓</span>
-								<span>Automatización de tareas</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-primary mt-1">✓</span>
-								<span>Seguimiento inteligente del pipeline</span>
-							</li>
-						</ul>
-					</div>
-					<div class="bg-white border border-[var(--pv-border-mid)] rounded-2xl p-8">
-						<h3 class="text-xl font-semibold text-ink-base mb-6">Resultados esperados:</h3>
-						<ul class="space-y-4 text-ink-muted">
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Menos tareas manuales</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Más velocidad de respuesta</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Pipeline más limpio</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Mayor visibilidad</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Mejor seguimiento</span>
-							</li>
-							<li class="flex items-start space-x-3">
-								<span class="text-[var(--pv-success)] mt-1">•</span>
-								<span>Equipos usando IA sin complejidad</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- SEO Keywords: casos de éxito IA en ventas, aumento de conversión, testimonios IA comercial -->
+  <!-- 🔹 6. Casos de éxito — Resultados reales -->
+  <section
+    id="casos-exito"
+    class="py-section bg-linear-to-b from-(--pv-bg-alt) to-white"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="max-w-4xl mx-auto space-y-12">
+        <SectionHeader
+          title="Ejemplo ilustrativo de impacto con el AI Sales Engine"
+          subtitle="(Este ejemplo muestra cómo suelen verse los resultados cuando se implementa la metodología. No representa un caso real ni un cliente específico.)"
+          class="mb-8"
+        />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="bg-white border border-(--pv-border-mid) rounded-2xl p-8">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">
+              Implementación típica incluye:
+            </h3>
+            <ul class="space-y-4 text-ink-muted">
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">✓</span>
+                <span>Chatbot de calificación</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">✓</span>
+                <span>Secuencias automatizadas</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">✓</span>
+                <span>CRM con IA para priorización</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">✓</span>
+                <span>Automatización de tareas</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-primary mt-1">✓</span>
+                <span>Seguimiento inteligente del pipeline</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-white border border-(--pv-border-mid) rounded-2xl p-8">
+            <h3 class="text-xl font-semibold text-ink-base mb-6">
+              Resultados esperados:
+            </h3>
+            <ul class="space-y-4 text-ink-muted">
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Menos tareas manuales</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Más velocidad de respuesta</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Pipeline más limpio</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Mayor visibilidad</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Mejor seguimiento</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-(--pv-success) mt-1">•</span>
+                <span>Equipos usando IA sin complejidad</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<!-- TODO: Lead Magnet: Canvas AI Sales Engine -->
-	<!-- <CTACard
+  <!-- TODO: Lead Magnet: Canvas AI Sales Engine -->
+  <!-- <CTACard
 		id="lead-magnet"
 		title="Descarga el AI Sales Engine Canvas"
 		description="Una plantilla en PDF con las 8 fases del sistema comercial con IA."
@@ -501,9 +546,9 @@ const combinedStructuredData = combineStructuredData(
 		</div>
 	</CTACard> -->
 
-	<!-- TODO: SEO Keywords: IA aplicada a ventas artículos, recursos IA ventas, guía IA empresas, blog IA comercial -->
-	<!-- 🔹 7. Recursos y artículos sobre IA Aplicada a Ventas -->
-	<!-- <section id="recursos" class="py-section bg-white">
+  <!-- TODO: SEO Keywords: IA aplicada a ventas artículos, recursos IA ventas, guía IA empresas, blog IA comercial -->
+  <!-- 🔹 7. Recursos y artículos sobre IA Aplicada a Ventas -->
+  <!-- <section id="recursos" class="py-section bg-white">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
 			<div class="max-w-4xl mx-auto space-y-12">
 				<SectionHeader 
@@ -550,9 +595,9 @@ const combinedStructuredData = combineStructuredData(
 		</div>
 	</section> -->
 
-	<!-- TODO: SEO Keywords: consultoría IA comercial, diagnóstico IA ventas, transformación comercial IA -->
-	<!-- 🔹 8. CTA Final -->
-	<!-- <section id="contacto" class="py-section bg-gradient-to-br from-[var(--pv-primary-soft)] via-[var(--pv-bg-alt)] to-[var(--pv-primary-soft)]">
+  <!-- TODO: SEO Keywords: consultoría IA comercial, diagnóstico IA ventas, transformación comercial IA -->
+  <!-- 🔹 8. CTA Final -->
+  <!-- <section id="contacto" class="py-section bg-gradient-to-br from-[var(--pv-primary-soft)] via-[var(--pv-bg-alt)] to-[var(--pv-primary-soft)]">
 		<div class="max-w-7xl mx-auto px-4 sm:px-5">
 			<div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 text-center border border-[var(--pv-border-mid)] max-w-4xl mx-auto">
 				<h2 class="text-[1.75rem] sm:text-4xl font-bold text-ink-base mb-6">
