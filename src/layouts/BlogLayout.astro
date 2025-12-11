@@ -1,17 +1,17 @@
 ---
-import MainLayout from './MainLayout.astro';
-import { Image } from 'astro:assets';
+import MainLayout from "./MainLayout.astro";
+import { Image } from "astro:assets";
 
-import BlogPostMeta from '../components/blog/BlogPostMeta.astro';
-import TableOfContents from '../components/blog/TableOfContents.astro';
-import type { ProcessedPost } from '../utils/blogUtils';
-import { 
-  generatePostMeta, 
+import BlogPostMeta from "../components/blog/BlogPostMeta.astro";
+import TableOfContents from "../components/blog/TableOfContents.astro";
+import type { ProcessedPost } from "../utils/blogUtils";
+import {
+  generatePostMeta,
   generatePostStructuredData,
   generateBreadcrumbs,
   generateBreadcrumbStructuredData,
-  combineStructuredData
-} from '../utils/blogUtils';
+  combineStructuredData,
+} from "../utils/blogUtils";
 
 // Props específicas del blog
 export interface Props {
@@ -25,14 +25,16 @@ const {
   post,
   headings = [],
   showTOC = false,
-  includeBreadcrumbs = true
+  includeBreadcrumbs = true,
 } = Astro.props;
 
 // Generar metadatos SEO
 const postMeta = generatePostMeta(post);
 const postStructuredData = generatePostStructuredData(post);
 const breadcrumbs = includeBreadcrumbs ? generateBreadcrumbs(post) : [];
-const breadcrumbStructuredData = includeBreadcrumbs ? generateBreadcrumbStructuredData(breadcrumbs) : null;
+const breadcrumbStructuredData = includeBreadcrumbs
+  ? generateBreadcrumbStructuredData(breadcrumbs)
+  : null;
 
 // Combinar datos estructurados
 const combinedStructuredData = combineStructuredData(
@@ -50,38 +52,23 @@ const combinedStructuredData = combineStructuredData(
   ogType={postMeta.ogType}
   structuredData={combinedStructuredData}
 >
-
   <!-- Contenido principal -->
   <main class="min-h-screen bg-white">
     <div class="max-w-[1200px] mx-auto px-5 py-section">
       <div class="flex flex-col lg:flex-row gap-8">
-        
         <!-- Contenido del artículo -->
         <article class="flex-1 max-w-[800px] mx-auto lg:mx-0">
-          
           <!-- Header del artículo -->
           <header class="mb-12">
             <!-- Metadatos del post con breadcrumbs -->
-            <BlogPostMeta 
-              post={post} 
-              includeBreadcrumbs={includeBreadcrumbs}
-            />
+            <BlogPostMeta post={post} includeBreadcrumbs={includeBreadcrumbs} />
           </header>
-          
+
           <!-- Imagen Hero del Post -->
-          {post.image && (
-            <div class="mb-8 -mx-5 sm:mx-0">
-              {typeof post.image === 'string' ? (
-                <img 
-                  src={post.image}
-                  alt={post.imageAlt}
-                  width={1200}
-                  height={630}
-                  class="w-full h-auto rounded-none sm:rounded-xl object-cover shadow-lg"
-                  loading="eager"
-                />
-              ) : (
-                <Image 
+          {
+            post.image && (
+              <div class="mb-8 -mx-5 sm:mx-0">
+                <Image
                   src={post.image}
                   alt={post.imageAlt}
                   width={1200}
@@ -92,26 +79,28 @@ const combinedStructuredData = combineStructuredData(
                   widths={[320, 640, 960, 1200]}
                   sizes="(max-width: 800px) 100vw, 800px"
                 />
-              )}
-            </div>
-          )}
-          
+              </div>
+            )
+          }
+
           <!-- Contenido del artículo -->
-          <div class="prose prose-lg prose-slate max-w-none font-sans" id="article-content">
+          <div
+            class="prose prose-lg prose-slate max-w-none font-sans"
+            id="article-content"
+          >
             <slot />
           </div>
-          
         </article>
-        
+
         <!-- Sidebar para TOC -->
-        {showTOC && headings.length > 0 && (
-          <aside class="hidden lg:block w-64 shrink-0">
-            <TableOfContents headings={headings} minHeadings={3} />
-          </aside>
-        )}
+        {
+          showTOC && headings.length > 0 && (
+            <aside class="hidden lg:block w-64 shrink-0">
+              <TableOfContents headings={headings} minHeadings={3} />
+            </aside>
+          )
+        }
       </div>
     </div>
   </main>
-
-
 </MainLayout>

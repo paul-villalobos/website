@@ -16,7 +16,7 @@ export interface ProcessedPost {
   slug: string;
   data: any;
   // Campos procesados aplanados (sin anidamiento innecesario)
-  image: ImageMetadata | string | null;
+  image: ImageMetadata | null;
   imageAlt: string;
   formattedDate: string;
   categoryName: string;
@@ -83,11 +83,11 @@ export function calculateCounts(posts: any[]): CountsResult {
 }
 
 /**
- * Normaliza la imagen de un post (simplificado)
- * Soporta tanto URLs string como ImageMetadata de Astro
+ * Normaliza la imagen de un post
+ * Solo soporta ImageMetadata de Astro (assets locales)
  */
 function normalizePostImage(post: any): {
-  image: ImageMetadata | string | null;
+  image: ImageMetadata | null;
   imageAlt: string;
 } {
   const imageField = post.data.hero || post.data.heroImage;
@@ -96,7 +96,7 @@ function normalizePostImage(post: any): {
     return { image: null, imageAlt: post.data.title };
   }
 
-  // Manejar objeto con src que es ImageMetadata (nuevo schema)
+  // Manejar objeto con src que es ImageMetadata (schema actual)
   if (
     typeof imageField === "object" &&
     imageField.src &&
@@ -108,19 +108,24 @@ function normalizePostImage(post: any): {
     };
   }
 
-  // Manejar string directo (legacy)
+  // Validación: Si es string, avisar que debe convertirse a asset local
   if (typeof imageField === "string") {
-    return { image: imageField, imageAlt: post.data.title };
+    console.warn(
+      `⚠️ Post "${post.slug}" tiene imagen como string. Debe convertirse a asset local.`
+    );
+    return { image: null, imageAlt: post.data.title };
   }
 
-  // Manejar objeto con src string (legacy)
-  if (typeof imageField === "object" && imageField.src) {
-    const src =
-      typeof imageField.src === "string" ? imageField.src : imageField.src.src;
-    return {
-      image: src,
-      imageAlt: imageField.alt || post.data.title,
-    };
+  // Validación: Si es objeto con src string, avisar que debe convertirse
+  if (
+    typeof imageField === "object" &&
+    imageField.src &&
+    typeof imageField.src === "string"
+  ) {
+    console.warn(
+      `⚠️ Post "${post.slug}" tiene imagen como string en src. Debe convertirse a asset local.`
+    );
+    return { image: null, imageAlt: imageField.alt || post.data.title };
   }
 
   return { image: null, imageAlt: post.data.title };
@@ -216,14 +221,7 @@ export function generateBlogStructuredData(processedPosts: ProcessedPost[]) {
     },
     inLanguage: "es-ES",
     blogPost: recentPosts.map((post) => {
-      let imageUrl = undefined;
-      if (post.image) {
-        if (typeof post.image === "string") {
-          imageUrl = post.image;
-        } else if ("src" in post.image) {
-          imageUrl = post.image.src;
-        }
-      }
+      const imageUrl = post.image?.src;
 
       return {
         "@type": "BlogPosting",
@@ -270,17 +268,12 @@ export function generatePostMeta(post: ProcessedPost): PostMeta {
     "blog inteligencia artificial, IA ventas B2B, automatización comercial, Paul Villalobos";
 
   let ogImage = `${SITE_URL}/images/blog-default.jpg`;
-  if (post.image) {
-    if (typeof post.image === "string") {
-      ogImage = post.image;
-    } else if ("src" in post.image) {
-      ogImage = post.image.src;
+  if (post.image?.src) {
+    ogImage = post.image.src;
+    // Ensure absolute URL for OG image if it's relative
+    if (!ogImage.startsWith("http")) {
+      ogImage = new URL(ogImage, SITE_URL).toString();
     }
-  }
-
-  // Ensure absolute URL for OG image if it's relative
-  if (ogImage && !ogImage.startsWith("http")) {
-    ogImage = new URL(ogImage, SITE_URL).toString();
   }
 
   return {
@@ -306,14 +299,7 @@ export function generatePostStructuredData(post: ProcessedPost): any {
   const categoryName =
     BLOG_CATEGORIES[post.data.category] || post.data.category || "General";
 
-  let imageUrl = undefined;
-  if (post.image) {
-    if (typeof post.image === "string") {
-      imageUrl = post.image;
-    } else if ("src" in post.image) {
-      imageUrl = post.image.src;
-    }
-  }
+  const imageUrl = post.image?.src;
 
   return {
     "@context": "https://schema.org",
