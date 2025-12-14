@@ -1,12 +1,12 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter } from "astro:transitions";
 
 // Importar fuentes locales desde @fontsource
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
 
-import '../styles/global.css';
+import "../styles/global.css";
 import {
   SITE_TITLE,
   SITE_DESCRIPTION,
@@ -15,8 +15,8 @@ import {
   DEFAULT_OG_IMAGE,
   AUTHOR_NAME,
   AUTHOR_TWITTER,
-} from '../utils/constants';
-import Analytics from '../components/shared/Analytics.astro';
+} from "../utils/constants";
+import Analytics from "../components/shared/Analytics.astro";
 
 // Props dinámicos para SEO
 export interface Props {
@@ -37,7 +37,7 @@ const {
   canonical = SITE_URL,
   ogImage = DEFAULT_OG_IMAGE,
   ogType = "website",
-  structuredData = null
+  structuredData = null,
 } = Astro.props;
 
 // Datos de navegación centralizados
@@ -45,39 +45,42 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/sobre-mi", label: "Sobre Mí" },
   { href: "/blog", label: "Blog" },
-// TODO:   { href: "/contacto", label: "Contacto" }
+  // TODO:   { href: "/contacto", label: "Contacto" }
 ];
 
 // Datos estructurados por defecto para SEO
 const defaultStructuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": AUTHOR_NAME,
-  "jobTitle": "Especialista en Inteligencia Artificial Aplicada a Ventas",
-  "description": "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
-  "url": SITE_URL,
-  "sameAs": [
+  name: AUTHOR_NAME,
+  jobTitle: "Especialista en Inteligencia Artificial Aplicada a Ventas",
+  description:
+    "Líder en ventas B2B y tecnología aplicada a resultados. Más de una década transformando la gestión comercial con inteligencia artificial.",
+  url: SITE_URL,
+  sameAs: [
     "https://linkedin.com/in/paulvillalobos",
-    "https://twitter.com/paulvillalobos"
-  ]
+    "https://twitter.com/paulvillalobos",
+  ],
 };
 ---
 
-
 <!doctype html>
 <html lang="es">
-	<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content={AUTHOR_NAME} />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
     <!-- Canonical URL -->
     <link rel="canonical" href={canonical} />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
@@ -89,7 +92,7 @@ const defaultStructuredData = {
     <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content={AUTHOR_NAME} />
     <meta property="og:locale" content="es_ES" />
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonical} />
@@ -97,53 +100,68 @@ const defaultStructuredData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:creator" content={AUTHOR_TWITTER} />
-    
+
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#2563eb" />
     <meta name="msapplication-TileColor" content="#2563eb" />
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Google Analytics -->
     <Analytics />
-    
+
     <!-- Structured Data -->
-    {structuredData && (
-      <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
-    )}
-    
+    {
+      structuredData && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
+
     <!-- Default Structured Data (Person) if no custom data provided -->
-    {!structuredData && (
-      <script type="application/ld+json" set:html={JSON.stringify(defaultStructuredData)}></script>
-    )}
+    {
+      !structuredData && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(defaultStructuredData)}
+        />
+      )
+    }
 
-		<ClientRouter />
-
+    <ClientRouter />
   </head>
-	<body class="bg-white text-slate-900 font-sans antialiased">
+  <body class="bg-white text-slate-900 font-sans antialiased">
+    <!-- Header/Navigation -->
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 h-18">
+      <nav
+        class="max-w-7xl mx-auto px-4 sm:px-5 h-full flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <a
+            href="/"
+            class="text-lg sm:text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors duration-200"
+          >
+            Paul Villalobos
+          </a>
+        </div>
 
-		<!-- Header/Navigation -->
-		<header class="sticky top-0 z-40 bg-white border-b border-gray-200 h-18">
-			<nav class="max-w-7xl mx-auto px-4 sm:px-5 h-full flex items-center justify-between">
-				<div class="flex items-center">
-					<a href="/" class="text-lg sm:text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors duration-200">
-						Paul Villalobos
-					</a>
-				</div>
+        <div class="hidden md:flex items-center space-x-8">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-semibold"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
 
-				<div class="hidden md:flex items-center space-x-8">
-					{navLinks.map(link => (
-						<a 
-							href={link.href} 
-							class="text-slate-600 hover:text-slate-900 transition-colors duration-200 font-semibold"
-						>
-							{link.label}
-						</a>
-					))}
-				</div>
-
-				<!-- <div class="hidden md:flex items-center">
+        <!-- <div class="hidden md:flex items-center">
 					<a 
 						href="#contacto" 
 						class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -152,75 +170,100 @@ const defaultStructuredData = {
 					</a>
 				</div> -->
 
-				<button 
-					id="mobile-menu-toggle"
-					class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-					aria-label="Abrir menú"
-				>
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-					</svg>
-				</button>
-			</nav>
+        <button
+          id="mobile-menu-toggle"
+          class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+          aria-label="Abrir menú"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </nav>
 
-			<div 
-				id="mobile-menu"
-				class="mobile-menu md:hidden fixed inset-0 z-50 bg-white"
-			>
-				<div class="flex flex-col h-full">
-					<div class="flex items-center justify-between p-4 border-b border-gray-200 h-18">
-						<span class="text-lg font-bold text-slate-900">Menú de navegación</span>
-						<button 
-							id="mobile-menu-close"
-							class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-							aria-label="Cerrar menú"
-						>
-							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-							</svg>
-						</button>
-					</div>
+      <div
+        id="mobile-menu"
+        class="mobile-menu md:hidden fixed inset-0 z-50 bg-white"
+      >
+        <div class="flex flex-col h-full">
+          <div
+            class="flex items-center justify-between p-4 border-b border-gray-200 h-18"
+          >
+            <span class="text-lg font-bold text-slate-900"
+              >Menú de navegación</span
+            >
+            <button
+              id="mobile-menu-close"
+              class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+              aria-label="Cerrar menú"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
 
-					<div class="flex-1 px-4 py-6 space-y-6">
-						<nav class="space-y-4">
-							{navLinks.map(link => (
-								<a 
-									href={link.href} 
-									class="block text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
-								>
-									{link.label}
-								</a>
-							))}
-						</nav>
+          <div class="flex-1 px-4 py-6 space-y-6">
+            <nav class="space-y-4">
+              {
+                navLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    class="block text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
+                  >
+                    {link.label}
+                  </a>
+                ))
+              }
+            </nav>
 
-						<div class="pt-6 border-t border-gray-200">
-							<a 
-								href="#contacto" 
-								class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-							>
-								Hablemos
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
+            <div class="pt-6 border-t border-gray-200">
+              <a
+                href="#contacto"
+                class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Hablemos
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-		<main id="main" class="min-h-screen">
-			<slot />
-		</main>
+    <main id="main" class="min-h-screen">
+      <slot />
+    </main>
 
-		<footer class="bg-slate-900 text-gray-200">
-			<div class="max-w-7xl mx-auto px-4 sm:px-5 py-12 sm:py-16">
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-					<section class="space-y-4 sm:col-span-2 lg:col-span-1">
-						<p class="text-lg font-semibold text-white">{AUTHOR_NAME}</p>
-						<p class="text-gray-300 text-sm leading-relaxed">
-							Líder en ventas B2B y tecnología aplicada. Transformando la gestión comercial con inteligencia artificial.
-						</p>
-					</section>
+    <footer class="bg-slate-900 text-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-5 py-12 sm:py-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <section class="space-y-4 sm:col-span-2 lg:col-span-1">
+            <p class="text-lg font-semibold text-white">{AUTHOR_NAME}</p>
+            <p class="text-gray-300 text-sm leading-relaxed">
+              Líder en ventas B2B y tecnología aplicada. Transformando la
+              gestión comercial con inteligencia artificial.
+            </p>
+          </section>
 
-					<section class="space-y-4">
+          <!-- <section class="space-y-4">
 						<p class="text-lg font-semibold text-white">Servicios</p>
 						<nav>
 							<ul class="space-y-2">
@@ -229,9 +272,9 @@ const defaultStructuredData = {
 								<li><a href="#capacitacion" class="text-gray-300 hover:text-white transition-colors duration-200">Capacitación</a></li>
 							</ul>
 						</nav>
-					</section>
+					</section> -->
 
-					<!-- <section class="space-y-4 sm:col-span-2 lg:col-span-1">
+          <!-- <section class="space-y-4 sm:col-span-2 lg:col-span-1">
 						<h3 class="text-lg font-semibold text-white">Newsletter</h3>
 						<p class="text-gray-300 text-sm">
 							Recibe insights sobre IA aplicada a ventas.
@@ -251,42 +294,40 @@ const defaultStructuredData = {
 							</button>
 						</form>
 					</section> -->
-				</div>
+        </div>
 
-				<div class="mt-8 pt-8 border-t border-slate-700">
-					<p class="text-xs text-slate-400 text-center">
-						AI Sales Engine — Inteligencia Artificial Aplicada a Ventas.
-					</p>
-				</div>
+        <div class="mt-8 pt-8 border-t border-slate-700">
+          <p class="text-xs text-slate-400 text-center">
+            AI Sales Engine — Inteligencia Artificial Aplicada a Ventas.
+          </p>
+        </div>
+      </div>
+    </footer>
 
-			</div>
-		</footer>
+    <!-- Script para menú móvil -->
+    <script>
+      const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenuClose = document.getElementById("mobile-menu-close");
+      const mobileMenu = document.getElementById("mobile-menu");
 
-		<!-- Script para menú móvil -->
-		<script>
-			const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-			const mobileMenuClose = document.getElementById('mobile-menu-close');
-			const mobileMenu = document.getElementById('mobile-menu');
+      function openMenu() {
+        mobileMenu?.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
 
-			function openMenu() {
-				mobileMenu?.classList.add('open');
-				document.body.style.overflow = 'hidden';
-			}
+      function closeMenu() {
+        mobileMenu?.classList.remove("open");
+        document.body.style.overflow = "";
+      }
 
-			function closeMenu() {
-				mobileMenu?.classList.remove('open');
-				document.body.style.overflow = '';
-			}
+      mobileMenuToggle?.addEventListener("click", openMenu);
+      mobileMenuClose?.addEventListener("click", closeMenu);
 
-			mobileMenuToggle?.addEventListener('click', openMenu);
-			mobileMenuClose?.addEventListener('click', closeMenu);
-
-			// Cerrar menú al hacer clic en un enlace
-			const menuLinks = mobileMenu?.querySelectorAll('a');
-			menuLinks?.forEach(link => {
-				link.addEventListener('click', closeMenu);
-			});
-		</script>
-
-	</body>
+      // Cerrar menú al hacer clic en un enlace
+      const menuLinks = mobileMenu?.querySelectorAll("a");
+      menuLinks?.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    </script>
+  </body>
 </html>
