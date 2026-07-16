@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 // Grupos de Tags según estrategia
 const GroupATags = [
@@ -26,12 +27,11 @@ const GroupCTags = [
 const AllTags = [...GroupATags, ...GroupBTags, ...GroupCTags] as const;
 
 const blogCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string(),
-      // slug: No se define aquí porque Astro lo extrae automáticamente al nivel superior (entry.slug)
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       author: z.string().default("Paul Villalobos"),

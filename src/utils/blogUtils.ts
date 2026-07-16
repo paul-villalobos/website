@@ -91,6 +91,7 @@ function normalizePostImage(post: any): {
   imageAlt: string;
 } {
   const imageField = post.data.hero || post.data.heroImage;
+  const slug = post.id || post.slug;
 
   if (!imageField) {
     return { image: null, imageAlt: post.data.title };
@@ -111,7 +112,7 @@ function normalizePostImage(post: any): {
   // Validación: Si es string, avisar que debe convertirse a asset local
   if (typeof imageField === "string") {
     console.warn(
-      `⚠️ Post "${post.slug}" tiene imagen como string. Debe convertirse a asset local.`
+      `⚠️ Post "${slug}" tiene imagen como string. Debe convertirse a asset local.`
     );
     return { image: null, imageAlt: post.data.title };
   }
@@ -123,7 +124,7 @@ function normalizePostImage(post: any): {
     typeof imageField.src === "string"
   ) {
     console.warn(
-      `⚠️ Post "${post.slug}" tiene imagen como string en src. Debe convertirse a asset local.`
+      `⚠️ Post "${slug}" tiene imagen como string en src. Debe convertirse a asset local.`
     );
     return { image: null, imageAlt: imageField.alt || post.data.title };
   }
@@ -162,6 +163,7 @@ export function processPostData(post: any): ProcessedPost {
 
   return {
     ...post,
+    slug: post.id || post.slug,
     image,
     imageAlt,
     formattedDate,

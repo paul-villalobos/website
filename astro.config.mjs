@@ -6,6 +6,7 @@ import { join, parse } from "node:path";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import rehypeSlug from "rehype-slug";
+import { unified } from "@astrojs/markdown-remark";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -79,10 +80,13 @@ export default defineConfig({
     "/fuentes-de-nuevos-clientes": "/blog/fuentes-de-nuevos-clientes",
     "/tipos-de-vendedores": "/blog/tipos-de-vendedores",
   },
-  integrations: [
-    mdx({
+  markdown: {
+    processor: unified({
       rehypePlugins: [rehypeSlug],
     }),
+  },
+  integrations: [
+    mdx(),
     sitemap({
       changefreq: "weekly",
       priority: 0.7,

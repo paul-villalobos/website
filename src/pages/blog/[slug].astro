@@ -1,19 +1,19 @@
 ---
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { processPostData } from '../../utils/blogUtils';
 
 // Función para generar todas las rutas estáticas
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post: any) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post }: { post: any } = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 
 // Procesar datos del post
 const processedPost = processPostData(post);
