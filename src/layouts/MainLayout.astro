@@ -17,8 +17,6 @@ import {
   AUTHOR_TWITTER,
 } from "../utils/constants";
 import Analytics from "../components/shared/Analytics.astro";
-import { Image } from "astro:assets";
-import logo from "../assets/logo_Paul-Villalobos.png";
 
 // Props dinámicos para SEO
 export interface Props {
@@ -107,18 +105,8 @@ const defaultStructuredData = {
     <meta name="theme-color" content="#2563eb" />
     <meta name="msapplication-TileColor" content="#2563eb" />
 
-    <!-- Favicon - Múltiples tamaños para máxima compatibilidad -->
-    <!-- PNG fallbacks para navegadores antiguos -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
-    
-    <!-- Apple Touch Icon (iOS) -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-192x192.png" />
-    
-    <!-- Windows Tiles -->
-    <meta name="msapplication-TileImage" content="/favicon-192x192.png" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Google Analytics -->
     <Analytics />
@@ -154,15 +142,9 @@ const defaultStructuredData = {
         <div class="flex items-center">
           <a
             href="/"
-            class="flex items-center hover:opacity-80 transition-opacity duration-200"
+            class="text-lg sm:text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors duration-200"
           >
-            <Image 
-              src={logo} 
-              alt="Paul Villalobos - IA Comercial"
-              height={50}
-              width={180}
-              class="h-8 sm:h-10 w-auto"
-            />
+            Paul Villalobos
           </a>
         </div>
 
@@ -216,18 +198,9 @@ const defaultStructuredData = {
           <div
             class="flex items-center justify-between p-4 border-b border-gray-200 h-18"
           >
-            <a
-              href="/"
-              class="flex items-center hover:opacity-80 transition-opacity duration-200"
+            <span class="text-lg font-bold text-slate-900"
+              >Menú de navegación</span
             >
-              <Image 
-                src={logo} 
-                alt="Paul Villalobos - IA Comercial"
-                height={40}
-                width={144}
-                class="h-8 w-auto"
-              />
-            </a>
             <button
               id="mobile-menu-close"
               class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
@@ -283,18 +256,7 @@ const defaultStructuredData = {
       <div class="max-w-7xl mx-auto px-4 sm:px-5 py-12 sm:py-16">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <section class="space-y-4 sm:col-span-2 lg:col-span-1">
-            <a
-              href="/"
-              class="inline-block hover:opacity-80 transition-opacity duration-200"
-            >
-              <Image 
-                src={logo} 
-                alt="Paul Villalobos - IA Comercial"
-                height={32}
-                width={115}
-                class="h-8 w-auto"
-              />
-            </a>
+            <p class="text-lg font-semibold text-white">{AUTHOR_NAME}</p>
             <p class="text-gray-300 text-sm leading-relaxed">
               Líder en ventas B2B y tecnología aplicada. Transformando la
               gestión comercial con inteligencia artificial.
