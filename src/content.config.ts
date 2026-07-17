@@ -79,6 +79,7 @@ const blogCollection = defineCollection({
           alt: z.string(),
         })
         .optional(),
+      draft: z.boolean().optional().default(false),
     }),
 });
 

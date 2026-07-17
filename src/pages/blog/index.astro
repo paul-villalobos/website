@@ -37,8 +37,10 @@ const TAG_GROUPS = {
   ]
 };
 
-// Obtener todos los posts del blog
-const allPosts = await getCollection('blog');
+// Obtener todos los posts del blog (excluyendo borradores en producción)
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.DEV || !data.draft;
+});
 
 // Ordenar por fecha de publicación (más recientes primero)
 const sortedPosts = sortPostsByDate(allPosts);

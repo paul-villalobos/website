@@ -65,6 +65,10 @@ const blogDates = getBlogDates();
 // https://astro.build/config
 export default defineConfig({
   site: "https://paulvillalobos.com",
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   redirects: {
     "/ai-agents-comercio-transformacion":
       "/blog/ai-agents-comercio-transformacion",

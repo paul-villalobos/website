@@ -183,10 +183,10 @@ const breadcrumbStructuredData = generateBreadcrumbStructuredData(breadcrumbs);
 
 ```typescript
 // ✅ CORRECTO
-const canonicalUrl = post.data.canonical || `${siteUrl}/posts/${post.slug}`;
+const canonicalUrl = post.data.canonical || `${siteUrl}/blog/${post.slug}`;
 
 // ❌ INCORRECTO - Ignorar canonical del frontmatter
-const canonicalUrl = `${siteUrl}/posts/${post.slug}`;
+const canonicalUrl = `${siteUrl}/blog/${post.slug}`;
 ```
 
 ### URLs Consistentes
@@ -406,9 +406,9 @@ Antes de finalizar, verificar:
 Ver implementaciones de referencia en:
 
 - `src/pages/index.astro` - Página principal
-- `src/pages/blog.astro` - Listado de blog
+- `src/pages/blog/index.astro` - Listado de blog (con soporte de drafts)
 - `src/pages/contacto.astro` - Página de contacto
-- `src/pages/posts/[slug].astro` - Posts individuales
+- `src/pages/blog/[slug].astro` - Posts individuales (con soporte de drafts)
 - `src/utils/blogUtils.ts` - Funciones de generación SEO
 
 ---
