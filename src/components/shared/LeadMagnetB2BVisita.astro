@@ -1,0 +1,980 @@
+---
+// Component: LeadMagnetB2BVisita.astro
+// Interactive B2B Sales Visit Diagnostic Simulator
+// Based on the Oli Gardner Framework & VoxCliente Engine v2.5
+---
+
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-slate-50 border border-slate-200 rounded-3xl shadow-xl overflow-hidden font-sans">
+  
+  <!-- Interactive simulator header -->
+  <div class="text-center mb-10">
+    <span class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-orange-700 border border-orange-200 inline-block mb-3">
+      Simulador Interactivo B2B
+    </span>
+    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+      La Visita B2B Efectiva y las 9 Variables del Diagnóstico Iterativo
+    </h2>
+    <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">
+      Haz clic en las variables del <strong class="text-slate-800">Paso 1</strong> para simular el levantamiento de información en campo y observa cómo impacta en el pipeline y la efectividad de la visita en tiempo real.
+    </p>
+  </div>
+
+  <!-- The Simulator Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    
+    <!-- PASO 1: EL DICCIONARIO DE TRINCHERA (5 / 12 Cols) -->
+    <div class="lg:col-span-5 bg-slate-900 text-white rounded-2xl p-6 flex flex-col justify-between shadow-md border border-slate-800">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-orange-500">Paso 1</h3>
+            <h4 class="text-lg font-bold text-white mt-1">EL DICCIONARIO DE TRINCHERA</h4>
+          </div>
+          <span class="text-xs bg-slate-800 px-3 py-1 rounded-full text-slate-300 font-semibold border border-slate-700">
+            9 Variables Técnicas
+          </span>
+        </div>
+        <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+          Variables técnicas que separan el commodity del margen. <span class="text-orange-400 font-semibold">Ejemplo Práctico: Venta de Manjar para Tortas.</span>
+        </p>
+
+        <!-- 3x3 / Responsive grid of variables -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="dictionary-grid">
+          
+          <!-- Variable 1 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="1" 
+            data-moment="1"
+            data-name="Insumo Actual"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">1</span>
+              <!-- Check icon wrapper -->
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Jar Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" class="hidden" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" class="hidden" />
+                <!-- Custom Bucket Jar path -->
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 8h12M7 8l1 11a2 2 0 002 2h4a2 2 0 002-2l1-11M9 5a3 3 0 016 0v3H9V5z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Insumo Actual</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Qué manjar usa para la torta?</p>
+            </div>
+          </button>
+
+          <!-- Variable 2 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="2" 
+            data-moment="2"
+            data-name="Consumo Mensual"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">2</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Cake/Pastry Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V6a2 2 0 10-2 2h2zm-9 5h18v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6zm0 0c0-1.657 4.03-3 9-3s9 1.343 9 3" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Consumo Mensual</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Cuántos baldes compras? / Tortas horneas</p>
+            </div>
+          </button>
+
+          <!-- Variable 3 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="3" 
+            data-moment="2"
+            data-name="Costo Actual"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">3</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Cost/Dollar Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-28h6M9 10h6m-7 4h8a2 2 0 100-4H8a2 2 0 100 4zm2 8a2 2 0 104 0h-4z" class="hidden" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Costo Actual</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Puedo ver la factura de su última compra?</p>
+            </div>
+          </button>
+
+          <!-- Variable 4 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="4" 
+            data-moment="1"
+            data-name="Marca Competidora"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">4</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Tag/Competitor Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.43 1.43 0 002.022 0l4.318-4.318a1.43 1.43 0 000-2.022L11.16 3.659A2.25 2.25 0 009.568 3z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Marca Competidora</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Qué marca usan para el relleno base?</p>
+            </div>
+          </button>
+
+          <!-- Variable 5 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="5" 
+            data-moment="2"
+            data-name="Proveedor Actual"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">5</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Vendor/Supplier Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Proveedor Actual</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Dónde lo compras hoy en día?</p>
+            </div>
+          </button>
+
+          <!-- Variable 6 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="6" 
+            data-moment="2"
+            data-name="Oferta de Valor"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">6</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Value Prop/Financing Tag Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Oferta de Valor</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿El proveedor te da auspicios o crédito?</p>
+            </div>
+          </button>
+
+          <!-- Variable 7 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="7" 
+            data-moment="1"
+            data-name="Uso Específico"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">7</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Funnel Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Uso Específico</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Cómo usas el manjar? (Relleno, decorado)</p>
+            </div>
+          </button>
+
+          <!-- Variable 8 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="8" 
+            data-moment="1"
+            data-name="Por Qué lo Eligió"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">8</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Brain/Preferences Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925-3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 002.25 6v.18a6.009 6.009 0 014.522 5.82h-.022A3.75 3.75 0 0010.5 15.75v.022a6.009 6.009 0 01-4.522 5.82V21.75a3.75 3.75 0 003.75-3.75z" class="hidden" />
+                <!-- Actual brain icon profile -->
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 9.5a3 3 0 116 0 3 3 0 01-6 0zM12 12.5V21M12 12.5a5.5 5.5 0 11-5.5-5.5M12 12.5a5.5 5.5 0 105.5-5.5" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">¿Por qué lo eligió?</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Por qué lo prefiere ante otras marcas?</p>
+            </div>
+          </button>
+
+          <!-- Variable 9 -->
+          <button 
+            type="button" 
+            class="variable-card group relative flex flex-col justify-between text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-orange-500/50 transition-all duration-200 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-orange-500" 
+            data-id="9" 
+            data-moment="1"
+            data-name="Dolores Técnicos"
+            data-checked="false"
+          >
+            <div class="flex justify-between items-start w-full">
+              <span class="text-xs font-black text-slate-500 group-hover:text-slate-300 transition-colors">9</span>
+              <span class="check-indicator w-4.5 h-4.5 rounded-md border border-slate-600 bg-slate-900 flex items-center justify-center transition-all">
+                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </div>
+            
+            <div class="mt-4 mb-2 flex flex-col items-center justify-center h-10 w-full text-orange-500 group-hover:scale-110 transition-transform">
+              <!-- Warning/Technical Pain Icon -->
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            
+            <div>
+              <h5 class="text-[10px] font-bold tracking-wider text-slate-200 uppercase leading-tight truncate">Dolores Técnicos</h5>
+              <p class="text-[9px] text-slate-400 leading-tight mt-0.5 line-clamp-2">¿Tienen mermas por chorreo o humedad?</p>
+            </div>
+          </button>
+          
+        </div>
+      </div>
+      
+      <!-- Paso 1 instructions footer -->
+      <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+        <span>Haz clic para seleccionar variables</span>
+        <button id="reset-simulator" type="button" class="text-orange-500 hover:text-orange-400 hover:underline font-bold transition-all focus:outline-none">
+          Limpiar variables (0/9)
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2: ESTRATEGIA DE DESPLIEGUE EN CAMPO (4 / 12 Cols) -->
+    <div class="lg:col-span-4 bg-slate-100 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between shadow-sm">
+      
+      <div class="flex flex-col h-full">
+        <!-- Title and header -->
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Paso 2</h3>
+          <h4 class="text-lg font-bold text-slate-900 mt-1">DESPLIEGUE EN CAMPO</h4>
+          <p class="text-xs text-slate-500 leading-tight mt-1">
+            No dispares a ciegas. Divide la cuenta en dos momentos clínicos:
+          </p>
+        </div>
+
+        <div class="space-y-6 flex-grow flex flex-col justify-between">
+          <!-- MOMENTO 1 -->
+          <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs relative">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+              <div class="flex items-center space-x-2">
+                <!-- Chef hat SVG -->
+                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.047 8.287 8.287 0 009 9.601a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" class="hidden" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21h7.5M12 21v-3.75m0 3.75a3 3 0 11-6 0M12 21a3 3 0 106 0M9.75 8.25A2.25 2.25 0 0112 6c.928 0 1.72.562 2.052 1.359a3.75 3.75 0 016.732 2.391 3.75 3.75 0 01-6.732 2.39C13.72 12.938 12.928 13.5 12 13.5c-.928 0-1.72-.562-2.052-1.359a3.75 3.75 0 01-6.732-2.39 3.75 3.75 0 016.732-2.391z" />
+                </svg>
+                <div>
+                  <h5 class="text-xs font-black text-slate-900 leading-none">MOMENTO 1: Técnico</h5>
+                  <span class="text-[9px] text-slate-500 font-medium">Chef / Maestro Pastelero</span>
+                </div>
+              </div>
+              <!-- Mixer SVG icon -->
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-3.078 0m3.078 0a3 3 0 01-3.078 0m3.078 0V9m-3.078 7.122V9m3.078 0h3.5m-6.578 0H4M15 13h1a2 2 0 012 2v2a2 2 0 01-2 2h-1M12 9a3 3 0 016 0v1h-6V9z" />
+              </svg>
+            </div>
+            
+            <p class="text-[10px] font-bold text-slate-600 mb-2 uppercase tracking-wider">Variables de Diagnóstico Operativo:</p>
+            <ul class="space-y-1.5 text-xs text-slate-500" id="moment-1-list">
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="1">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">1. Insumo Actual</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="4">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">4. Marca Competidora</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="7">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">7. Uso Específico</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="8">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">8. ¿Por qué lo eligió?</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="9">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px] font-medium text-slate-700">9. Dolores Técnicos</span>
+              </li>
+            </ul>
+            <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Hito de Cierre</span>
+              <span class="text-[9px] font-extrabold text-slate-600">Validar el Hito Técnico</span>
+            </div>
+          </div>
+
+          <!-- CONNECTOR: "¿Validaste el Dolor Técnico? -> Activar Fase Comercial" -->
+          <div class="flex flex-col items-center justify-center my-2 relative py-1">
+            <!-- Downward vertical connector line -->
+            <div class="absolute inset-y-0 w-0.5 bg-slate-300 transition-colors" id="vertical-connector-line"></div>
+            
+            <div 
+              id="flow-badge" 
+              class="z-10 flex flex-col items-center space-y-1 bg-white border border-slate-300 px-4 py-2 rounded-full text-center shadow-xs transition-all duration-300 max-w-[240px]"
+            >
+              <div class="flex items-center space-x-1.5">
+                <span id="flow-badge-check" class="w-4 h-4 rounded-full border border-slate-300 bg-slate-100 flex items-center justify-center transition-all">
+                  <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="text-[10px] font-black text-slate-700 uppercase tracking-tight">¿Validaste el Dolor Técnico?</span>
+              </div>
+              <span class="text-[8px] font-bold text-slate-500 uppercase tracking-widest leading-none">➔ Activar Fase Comercial</span>
+            </div>
+          </div>
+
+          <!-- MOMENTO 2 -->
+          <div class="bg-white rounded-xl p-4 border border border-slate-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+              <div class="flex items-center space-x-2">
+                <!-- Calculator Icon -->
+                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm-2.25 6.75h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm-2.25 6.75h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm-2.25 6.75h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008zm0-2.25h.008v.008h-.008v-.008z" class="hidden" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17h6M9 13h6M9 9h6M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z" />
+                </svg>
+                <div>
+                  <h5 class="text-xs font-black text-slate-900 leading-none">MOMENTO 2: Logístico</h5>
+                  <span class="text-[9px] text-slate-500 font-medium font-semibold">Comprador / Administrador</span>
+                </div>
+              </div>
+              <!-- Click Icon -->
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A11.947 11.947 0 013 12c0-6.627 5.373-12 12-12s12 5.373 12 12a11.947 11.947 0 01-4.524 9.33" />
+              </svg>
+            </div>
+            
+            <p class="text-[10px] font-bold text-slate-600 mb-2 uppercase tracking-wider">Variables de Viabilidad Financiera:</p>
+            <ul class="space-y-1.5 text-xs text-slate-500" id="moment-2-list">
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="2">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">2. Consumo mensual</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="3">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">3. Costo Actual</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="5">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">5. Proveedor Actual</span>
+              </li>
+              <li class="flex items-center space-x-2 transition-all duration-200" data-link-id="6">
+                <span class="status-box w-3.5 h-3.5 rounded-sm border border-slate-300 flex items-center justify-center bg-slate-50 transition-all">
+                  <svg class="w-2.5 h-2.5 text-orange-600 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="var-label text-[11px]">6. Oferta de Valor (OV)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2 bottom checklist indicator -->
+      <div 
+        id="step2-completion" 
+        class="mt-6 p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between text-xs transition-all duration-300"
+      >
+        <div class="flex items-center space-x-2">
+          <span id="step2-complete-badge" class="w-5 h-5 rounded-full border border-slate-300 bg-slate-100 flex items-center justify-center text-white transition-all">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </span>
+          <span class="font-bold text-slate-700 tracking-tight text-[11px]">Diagnóstico financiero y logístico</span>
+        </div>
+        <span class="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold" id="step2-completion-status">Incompleto</span>
+      </div>
+
+    </div>
+
+    <!-- PASO 3: LA COMPUERTA BINARIA DE CONTROL (3 / 12 Cols) -->
+    <div class="lg:col-span-3 bg-slate-100 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between shadow-sm relative">
+      <!-- Right point visual connector arrow from Step 2 to Step 3 on large screens -->
+      <div class="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 text-slate-400" id="flow-arrow-right">
+        <svg class="w-6 h-6 fill-current stroke-current" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="flex flex-col h-full">
+        <!-- Title and header -->
+        <div class="border-b border-slate-200 pb-4 mb-4">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Paso 3</h3>
+          <h4 class="text-lg font-bold text-slate-900 mt-1">COMPUERTA BINARIA</h4>
+          <p class="text-xs text-slate-500 leading-tight mt-1">
+            Sentencia del Supervisor. No aceptamos burocracia.
+          </p>
+        </div>
+
+        <span class="text-[10px] font-black text-center text-slate-500 uppercase tracking-widest mb-3 block">
+          Opción A (Semáforo Binario)
+        </span>
+
+        <!-- Outcomes Containers -->
+        <div class="space-y-4 flex-grow flex flex-col justify-stretch">
+          
+          <!-- OUTCOME A: VISITA NO EFECTIVA -->
+          <div 
+            id="outcome-no-efectiva" 
+            class="outcome-card flex-1 flex flex-col justify-between bg-white rounded-xl p-4 border border-slate-200 shadow-xs transition-all duration-300"
+          >
+            <div>
+              <div class="flex items-center space-x-2 mb-2">
+                <span class="w-5 h-5 rounded-full bg-red-100 border border-red-200 flex items-center justify-center text-red-600">
+                  <!-- X Circle icon -->
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </span>
+                <!-- User icon -->
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                <h5 class="text-[11px] font-extrabold text-red-600 uppercase tracking-wider leading-none">Visita No Efectiva</h5>
+              </div>
+              <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider mb-1 leading-none">(Pérdida de Margen)</p>
+              
+              <p class="text-[11px] text-slate-600 leading-tight mb-3">
+                Charlas amables, entrega de catálogo, promesas vacías.
+              </p>
+            </div>
+            
+            <div class="border-t border-slate-100 pt-2 mt-2">
+              <p class="text-[10px] font-bold text-slate-800 leading-none">Dato Duro:</p>
+              <p class="text-[10px] text-red-600 font-medium mt-1 leading-tight" id="dato-duro-no-efectiva">
+                Cero datos nuevos en el PVC de VoxCliente.
+              </p>
+              <div class="bg-red-50/50 rounded-lg p-2 border border-red-100 mt-2">
+                <p class="text-[9px] font-bold text-red-700 leading-none uppercase tracking-wider">Sentencia:</p>
+                <p class="text-[10px] text-red-800 leading-snug mt-1 font-medium">
+                  Tu gestión hoy fue puro "humo" administrativo. No hubo validación técnica.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTCOME B: VISITA EFECTIVA -->
+          <div 
+            id="outcome-efectiva" 
+            class="outcome-card flex-1 flex flex-col justify-between bg-white rounded-xl p-4 border border-slate-200 shadow-xs transition-all duration-300 opacity-60"
+          >
+            <div>
+              <div class="flex items-center space-x-2 mb-2">
+                <span class="status-indicator w-5 h-5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 transition-all">
+                  <!-- Check Circle icon -->
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <!-- User icon -->
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                <h5 class="text-[11px] font-extrabold text-slate-600 uppercase tracking-wider leading-none transition-colors" id="label-efectiva">Visita Efectiva</h5>
+              </div>
+              <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider mb-1 leading-none">(Ganancia de Control)</p>
+              
+              <p class="text-[11px] text-slate-600 leading-tight mb-3">
+                Validación de 1+ Hito clínico en la cocina o planta.
+              </p>
+            </div>
+            
+            <div class="border-t border-slate-100 pt-2 mt-2">
+              <p class="text-[10px] font-bold text-slate-800 leading-none">Dato Duro:</p>
+              <p class="text-[10px] text-slate-500 mt-1 leading-tight font-medium" id="dato-duro-efectiva">
+                Ningún hito guardado.
+              </p>
+              <div class="bg-slate-50 rounded-lg p-2 border border-slate-100 mt-2 transition-colors" id="sentencia-efectiva-box">
+                <p class="text-[9px] font-bold text-slate-500 leading-none uppercase tracking-wider" id="sentencia-efectiva-label">Sentencia:</p>
+                <p class="text-[10px] text-slate-600 leading-snug mt-1 font-medium" id="sentencia-efectiva-text">
+                  Debes levantar datos para generar predictibilidad científica en el pipeline.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Infographic brand / footer line -->
+  <div class="mt-8 pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400">
+    <div class="flex items-center space-x-1.5 mb-2 sm:mb-0">
+      <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+      <span class="font-bold tracking-tight text-slate-500">VoxCliente Engine v2.5</span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <span class="text-[11px] font-semibold text-slate-500">Oli Gardner Framework</span>
+      <!-- Custom visual logo mark (circles or brackets representing framework) -->
+      <div class="flex items-center space-x-0.5">
+        <span class="w-2.5 h-2.5 rounded-full border border-slate-400 flex items-center justify-center text-[7px] font-bold">G</span>
+        <span class="w-2.5 h-2.5 rounded-full bg-slate-400 flex items-center justify-center text-[7px] text-slate-500"></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CSS Styles for rich interactivity and animations -->
+<style>
+  /* Base transitions & shadow glows */
+  .variable-card {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  /* Styling when a card is checked */
+  .variable-card[data-checked="true"] {
+    background-color: var(--color-slate-800);
+    border-color: #f97316; /* Orange 500 */
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.22);
+  }
+  
+  .variable-card[data-checked="true"] .check-indicator {
+    background-color: #ea580c; /* Orange 600 */
+    border-color: #ea580c;
+  }
+  
+  .variable-card[data-checked="true"] .check-indicator svg {
+    display: block;
+  }
+  
+  .variable-card[data-checked="true"] span.text-slate-500 {
+    color: #fdba74; /* Orange 300 */
+  }
+
+  /* Hover states for checked/unchecked cards */
+  .variable-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .variable-card:active {
+    transform: translateY(0);
+  }
+
+  /* Moment items list active states */
+  li.item-active {
+    color: var(--color-slate-900);
+    font-weight: 600;
+  }
+  
+  li.item-active .status-box {
+    background-color: #ffedd5; /* Orange 100 */
+    border-color: #fdba74; /* Orange 300 */
+  }
+  
+  li.item-active .status-box svg {
+    display: block;
+  }
+
+  /* Downward flow line active animation */
+  #vertical-connector-line.flow-active {
+    background-color: #f97316; /* orange-500 */
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+  }
+
+  /* Flow badge active states */
+  #flow-badge.badge-active {
+    border-color: #f97316;
+    background-color: #fffaf0; /* amber-50 */
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+  }
+  
+  #flow-badge.badge-active #flow-badge-check {
+    background-color: #ea580c;
+    border-color: #ea580c;
+  }
+  
+  #flow-badge.badge-active #flow-badge-check svg {
+    display: block;
+  }
+
+  /* Completion container active state */
+  #step2-completion.complete-active {
+    border-color: #22c55e; /* Green 500 */
+    background-color: #f0fdf4; /* Green 500 soft */
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.1);
+  }
+  
+  #step2-completion.complete-active #step2-complete-badge {
+    background-color: #16a34a; /* Green 600 */
+    border-color: #16a34a;
+  }
+  
+  #step2-completion.complete-active #step2-complete-badge svg {
+    display: block;
+  }
+  
+  #step2-completion.complete-active #step2-completion-status {
+    color: #16a34a;
+  }
+
+  /* Outcome cards state switching */
+  .outcome-card.active-red {
+    border-color: #ef4444; /* red-500 */
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.12);
+    opacity: 1 !important;
+  }
+  
+  .outcome-card.active-green {
+    border-color: #22c55e; /* green-500 */
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.15);
+    opacity: 1 !important;
+  }
+  
+  .outcome-card.active-green .status-indicator {
+    background-color: #dcfce7; /* green-100 */
+    border-color: #bbf7d0; /* green-200 */
+    color: #16a34a; /* green-600 */
+  }
+  
+  .outcome-card.active-green .status-indicator svg {
+    display: block;
+  }
+  
+  .outcome-card.active-green #label-efectiva {
+    color: #16a34a;
+  }
+  
+  .outcome-card.active-green #sentencia-efectiva-box {
+    background-color: #f0fdf4; /* green-50 */
+    border-color: #dcfce7; /* green-100 */
+  }
+  
+  .outcome-card.active-green #sentencia-efectiva-label {
+    color: #15803d; /* green-700 */
+  }
+  
+  .outcome-card.active-green #sentencia-efectiva-text {
+    color: #166534; /* green-800 */
+  }
+
+  /* Transition for items */
+  .var-label {
+    transition: color 0.2s ease-in-out;
+  }
+  
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<!-- Client-side logic for the interactive simulator -->
+<script>
+  // Runs on every page load including transition swaps
+  function initSimulator() {
+    const cards = document.querySelectorAll('.variable-card');
+    const resetButton = document.getElementById('reset-simulator');
+    
+    // Lists and badges
+    const moment1List = document.getElementById('moment-1-list');
+    const moment2List = document.getElementById('moment-2-list');
+    const verticalLine = document.getElementById('vertical-connector-line');
+    const flowBadge = document.getElementById('flow-badge');
+    const step2Completion = document.getElementById('step2-completion');
+    const step2CompletionStatus = document.getElementById('step2-completion-status');
+    const rightArrow = document.getElementById('flow-arrow-right');
+    
+    // Outcomes
+    const outcomeNoEfectiva = document.getElementById('outcome-no-efectiva');
+    const outcomeEfectiva = document.getElementById('outcome-efectiva');
+    
+    // Dynamic text
+    const datoDuroEfectiva = document.getElementById('dato-duro-efectiva');
+    const sentenciaEfectivaText = document.getElementById('sentencia-efectiva-text');
+    
+    if (!cards.length) return;
+
+    // Track active variables
+    let checkedVars = new Set();
+
+    // Moment technical vs logistic arrays
+    const technicalIds = [1, 4, 7, 8, 9];
+    const logisticIds = [2, 3, 5, 6];
+
+    function updateSimulation() {
+      // 1. Reset list items styles in Paso 2
+      document.querySelectorAll('[data-link-id]').forEach(item => {
+        item.classList.remove('item-active');
+      });
+
+      // 2. Loop through all checked card IDs
+      checkedVars.forEach(id => {
+        const item = document.querySelector(`[data-link-id="${id}"]`);
+        if (item) {
+          item.classList.add('item-active');
+        }
+      });
+
+      // 3. Evaluate Moment 1 technical validation (Requires at least one technical variable)
+      const hasTechnicalChecked = technicalIds.some(id => checkedVars.has(id));
+      // Specifically check for technical pain variable (ID 9: Dolores Técnicos)
+      const hasDolorTecnicoChecked = checkedVars.has(9);
+      
+      if (hasTechnicalChecked) {
+        verticalLine?.classList.add('flow-active');
+        flowBadge?.classList.add('badge-active');
+      } else {
+        verticalLine?.classList.remove('flow-active');
+        flowBadge?.classList.remove('badge-active');
+      }
+
+      // 4. Evaluate Moment 2 completion (Requires at least 2 financial/logistical variables checked)
+      const logisticCheckedCount = logisticIds.filter(id => checkedVars.has(id)).length;
+      const isMoment2Complete = logisticCheckedCount >= 2;
+      
+      if (isMoment2Complete) {
+        step2Completion?.classList.add('complete-active');
+        if (step2CompletionStatus) {
+          step2CompletionStatus.textContent = 'VALIDADO';
+        }
+      } else {
+        step2Completion?.classList.remove('complete-active');
+        if (step2CompletionStatus) {
+          step2CompletionStatus.textContent = 'INCOMPLETO';
+        }
+      }
+
+      // 5. Evaluate Step 3 (The Binary Gate)
+      const totalChecked = checkedVars.size;
+      if (resetButton) {
+        resetButton.textContent = `Limpiar variables (${totalChecked}/9)`;
+      }
+
+      if (totalChecked > 0) {
+        // Active "Visita Efectiva"
+        outcomeNoEfectiva?.classList.remove('active-red');
+        outcomeNoEfectiva?.classList.add('opacity-40');
+        
+        outcomeEfectiva?.classList.add('active-green');
+        outcomeEfectiva?.classList.remove('opacity-60');
+        
+        if (rightArrow) {
+          rightArrow.classList.add('text-green-500');
+          rightArrow.classList.remove('text-slate-400');
+        }
+
+        // Generate dynamic lists of collected variables for "Dato Duro"
+        const collectedNames = [];
+        checkedVars.forEach(id => {
+          const card = document.querySelector(`.variable-card[data-id="${id}"]`);
+          if (card) {
+            collectedNames.push((card as HTMLElement).dataset.name);
+          }
+        });
+
+        // Set the text in Visita Efectiva
+        if (datoDuroEfectiva) {
+          datoDuroEfectiva.innerHTML = `<strong>Registrado:</strong> ${collectedNames.join(', ')}.`;
+        }
+
+        if (sentenciaEfectivaText) {
+          // If we also collected a technical pain, the pipeline predictibility is high
+          if (hasDolorTecnicoChecked) {
+            sentenciaEfectivaText.innerHTML = 'Tu gestión hoy generó <strong>predictibilidad científica</strong> en el pipeline. Hito técnico clínico validado.';
+          } else {
+            sentenciaEfectivaText.innerHTML = 'Hitos levantados con éxito. Tu gestión comercial cuenta con datos objetivos para avanzar la fase.';
+          }
+        }
+      } else {
+        // Reset to "Visita No Efectiva"
+        outcomeNoEfectiva?.classList.add('active-red');
+        outcomeNoEfectiva?.classList.remove('opacity-40');
+        
+        outcomeEfectiva?.classList.remove('active-green');
+        outcomeEfectiva?.classList.add('opacity-60');
+        
+        if (rightArrow) {
+          rightArrow.classList.remove('text-green-500');
+          rightArrow.classList.add('text-slate-400');
+        }
+
+        if (datoDuroEfectiva) {
+          datoDuroEfectiva.textContent = 'Ningún hito guardado.';
+        }
+        if (sentenciaEfectivaText) {
+          sentenciaEfectivaText.textContent = 'Debes levantar datos para generar predictibilidad científica en el pipeline.';
+        }
+      }
+    }
+
+    // Toggle card selection
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const id = parseInt((card as HTMLElement).dataset.id || '0');
+        const isChecked = (card as HTMLElement).dataset.checked === 'true';
+        
+        if (isChecked) {
+          (card as HTMLElement).dataset.checked = 'false';
+          checkedVars.delete(id);
+        } else {
+          (card as HTMLElement).dataset.checked = 'true';
+          checkedVars.add(id);
+        }
+        
+        updateSimulation();
+      });
+    });
+
+    // Reset simulator trigger
+    resetButton?.addEventListener('click', () => {
+      cards.forEach(card => {
+        (card as HTMLElement).dataset.checked = 'false';
+      });
+      checkedVars.clear();
+      updateSimulation();
+    });
+
+    // Initial run
+    updateSimulation();
+  }
+
+  // Support Astro view transitions
+  document.addEventListener('astro:page-load', initSimulator);
+  // Fallback for regular navigations
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSimulator);
+  } else {
+    initSimulator();
+  }
+</script>

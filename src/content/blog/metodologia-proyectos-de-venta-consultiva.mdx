@@ -16,15 +16,17 @@ heroImage:
 draft: false
 ---
 
+import { Image } from 'astro:assets';
+import variablesImg from '../../assets/blog/metodologia-proyectos-de-venta-consultiva/9-variables-de-diagnostico.png';
+
 # Gobernanza de ventas HORECA: Cómo la Metodología PVC convierte el reporte cualitativo del vendedor en datos de margen auditables
 
 > **Resumen Ejecutivo:** Detén la fuga de rentabilidad en el canal HORECA aplicando la metodología del Proyecto de Venta Consultiva (PVC) por Insumo. Aprende a superar la barrera del precio de tu preventista y auditar tus rutas bajo un modelo científico de gobernanza comercial.
 
 ---
 
-## 1. El Síntoma del Margen Secuestrado (El Camión de Bajo Margen)
+## 1. El Síntoma del Margen Secuestrado
 
-Para esta sección introductoria en el blog, visualicemos el contraste semántico de la fuga de participación de cartera (*Share of Wallet*) sin necesidad de cargar imágenes pesadas que afecten la velocidad de carga.
 
 <div class="my-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-xs font-sans not-prose">
   <div class="bg-slate-900 px-4 py-3 text-xs font-semibold tracking-wider text-slate-200 uppercase flex items-center justify-between">
@@ -58,7 +60,7 @@ Para esta sección introductoria en el blog, visualicemos el contraste semántic
           <span class="text-xs bg-rose-100 text-rose-800 px-2 py-1 rounded font-bold uppercase tracking-wider">Fugado (Pérdida)</span>
         </div>
         <div class="flex justify-between items-center text-sm text-slate-600 py-1">
-          <span>• 08 Bloques de Queso Mozzarella 5Kg</span>
+          <span>• 08 Moldes de Queso Mozzarella</span>
           <span class="text-xs bg-rose-100 text-rose-800 px-2 py-1 rounded font-bold uppercase tracking-wider">Fugado (Pérdida)</span>
         </div>
       </div>
@@ -66,11 +68,11 @@ Para esta sección introductoria en el blog, visualicemos el contraste semántic
   </div>
 </div>
 
-Es lunes a las 6:00 AM en tu distribuidora. Tus camiones de reparto salen cargados hacia las principales pastelerías, pizzerías y chifas de Lima. A primera vista, la operation se mueve con fuerza. Pero si analizas el reporte de carga, notarás un patrón que frena el crecimiento de tu negocio:
+Es lunes a las 6:00 AM en tu distribuidora. Tus camiones de reparto salen cargados hacia las principales pastelerías y restaurantes. A primera vista, la operación se mueve con fuerza. Pero si analizas el reporte de carga, notarás un patrón que frena el crecimiento de tu negocio:
 
-**Estás entregando toneladas de leche fresca (un commodity pesado de bajo margen) mientras tu competidor descarga las cremas vegetales, las coberturas de chocolate y los quesos de alta rotación en el mismo local.**
+**Estás entregando toneladas de leche fresca (un commodity pesado de bajo margen) mientras tu competidor entrega las cremas vegetales, las coberturas de chocolate y los quesos de alto margen en el mismo local.**
 
-Tu facturación se sostiene sobre productos de volumen, pero de baja rentabilidad. Has terminado convirtiendo tu estructura logística en el canal de abastecimiento básico de tus clientes, mientras el margen real —el que verdaderamente sostiene tu operación— se lo lleva la competencia.
+Tu facturación se sostiene sobre productos de volumen, pero de baja rentabilidad. El cliente usa tu estructura logística como el canal de abastecimiento básico de tus clientes, mientras que los productos rentables se lo lleva la competencia.
 
 ### El Supuesto de Campo que Debemos Desarmar
 
@@ -286,6 +288,16 @@ Sin embargo, bajo la metodología de **Mark Holland (Sales Governance)**, la mé
 En el **Proyecto de Venta Consultiva (PVC)**, redefinimos la regla del juego con un estándar estricto para tus supervisores:
 
 > **La Visita Efectiva:** Una visita solo es válida y auditada si el vendedor ha logrado alimentar o actualizar activamente al menos **una (1) de las 9 variables críticas del PVC** de un insumo específico en el sistema. Si no hay dato nuevo, la visita es calificada como "Gestión en Proceso", pero no suma para su indicador de efectividad diaria.
+
+Para que tu equipo pueda visualizar y estructurar este levantamiento de información clínica en ruta sin perderse en la teoría, diseñamos este mapa estructurado de relaciones de datos. Este flujo separa con precisión los dolores de validación técnica en la cocina de los hitos logísticos y financieros que aprueba la oficina de compras:
+
+<Image 
+  src={variablesImg} 
+  alt="Las 9 Variables del Diagnóstico Iterativo - Metodología PVC" 
+  widths={[320, 640, 800]} 
+  sizes="(max-width: 800px) 100vw, 800px" 
+  class="w-full h-auto rounded-xl shadow-lg my-8 border border-slate-200" 
+/>
 
 ### El Fichero de las 9 Variables de Inteligencia de Trinchera
 

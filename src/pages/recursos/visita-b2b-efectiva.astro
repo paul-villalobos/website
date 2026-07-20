@@ -1,0 +1,270 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Breadcrumb from "../../components/shared/Breadcrumb.astro";
+import Button from "../../components/shared/Button.astro";
+import LeadMagnetB2BVisita from "../../components/shared/LeadMagnetB2BVisita.astro";
+import { SITE_URL, AUTHOR_NAME, AUTHOR_EMAIL } from "../../utils/constants";
+
+// Metadata SEO
+const pageMeta = {
+  title: "La Visita B2B Efectiva - Framework y Diagnóstico | Paul Villalobos",
+  description: "Accede al simulador interactivo de la Visita B2B Efectiva. Aprende a aplicar las 9 variables del diagnóstico iterativo para aumentar tus márgenes comerciales.",
+  keywords: "visita B2B efectiva, diagnóstico comercial, Oli Gardner framework, VoxCliente, variables de ventas B2B, HORECA ventas, pipeline comercial",
+  canonical: `${SITE_URL}/recursos/visita-b2b-efectiva`,
+  ogImage: "https://paulvillalobos.com/images/og-default.jpg", // Default placeholder
+  ogType: "website",
+};
+
+// Structured data for SEO
+const pageStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      name: "La Visita B2B Efectiva y las 9 Variables | Paul Villalobos",
+      url: `${SITE_URL}/recursos/visita-b2b-efectiva`,
+      description: pageMeta.description,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Inicio",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Recursos",
+          item: `${SITE_URL}/recursos`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Visita B2B Efectiva",
+          item: `${SITE_URL}/recursos/visita-b2b-efectiva`,
+        },
+      ],
+    },
+  ],
+};
+
+const breadcrumbs = [
+  { name: "Inicio", url: SITE_URL },
+  { name: "Recursos", url: "#" },
+  { name: "Visita B2B Efectiva", url: `${SITE_URL}/recursos/visita-b2b-efectiva` }
+];
+---
+
+<MainLayout
+  title={pageMeta.title}
+  description={pageMeta.description}
+  keywords={pageMeta.keywords}
+  canonical={pageMeta.canonical}
+  ogImage={pageMeta.ogImage}
+  ogType={pageMeta.ogType}
+  structuredData={pageStructuredData}
+  hideHeaderLinks={true}
+>
+  <main class="bg-white min-h-screen py-10 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb Navigation -->
+      <div class="mb-8">
+        <Breadcrumb items={breadcrumbs} align="left" />
+      </div>
+
+      <!-- Main Section Header -->
+      <section class="max-w-4xl mb-12">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          ¿Cómo separar el commodity del margen en tus visitas de venta?
+        </h1>
+        <p class="mt-4 text-lg md:text-xl text-slate-600 leading-relaxed font-light">
+          La mayoría de las visitas B2B en canales industriales y HORECA se quedan en "charlas amables" que consumen combustible y no aportan predictibilidad. Con este framework de diagnóstico iterativo estructurarás a tu equipo para levantar datos duros desde la cocina hasta la oficina de compras.
+        </p>
+      </section>
+
+      <!-- Embed the Interactive Simulator Component -->
+      <section class="mb-16">
+        <LeadMagnetB2BVisita />
+      </section>
+
+      <!-- Dual Action Lead Generation: PDF Download + Consulting Call -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mt-12 max-w-5xl mx-auto">
+        
+        <!-- CARD 1: Lead Capture Form (PDF Download) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-3xl p-8 lg:p-10 flex flex-col justify-between shadow-xs">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-orange-600 bg-orange-100/60 px-3 py-1 rounded-full inline-block mb-4">
+              Recurso Gratuito
+            </span>
+            <h3 class="text-2xl font-bold text-slate-900 tracking-tight mb-3">
+              Descarga la Guía en PDF e Imprimible
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              Obtén el blueprint de la <strong>Visita B2B Efectiva</strong> en alta resolución. Incluye las preguntas de trinchera para entrenar a tus vendedores y las sentencias para supervisar las rutas comerciales con éxito.
+            </p>
+            
+            <!-- Lead Form -->
+            <form id="lead-magnet-form" class="space-y-4">
+              <div>
+                <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  placeholder="Ej. Carlos Mendoza" 
+                  class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Corporativo</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="Ej. carlos@tuempresa.com" 
+                  class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label for="company-size" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tamaño del Equipo de Ventas</label>
+                <select 
+                  id="company-size" 
+                  name="company-size" 
+                  class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm transition-all"
+                  required
+                >
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option value="1-5">1 - 5 vendedores</option>
+                  <option value="6-15">6 - 15 vendedores</option>
+                  <option value="16-50">16 - 50 vendedores</option>
+                  <option value="50+">Más de 50 vendedores</option>
+                </select>
+              </div>
+
+              <!-- Submit Button -->
+              <button 
+                type="submit" 
+                class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 mt-4 cursor-pointer"
+              >
+                Recibir PDF por Correo
+              </button>
+            </form>
+
+            <!-- Success State (hidden initially) -->
+            <div id="form-success" class="hidden space-y-4 text-center py-6">
+              <span class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mx-auto">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <h4 class="text-xl font-bold text-slate-900">¡Registro Completado!</h4>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Hemos enviado la guía y la plantilla en alta resolución a tu correo. También puedes descargarla directamente haciendo clic en el siguiente enlace:
+              </p>
+              <a 
+                href="/files/visita-b2b-efectiva-guia.pdf" 
+                download
+                class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-xs mt-2"
+              >
+                Descargar Guía PDF
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CARD 2: Direct Call booking / Consulting Pitch -->
+        <div class="bg-slate-900 text-white rounded-3xl p-8 lg:p-10 flex flex-col justify-between shadow-md border border-slate-800">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-blue-400 bg-blue-950/60 px-3 py-1 rounded-full inline-block mb-4 border border-blue-900">
+              Consultoría e Implementación
+            </span>
+            <h3 class="text-2xl font-bold text-white tracking-tight mb-3">
+              ¿Quieres implementar esto en tu CRM y habilitar a tu equipo?
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+              Medir la efectividad de la ruta y registrar el "Dato Duro" no debería depender de un formulario en papel. Con <strong class="text-white">AI Sales Engine</strong>, ayudamos a automatizar la captura, integrar el dictado por voz de tus vendedores directo al CRM desde la trinchera y calificar las cuentas al instante.
+            </p>
+
+            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+              <li class="flex items-start">
+                <span class="text-blue-500 mr-2.5 font-bold">✓</span>
+                <span>Configuración de hitos y variables dinámicas en tu CRM (Hubspot, Salesforce, etc.)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-500 mr-2.5 font-bold">✓</span>
+                <span>Automatización del reporte en ruta con asistentes de voz impulsados por IA</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-500 mr-2.5 font-bold">✓</span>
+                <span>Entrenamiento al equipo comercial en levantamiento táctico de datos</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-6 border-t border-slate-800">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">¿Listo para el siguiente paso?</h4>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <Button 
+                href="/contacto" 
+                variant="primary" 
+                size="md"
+                class="w-full sm:w-auto text-center"
+              >
+                Hablemos por Calendly
+              </Button>
+              <Button 
+                href="https://wa.me/XXXXXXXXXX" 
+                variant="ghost" 
+                size="md"
+                class="w-full sm:w-auto text-center bg-transparent border-slate-700 text-white hover:bg-slate-800"
+              >
+                WhatsApp Directo
+              </Button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+</MainLayout>
+
+<!-- Form submission handling -->
+<script>
+  function setupForm() {
+    const form = document.getElementById('lead-magnet-form');
+    const successDiv = document.getElementById('form-success');
+    
+    if (form && successDiv) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Simular envío de datos a webhook/base de datos
+        const formData = new FormData(form as HTMLFormElement);
+        console.log('Lead registrado:', Object.fromEntries(formData.entries()));
+        
+        // Ocultar formulario y mostrar éxito
+        form.classList.add('hidden');
+        successDiv.classList.remove('hidden');
+      });
+    }
+  }
+
+  // Astro page swap support
+  document.addEventListener('astro:page-load', setupForm);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupForm);
+  } else {
+    setupForm();
+  }
+</script>

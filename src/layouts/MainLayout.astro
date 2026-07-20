@@ -30,6 +30,7 @@ export interface Props {
   ogImage?: string;
   ogType?: string;
   structuredData?: any;
+  hideHeaderLinks?: boolean;
 }
 
 // Extraer props con valores por defecto
@@ -41,15 +42,18 @@ const {
   ogImage = DEFAULT_OG_IMAGE,
   ogType = "website",
   structuredData = null,
+  hideHeaderLinks = false,
 } = Astro.props;
 
 // Datos de navegación centralizados
-const navLinks = [
+const allNavLinks = [
   { href: "/", label: "Inicio" },
   { href: "/sobre-mi", label: "Sobre Mí" },
   { href: "/blog", label: "Blog" },
-  // TODO:   { href: "/contacto", label: "Contacto" }
+  { href: "/contacto", label: "Contacto" }
 ];
+
+const navLinks = hideHeaderLinks ? [] : allNavLinks;
 
 // Datos estructurados por defecto para SEO
 const defaultStructuredData = {
@@ -184,84 +188,88 @@ const defaultStructuredData = {
 					</a>
 				</div> -->
 
-        <button
-          id="mobile-menu-toggle"
-          class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-          aria-label="Abrir menú"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {navLinks.length > 0 && (
+          <button
+            id="mobile-menu-toggle"
+            class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+            aria-label="Abrir menú"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        )}
       </nav>
 
-      <div
-        id="mobile-menu"
-        class="mobile-menu md:hidden fixed inset-0 z-50 bg-white"
-      >
-        <div class="flex flex-col h-full">
-          <div
-            class="flex items-center justify-between p-4 border-b border-gray-200 h-18"
-          >
-            <Image
-              src={logoImage}
-              alt="Paul Villalobos Logo"
-              class="h-8 w-auto object-contain"
-            />
-            <button
-              id="mobile-menu-close"
-              class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-              aria-label="Cerrar menú"
+      {navLinks.length > 0 && (
+        <div
+          id="mobile-menu"
+          class="mobile-menu md:hidden fixed inset-0 z-50 bg-white"
+        >
+          <div class="flex flex-col h-full">
+            <div
+              class="flex items-center justify-between p-4 border-b border-gray-200 h-18"
             >
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <Image
+                src={logoImage}
+                alt="Paul Villalobos Logo"
+                class="h-8 w-auto object-contain"
+              />
+              <button
+                id="mobile-menu-close"
+                class="p-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+                aria-label="Cerrar menú"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
 
-          <div class="flex-1 px-4 py-6 space-y-6">
-            <nav class="space-y-4">
-              {
-                navLinks.map((link) => (
-                  <a
-                    href={link.href}
-                    class="block text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
-                  >
-                    {link.label}
-                  </a>
-                ))
-              }
-            </nav>
+            <div class="flex-1 px-4 py-6 space-y-6">
+              <nav class="space-y-4">
+                {
+                  navLinks.map((link) => (
+                    <a
+                      href={link.href}
+                      class="block text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors duration-200 py-2"
+                    >
+                      {link.label}
+                    </a>
+                  ))
+                }
+              </nav>
 
-            <div class="pt-6 border-t border-gray-200">
-              <a
-                href="#contacto"
-                class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Hablemos
-              </a>
+              <div class="pt-6 border-t border-gray-200">
+                <a
+                  href="#contacto"
+                  class="block w-full bg-blue-600 text-white text-center px-6 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Hablemos
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
 
     <main id="main" class="min-h-screen">
